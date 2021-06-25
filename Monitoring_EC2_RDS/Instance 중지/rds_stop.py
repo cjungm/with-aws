@@ -1,0 +1,117 @@
+import json
+import boto3
+import datetime
+
+# 금일 날짜 획득
+date = datetime.datetime.now() + datetime.timedelta(hours=9) - datetime.timedelta(days=1)
+
+# EC2 Instance별로 security group의 inbound내에 전체 IP 오픈 여부
+# aws 정책상 security group inbound source를 anywhere로 설정하는 것을 지양
+# 따라서 security group이 anywhere로 되어 있는지 확인
+def check_security_group(ec2_list, instance):
+    for security_group in instance['VpcSecurityGroups']:
+        security_group_ingress = ec2_list.SecurityGroup(security_group['VpcSecurityGroupId']).ip_permissions
+        for sg_ingress in security_group_ingress:
+            for ip_range in sg_ingress['IpRanges']:
+                if ip_range['CidrIp'] == '0.0.0.0/0':
+                    return True
+    
+    return False
+
+# 모든 RDS 인스턴스의 tag 규칙
+# Key : [Name, Owner, Expiry-date]
+# Value : [Instance_Name, User_Name, End-date(YYYY-mm-dd)]
+# Expiry-date를 초과하면 중지
+def handler(event, context):
+    ec2 = boto3.client('ec2')
+    # 모든 region에 대해 monitoring 수행
+    # 전체 region name 획득
+    regions_list = ec2.describe_regions()
+
+    # 모든 region loop
+    for region in regions_list['Regions']:
+        print(region['RegionName'] + '의 중지 대상 RDS의 info')
+        client = boto3.client('rds', region_name = region['RegionName'])
+        ec2_list = boto3.resource('ec2', region_name = region['RegionName'])
+        aurora_clusters = client.describe_db_clusters()['DBClusters']
+        rds_instances = client.describe_db_instances()['DBInstances']
+        
+        # aurora/rds 가용 상태의 Cluster 및 Instance 조회
+        available_aurora_clusters = [cluster for cluster in aurora_clusters if cluster['Status'] == 'available']
+        available_rds_instances = [instance for instance in rds_instances if instance['DBInstanceStatus'] == 'available' and instance['Engine'] != 'aurora']
+        
+        # aurora tag 값 기반으로 만료일자가 지난 cluster stop
+        for aurora_cluster in available_aurora_clusters:
+            try:
+                if check_security_group(ec2_list, aurora_cluster):
+                    client.stop_db_cluster(DBClusterIdentifier= aurora_cluster['DBClusterIdentifier'])
+                    print('Aurora Cluster(보안정책위반) : {}'.format(aurora_cluster['DBClusterIdentifier']))
+                else: 
+                    aurora_tags = client.list_tags_for_resource(ResourceName=aurora_cluster['DBClusterArn'])
+                    tag_count = 0
+                    # tag의 key 값만 추출
+                    tag_list = list()
+                    for i in range(len(aurora_tags['TagList'])):
+                        tag_list.append(aurora_tags['TagList'][i]['Key'].strip().lower())
+                    # 반복된 내용 제거
+                    tag_list = list(set(tag_list))
+                    for tag in aurora_tags['TagList']:
+                        if 'expiry-date' in tag['Key'].strip().lower():
+    
+                            if tag['Value'].strip() <= date.strftime('%Y-%m-%d'):
+                                client.stop_db_cluster(DBClusterIdentifier= aurora_cluster['DBClusterIdentifier'])
+                                print("기한 만료된 Aurora Cluster (past expiration date) : " + aurora_cluster['DBClusterIdentifier'])
+                                break
+                    # 필수 tag 유무 판별   
+                    for tag in tag_list:
+                        if 'expiry-date' == tag:
+                            tag_count = tag_count + 1
+                        elif 'name' == tag:
+                            tag_count = tag_count + 1
+                        elif 'owner' == tag:
+                            tag_count = tag_count + 1
+                    if tag_count < 3:
+                        client.stop_db_cluster(DBClusterIdentifier= aurora_cluster['DBClusterIdentifier'])
+                        print("필수 tag가 부족한 Aurora (not enough tag) : " + aurora_cluster['DBClusterIdentifier'])
+                        print("현재 tag의 key값 : {}".format(tag_list))
+            except Exception as e:
+                print(e)
+        
+        # rds tag 값 기반으로 만료일자가 지난 instance stop
+        for rds_instance in available_rds_instances:
+            try:
+                if check_security_group(ec2_list, rds_instance):
+                    client.stop_db_instance(DBInstanceIdentifier= rds_instance['DBInstanceIdentifier'])
+                    print('RDS Instance(보안정책위반) : {}'.format(rds_instance['DBInstanceIdentifier']))
+                else:
+                    rds_tags = client.list_tags_for_resource(ResourceName=rds_instance['DBInstanceArn'])
+                    tag_count = 0
+                    tag_list = list()
+                    # tag의 key 값만 추출
+                    for i in range(len(rds_tags['TagList'])):
+                        tag_list.append(rds_tags['TagList'][i]['Key'].strip().lower())
+                    # 반복된 내용 제거
+                    tag_list = list(set(tag_list))
+                    for tag in rds_tags['TagList']:
+                        if 'expiry-date' in tag['Key'].strip().lower():
+    
+                            if tag['Value'].strip() <= date.strftime('%Y-%m-%d'):
+                                client.stop_db_instance(DBInstanceIdentifier= rds_instance['DBInstanceIdentifier'])
+                                print("기한 만료된 RDS Instance (past expiration date) : " + rds_instance['DBInstanceIdentifier'])
+                                break
+                    # 필수 tag 유무 판별   
+                    for tag in tag_list:
+                        if 'expiry-date' == tag:
+                            tag_count = tag_count + 1
+                        elif 'name' == tag:
+                            tag_count = tag_count + 1
+                        elif 'owner' == tag:
+                            tag_count = tag_count + 1
+                    if tag_count < 3:
+                        client.stop_db_instance(DBInstanceIdentifier= rds_instance['DBInstanceIdentifier'])
+                        print("필수 tag가 부족한 RDS (not enough tag) : " + rds_instance['DBInstanceIdentifier'])
+                        print("현재 tag의 key값 : {}".format(tag_list))
+            except Exception as e:
+                print(e)
+
+    return { "statusCode": 200 }
