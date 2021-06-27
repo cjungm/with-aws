@@ -31,7 +31,7 @@ def check_security_group(ec2_list, instance):
 # Key : [Name, Owner, Expiry-date]
 # Value : [Instance_Name, User_Name, End-date(YYYY-mm-dd)]
 # Expiry-date를 초과하면 중지
-def handler(event, context):
+def lambda_handler(event, context):
     ec2 = boto3.client('ec2')
     # 모든 region에 대해 monitoring 수행
     # 전체 region name 획득
