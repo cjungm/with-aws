@@ -6,7 +6,7 @@
 2. [Lambda 생성](#2.-lambda-생성)
 3. [Cloudwatch Rule 생성](#3.-cloudwatch-rule-생성)
 
-#1. 규칙
+## 1. 규칙
 
 1. 필수 Tag
    1. Name : "{Instance_Name}"
@@ -19,7 +19,7 @@
 
 <div style="page-break-after: always; break-after: page;"></div>
 
-#2. Lambda 생성
+## 2. Lambda 생성
 
 1. [Lambda](https://console.aws.amazon.com/lambda/home#/functions) 열기
 
@@ -61,7 +61,7 @@
 
 <div style="page-break-after: always; break-after: page;"></div>
 
-#3. Cloudwatch Rule 생성
+## 3. Cloudwatch Rule 생성
 
 1. [Cloudwatch](https://console.aws.amazon.com/cloudwatch/) 열기
 
