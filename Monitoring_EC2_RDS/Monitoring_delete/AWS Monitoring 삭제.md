@@ -14,8 +14,3 @@ Monitoring_stop을 응용하여 Monitoring_delete 개발
    - DynamoDB를 기준으로 삭제 예정일이 지난 Resource는 삭제
    - 삭제 대상, 삭제 예정일 초과 2가지 모두 충족시 삭제
    - 모든 Resource 정보는 최초 등록 +30 days TTL 부여
-
-
-
-
-
