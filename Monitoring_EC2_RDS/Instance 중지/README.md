@@ -2,9 +2,9 @@
 
 정해진 규칙에 따라 EC2, RDS의 Instance 및 Cluster를 매 시간마다 중지 시키는 Service
 
-1. [규칙](#1. 규칙)
-2. [Lambda 생성](#2. Lambda 생성)
-3. [Cloudwatch Rule 생성](#3. Cloudwatch Rule 생성)
+1. [규칙](#1.-규칙)
+2. [Lambda 생성](#2.-Lambda-생성)
+3. [Cloudwatch Rule 생성](#3.-Cloudwatch-Rule-생성)
 
 ## 1. 규칙
 
