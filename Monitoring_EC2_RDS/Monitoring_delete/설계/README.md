@@ -9,11 +9,11 @@
 
 ## 1. aws service 선정
 
-- <img src="images/cloudwatch.png" alt="cloudwatch" style="zoom:25%;" /> Amazon CloudWatch
+- <img src="images/cloudwatch.png" alt="cloudwatch" style="zoom:15%;" /> Amazon CloudWatch
   - Rule event trigger
   - Scheduling
   - Monitoring
-- <img src="images/lambda.png" alt="lambda" style="zoom:25%;" /> AWS Lambda
+- <img src="images/lambda.png" alt="lambda" style="zoom:15%;" /> AWS Lambda
   - EC2, RDS tag 수집
   - 삭제 대상 획득
   - 삭제 여부 확인 
