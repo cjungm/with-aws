@@ -21,13 +21,13 @@
   - 삭제 대상 목록 업데이트
 - <img src="images/s3.svg" alt="s3" style="zoom:60%;" /> Amazon Simple Storage Service
   - 예외 대상 목록 저장
-- <img src="images/dynamodb.svg" alt="dynamodb" style="zoom:60%;" /> Amazon DynamoDB
+- <img src="images/dynamodb.svg" alt="dynamodb" style="zoom:100%;" /> Amazon DynamoDB
   - 삭제 및 수정 대상 목록 저장
   - TTL 설정
   - Key : 
     - Primary key : "instance-id"
     - Sort key : "Date"
-- <img src="images/stepfunction.svg" alt="stepfunction" style="zoom:60%;" /> Amazon Step Functions
+- <img src="images/stepfunction.svg" alt="stepfunction" style="zoom:100%;" /> Amazon Step Functions
   - Workflow Orchestration
   - Pending Logic For Instance/Cluster Starting
 
