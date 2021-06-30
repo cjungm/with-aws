@@ -96,14 +96,17 @@
    3. 예시(일자별 순서)
 
       1. 기존 resource 2020-05-08
+
          <img src="images/ex_1.png" alt="ex_1" style="zoom:150%;" />
 
       2. 최초 모니터링 2020-05-08
+
          <img src="images/ex_2.png" alt="ex_2" style="zoom:150%;" />
 
          > 모든 resource 연속되어 등록 되었으므로 예정일 유지
 
       3. 2020-05-09
+
          <img src="images/ex_3.png" alt="ex_3" style="zoom:150%;" />
 
          > "i-02a1eb87f146fadde", "cwh-test" : 연속되어 등록 되었으므로 예정일 유지
@@ -111,11 +114,13 @@
          > " i-02a1eb87f146fadab" : 연속 되지 않았으므로 예정일 **:** 현재 일자 + 7
 
       4. 2020-05-10
+
          <img src="images/ex_4.png" alt="ex_4" style="zoom:150%;" />
 
          > " i-02a1eb87f146fadac" : 등록 이력이 있던 resource 이지만 update 되었으므로 예정일도 변경
 
       5. 2020-05-11
+
          <img src="images/ex_5.png" alt="ex_5" style="zoom:150%;" />
 
          > "i-02a1eb87f146fadde" : 예정일이 지났으므로 삭제
