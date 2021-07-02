@@ -1,0 +1,77 @@
+{
+    "Comment": "An example of the Amazon States Language that runs an AWS Batch job and monitors the job until it completes.",
+    "StartAt": "Submit Job",
+    "States": {
+      "Submit Job": {
+        "Type": "Task",
+        "Resource":
+        "{Lambda_ARN}",
+        "Parameters": {
+          "SENDER.$": "$.SENDER",
+          "RECIPIENT.$": "$.RECIPIENT",
+          "AWS_REGION.$": "$.AWS_REGION",
+          "SUBJECT.$": "$.SUBJECT",
+          "CHARSET.$": "$.CHARSET",
+          "BUCKET.$": "$.BUCKET",
+          "EXTENSION.$": "$.EXTENSION",
+          "EXCEPT-KEY.$": "$.EXCEPT-KEY",
+          "TableName.$": "$.TableName"
+        },
+        "Next": "Job Complete?",
+        "Retry": [
+          {
+            "ErrorEquals": ["States.ALL"],
+            "IntervalSeconds": 1,
+            "MaxAttempts": 3,
+            "BackoffRate": 2
+          }
+        ]
+      },
+      "Wait X Seconds": {
+        "Type": "Wait",
+        "Seconds" : 900,
+        "Next": "Submit Job"
+      },
+      "Job Complete?": {
+        "Type": "Choice",
+        "Choices": [
+          {
+            "Variable": "$.status",
+            "StringEquals": "FAILED",
+            "Next": "Wait X Seconds"
+          },
+          {
+            "Variable": "$.status",
+            "StringEquals": "SUCCEEDED",
+            "Next": "Send Mail"
+          }
+        ]
+      },
+      "Send Mail": {
+        "Type": "Task",
+        "Resource":
+        "arn:aws:lambda:us-west-2:274351873145:function:cjm-mail-test",
+      "Parameters": {
+            "SENDER.$": "$.SENDER",
+            "RECIPIENT.$": "$.RECIPIENT",
+            "AWS_REGION.$": "$.AWS_REGION",
+            "SUBJECT.$": "$.SUBJECT",
+            "CHARSET.$": "$.CHARSET",
+            "BUCKET.$": "$.BUCKET",
+            "EXTENSION.$": "$.EXTENSION",
+            "EXCEPT-KEY.$": "$.EXCEPT-KEY",
+            "TableName.$": "$.TableName"
+          },
+      "End": true,
+        "Retry": [
+          {
+            "ErrorEquals": ["States.ALL"],
+            "IntervalSeconds": 1,
+            "MaxAttempts": 3,
+            "BackoffRate": 2
+          }
+        ]
+      }
+    }
+  }
+  
