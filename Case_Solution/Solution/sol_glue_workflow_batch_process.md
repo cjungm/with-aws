@@ -1,7 +1,3 @@
-
-
-
-
 # AWS Glue Workflow Batch Process
 
 ## 1. Data 수집
@@ -442,3 +438,223 @@
    # S3에 join된 table 적재
    new_customer_csv.coalesce(1).write.mode('append').option("header", "true").csv('{S3_Data_Key_Path}')
    ```
+
+## 8. Glue Workflow 생성 및 실행
+
+워크플로우 그래프에 트리거를 추가하고 각 트리거에 대해 감시되는 이벤트와 작업을 정의하여 워크플로우를 구축합니다. 
+
+### 1단계: 생성
+
+1. [AWS Glue](https://console.aws.amazon.com/glue/) 콘솔을 엽니다.
+
+2. 탐색 창의 **ETL** 아래에서 **Workflows(워크플로우)**를 선택합니다.
+
+3. **Add workflow(워크플로우 추가)**를 선택하고 **Add a new ETL workflow(새 ETL 워크플로우 추가)** 양식을 작성합니다.
+
+   추가하는 선택적 기본 실행 속성은 워크플로우의 모든 작업에 대한 인수로 사용할 수 있습니다. 
+   ![glue_workflow_create_1](images/glue_workflow_create_1.png)**Add workflow(워크플로우 추가)**를 선택합니다.
+
+   새 워크플로우가 **Workflows(워크플로우)** 페이지의 목록에 나타납니다.
+   ![glue_workflow_create_2](images/glue_workflow_create_2.png)
+
+   ![glue_workflow_create_3](images/glue_workflow_create_3.png)
+
+### 2단계: 실행
+
+1. **Workflows(워크플로우)** 페이지에서 새 워크플로우를 선택합니다. 아래쪽의 탭에서 **Graph(그래프)**를 선택합니다.
+
+2. **Add trigger(트리거 추가)**를 선택하고 **Add trigger(트리거 추가)** 대화 상자에서 다음 중 하나를 수행합니다.
+   ![glue_workflow_create_4](images/glue_workflow_create_4.png)
+
+   - **Add new(새로 추가)**를 선택하고 **Add trigger(트리거 추가)** 양식을 작성합니다. **Trigger Type(트리거 유형)**에서 **Schedule(일정)** 또는 **On demand(온디맨드)**를 선택합니다. 그런 다음 **추가**를 선택합니다.
+     ![glue_workflow_create_5](images/glue_workflow_create_5.png)
+
+     자리 표시자 노드(**Add node(노드 추가)**라고 레이블이 지정됨)와 함께 트리거가 그래프에 나타납니다. 이때 트리거는 아직 저장되어 있지 않습니다.
+     ![glue_workflow_create_6](images/glue_workflow_create_6.png)
+
+     * 불완전한 트리거이므로 작업을 추가해야 합니다.
+
+       ![glue_workflow_create_7](images/glue_workflow_create_7.png)
+
+3. 새 트리거를 추가한 경우 다음 단계를 완료합니다.
+
+   1. 다음 중 하나를 수행하십시오.
+
+      - 자리 표시자 노드(**Add node(노드 추가)**)를 선택합니다.
+      - 시작 트리거가 선택되어 있는지 확인하고, 그래프 위의 **Action(작업)** 메뉴에서 **Add jobs/crawlers to trigger(트리거할 작업/크롤러 추가)**를 선택합니다.
+
+   2. **Add jobs(s) and crawler(s) to trigger(트리거할 작업 및 크롤러 추가)** 대화 상자에서 작업 또는 크롤러를 하나 이상 선택한 후 **Add(추가)**를 선택합니다.
+
+      트리거가 저장되고, 선택한 작업 또는 크롤러가 트리거의 커넥터와 함께 그래프에 나타납니다.
+
+      실수로 잘못된 작업 또는 크롤러를 추가한 경우, 해당 트리거 또는 커넥터를 선택하고 **Remove(제거)**를 선택하면 됩니다.
+      ![glue_workflow_run_1](images/glue_workflow_run_1.png)
+
+   3. 실행확인
+      ![glue_workflow_run_2](images/glue_workflow_run_2.png)
+      세부정보
+      ![glue_workflow_run_3](images/glue_workflow_run_3.png)
+
+      ![glue_workflow_run_4](images/glue_workflow_run_4.png)
+
+## 9. Glue Workflow Trigger
+
+### 1. CloudWatch를 사용하여 워크플로우 실행
+
+#### 1단계: Lambda 함수 생성
+
+1. Lambda 서비스의 함수에서 **함수 생성**을 선택합니다.
+   ![lambda_create](images/lambda_create.png)
+
+2. 함수 이름, 사용할 언어와 역할을 선택합니다.
+   ![lambda_create_2](images/lambda_create_2.png)
+
+3. 코드를 편집합니다.
+   ![lambda_create_3](images/lambda_create_3.png)
+
+   Lambda function code
+
+   ```python
+   # Set up logging
+   import json
+   import os
+   import logging
+   logger = logging.getLogger()
+   logger.setLevel(logging.INFO)
+   
+   # Import Boto 3 for AWS Glue
+   import boto3
+   client = boto3.client('glue')
+   
+   # Variables for the job: 
+   glueWorkFlowName = "{Glue_Workflow_Name}"
+   
+   # Define Lambda function
+   def lambda_handler(event, context):
+       logger.info('## TRIGGERED BY EVENT: ')
+       logger.info(event['detail'])
+       # workflow 실행
+       response = client.start_workflow_run(Name=glueWorkFlowName)
+       logger.info('## STARTED GLUE JOB: ' + glueWorkFlowName)
+       logger.info('## GLUE JOB RUN ID: ' + response['RunId'])
+       return response
+   ```
+
+   
+
+#### 2단계: **CloudWatch Events 규칙 생성**
+
+1. [CloudWatch 콘솔](https://console.aws.amazon.com/cloudwatch/)을 엽니다.
+
+2. 탐색 창에서 [**Rules**]를 선택하고 [**Create rule**]을 선택합니다.
+   ![cloudwatch_event](images/cloudwatch_event.png)
+
+3. [**Event Source**] 섹션에서 [**일정**]을 선택합니다. 대상에서 생성한 함수를 선택합니다. (20분마다 cloudwatch에서 Lambda에 trigger를 날리게 된다.)
+   ![cloudwatch_envent_2](images/cloudwatch_envent_2.png)
+
+4. 세부 정보 설정
+   ![cloudwatch_event_3](images/cloudwatch_event_3.png)
+5. 생성 완료
+
+![cloudwatchevent_4](images/cloudwatchevent_4.png)
+
+![cloudwatch_trigger](images/cloudwatch_trigger.png)
+
+6. 호출 확인
+   Lambda
+
+   ![lambda_result](images/lambda_result.png)
+
+   Workflow
+   ![lambda_result_2](images/lambda_result_2.png)
+
+### 2. Glue Trigger를 사용하여 Scheduling
+
+#### 1단계: 새로운 Job 생성
+
+1. ETL에 있는 **Job**을 선택하고 **작업추가**를 선택합니다.
+   ![glue_job_create_1](images/glue_job_create_1.png)
+
+2. 이름과 설명 지정
+   ![glue_new_job](images/glue_new_job.png)
+
+3. 코드 작성
+   ![glue_new_job_2](images/glue_new_job_2.png)
+
+   ```python
+   import sys
+   from awsglue.transforms import *
+   from awsglue.utils import getResolvedOptions
+   from pyspark.context import SparkContext
+   from awsglue.context import GlueContext
+   from awsglue.job import Job
+   from pyspark.sql.functions import *
+   from awsglue.dynamicframe import DynamicFrame
+   from pyspark.sql.types import *
+   import os
+   
+   sc = SparkContext.getOrCreate()
+   glueContext = GlueContext(sc)
+   spark = glueContext.spark_session
+   
+   try:
+       cmd = "hdfs dfs -rm -r -skipTrash {S3_URL_KEY}"
+       os.system (cmd)
+   except Exception as ex:
+       pass
+   
+   table_name = "{Dynamodb_Table_Name}"
+   table = glueContext.create_dynamic_frame.from_options(
+     "dynamodb",
+     connection_options={
+       "dynamodb.input.tableName": table_name
+     }
+   )
+   
+   repartition = table.toDF()
+   repartition.coalesce(1).write.mode('append').option("header", "true").csv('{S3_URL_KEY}')
+   ```
+
+   
+
+#### 2단계: Scheduling할 Trigger 생성
+
+1. 트리거 추가하기
+   ![glue_trigger](images/glue_trigger.png)
+
+   새로운 트리거를 추가합니다. 유형을 일정으로 선택합니다. 빈도는 사용자 지정으로 cron형식으로 설정가능합니다.
+   ***/20 * * * ? *** 으로 설정하면 20분마다 트리거를 일으켜 workflow가 실행됩니다.
+   ![glue_trigger_2](images/glue_trigger_2.png)
+
+   두번째 Trigger
+   ![glue_trigger_3](images/glue_trigger_3.png)
+
+   ![glue_trigger_4](images/glue_trigger_4.png)
+
+2. 실행하기
+
+   ![glue_trigger_activate](images/glue_trigger_activate.png)
+
+#### 3단계: Trigger와 Job으로 workflow 새롭게 구성
+
+1. **Add workflow(워크플로우 추가)**를 선택하고 **Add a new ETL workflow(새 ETL 워크플로우 추가)** 양식을 작성합니다.
+
+   추가하는 선택적 기본 실행 속성은 워크플로우의 모든 작업에 대한 인수로 사용할 수 있습니다. 
+
+   ![glue_workflow_create_1](images/glue_workflow_create_1.png)
+
+2. 기존의 트리거를 복사 하여 그래프 설정
+   ![new_glue_workflow](C:\Users\jungmin.choi\Desktop\git project\with-aws\Case_Solution\Solution\images\new_glue_workflow.png)
+
+3. 결과
+   S3에서 객체 확인
+   ![s3_result](images/s3_result.png)
+
+   2분 간격으로 csv 2개가 생성된 것을 확인했다.
+
+   EC2로 내용물 확인
+
+   ![data_result](images/data_result.png)
+
+4. **기록**탭에서 20분 단위로 실행되는 것을 확인할 수 있다.
+   ![time_check](images/time_check.png)
