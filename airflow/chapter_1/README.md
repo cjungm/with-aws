@@ -13,17 +13,23 @@ Apache Airflow : Airbnb에서 개발한 워크플로우 스케줄링, 모니터�
 워크플로우 플랫폼 (종류):
 
 - Glue WorkFlow
+  
   ![Glue WorkFlow](images/Glue WorkFlow.png)
-
+  
+  
+  
   (Image URL : https://docs.aws.amazon.com/ko_kr/glue/latest/dg/workflows_overview.html)
-
+  
 - Step Function
+  
   ![Step Function](images/Step Function.png)
-  (Image URL : https://aws.amazon.com/ko/blogs/korea/new-compute-database-messaging-analytics-and-machine-learning-integration-for-aws-step-functions/)
 
+  (Image URL : https://aws.amazon.com/ko/blogs/korea/new-compute-database-messaging-analytics-and-machine-learning-integration-for-aws-step-functions/)
+  
 - Airflow
 
   ![Airflow_Workflow](images/Airflow_Workflow.png)
+  
   (Image URL : https://airflow.apache.org/docs/apache-airflow/stable/concepts/overview.html)
 
 즉, 개별 작업들을 절차에 따라 관리 진행할 수 있는 소프트웨어
@@ -61,7 +67,7 @@ DAG는 일련의 작업을 통해 실행되며, 세 가지 일반적인 작업 �
 - Sensors : 외부 이벤트가 발생하기를 기다리고 감지하는 Operator의 특수 하위 클래스.
 - TaskFlow : `@task`데코레이터를 사용하여 python 패키지화 된사용자 정의 operator 기능(Airflow 2.0.0 신규 기능).
 
-![example_dag](C:\Users\jungmin.choi\Desktop\champion\chapter_1\images\example_dag.jpg)
+![example_dag](images/example_dag.jpg)
 (Image URL : https://amazon-mwaa-for-analytics.workshop.aws/images/airflow-dag.jpg)
 
 > 상단의 이미지와 같이 하나의 DAG는 Operator와 Sensor들로 생성된 Task들의 조합이다.
@@ -126,6 +132,7 @@ EC2를 생성하셨다면 기본적으로 환경변수 `AIRFLOW_HOME`을 설정�
 Airflow Home 경로를 설정(선택) : 
 
 ![airflow_home](images/airflow_home.png)
+
 (Image URL : https://airflow.apache.org/docs/apache-airflow/stable/start/local.html)
 
 ```sh
@@ -225,6 +232,7 @@ sudo yum install mysql -y
 
 > `yum` 명령어로 설치시 mariadb가 설치되는데 이는 권장 DB가 아닙니다.
 > 하단의 공식 문서에 따르면 MySQL 5.7 또는 8을 권장하고 있으므로 다른 방법으로 설치해야합니다.
+>
 > https://airflow.apache.org/docs/apache-airflow/stable/installation.html#prerequisites
 
 
