@@ -432,14 +432,16 @@ subdag를 추가한 작업
 
 > Subdag 또한 DAG이기 떄문에 해당 Task에 Design된 모든 Workflow가 수행되어야 원래 DAG의 다음 Task로 넘어갈 수 있습니다.
 
-[`SubDagOperator`](https://airflow.apache.org/docs/apache-airflow/stable/_api/airflow/operators/subdag/index.html#airflow.operators.subdag.SubDagOperator)기본 DAG의 그래프 보기에서 확대 하여 SubDAG에 포함된 작업을 표시할 수 있습니다.![subdag](images\subdag.gif)
+`SubDagOperator`기본 DAG의 그래프 보기에서 확대 하여 SubDAG에 포함된 작업을 표시할 수 있습니다.
+
+![subdag](images/subdag.gif)
 
 SubDAG를 유의사항:
 
 - 규칙에 따라 SubDAG `dag_id`는 상위 DAG의 이름과 점( `parent.child`)을 접두사로 사용해야 합니다.
 - SubDAG 는 기본 DAG의 Default_args를 공유합니다.
 - SubDAG에는 일정이 있고 활성화되어 있어야 합니다. SubDAG의 일정이 `None`또는 로 설정된 `@once`경우 SubDAG는 아무 작업도 수행하지 않고 성공합니다.
-- 성공으로 표시해도 [`SubDagOperator`](https://airflow.apache.org/docs/apache-airflow/stable/_api/airflow/operators/subdag/index.html#airflow.operators.subdag.SubDagOperator)그 안의 작업 상태에는 영향을 미치지 않습니다.
+- 성공으로 표시해도 `SubDagOperator`그 안의 작업 상태에는 영향을 미치지 않습니다.
 - SubDAG에 대한 Executor를 지정할 수 있습니다. SubDAG의 기본 Executor는 SequentialExecutor 입니다.
   SubDAG 내부의 Task들을 병렬로 진행하려면 LocalExecutor 와 같은 다른 Executor를 지정해야합니다.
 
