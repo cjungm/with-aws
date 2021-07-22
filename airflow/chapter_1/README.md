@@ -14,7 +14,7 @@ Apache Airflow : Airbnb에서 개발한 워크플로우 스케줄링, 모니터�
 
 - Glue WorkFlow
   
-  ![Glue WorkFlow](images/Glue WorkFlow.png)
+  ![Glue WorkFlow](images/Glue_WorkFlow.png)
   
   
   
@@ -22,7 +22,7 @@ Apache Airflow : Airbnb에서 개발한 워크플로우 스케줄링, 모니터�
   
 - Step Function
   
-  ![Step Function](images/Step Function.png)
+  ![Step Function](images/Step_Function.png)
 
   (Image URL : https://aws.amazon.com/ko/blogs/korea/new-compute-database-messaging-analytics-and-machine-learning-integration-for-aws-step-functions/)
   
