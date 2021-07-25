@@ -30,7 +30,7 @@ def create_ddb(**kwargs):
         AttributeDefinitions=[
             {
                 'AttributeName': 'CustomerID',
-                'AttributeType': 'S'
+                'AttributeType': 'N'
             },
         ],
         KeySchema=[
@@ -70,22 +70,30 @@ def data_input(**kwargs):
             for i,val in enumerate(token):
                 if val:
                     key = header[i]
-                    item[key] = val
+                    if key == 'Gender':
+                        item[key] = val
+                    else:
+                        item[key] = int(val)
 
             table.put_item(Item = item)
 
 def create_sort_data(**kwargs):
+    table_name = kwargs['ti'].xcom_pull(key='return_value', task_ids='task_create_ddb')
     client = boto3.client('dynamodb', region_name="us-west-2")
 
     response = client.scan(
-        TableName='topic-1',
+        TableName=table_name,
         Limit=200,
         Select='ALL_ATTRIBUTES'
     )
 
     for items in response['Items']:
         for key, item in items.items():
-            items[key] = list(item.values())[0]
+            if key == 'Gender':
+                items[key] = list(item.values())[0]
+            else:
+                items[key] = int(list(item.values())[0])
+            print(items[key])
 
     sort_data = sorted(response['Items'], key=lambda item: (item['Spending Score (1-100)']))
 

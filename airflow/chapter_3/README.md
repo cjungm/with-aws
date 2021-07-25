@@ -337,8 +337,7 @@ Sensor의 작동방식 mode는 2가지가 있습니다.
 
 1. DynamoDB Table 생성
 2. DAG_1 에서 Download 받은 Data를 DynamoDB Table 적재
-3. Table 에서 `Spending Score (1-100)`을 오름차순으로 하는 데이터 추출
-4. 추출한 Data를 Local File System에 CSV 형태로 저장
+3. Table 에서 `Spending Score (1-100)`을 오름차순으로 하는 데이터 추출 & 추출한 Data를 Local File System에 CSV 형태로 저장
 
 
 
@@ -348,7 +347,6 @@ Sensor의 작동방식 mode는 2가지가 있습니다.
 
 #### DAG_1
 
-1. Glue_Catalog_Database 생성
 2. Glue Crawler 생성 및 실행 (S3 Data File)
 3. DAG_2 호출 (External Trigger)
 4. DAG_2 완료 시까지 상태 체크 (External Sensor)
@@ -356,5 +354,5 @@ Sensor의 작동방식 mode는 2가지가 있습니다.
 
 #### DAG_2
 
-1. DAG_1에서 생성한 Glue_Catalog_Table 을 Athena로 `Spending Score (1-100)`을 오름차순으로 하는 데이터 추출
+1. DAG_1에서 생성한 Glue_Catalog_Table 을 glue job으로 `Spending Score (1-100)`을 오름차순으로 하는 데이터 추출
 2. 추출한 Data를 Local File System에 CSV 형태로 저장

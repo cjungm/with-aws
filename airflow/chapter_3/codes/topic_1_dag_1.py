@@ -47,7 +47,7 @@ task_dag_sensor = ExternalTaskSensor(
 
 task_upload = BashOperator(
     task_id="task_upload",
-    bash_command= "aws s3 cp /home/ec2-user/topic_1.csv s3://cjm-oregon/champion/data/topic_1.csv",
+    bash_command= "aws s3 cp /home/ec2-user/topic_1.csv s3://cjm-oregon/champion/output/topic_1.csv",
     dag=dag
 )
 
