@@ -270,6 +270,8 @@ Sensor의 작동방식 mode는 2가지가 있습니다.
 
 [Sensor](codes/sample_sensor.py)
 
+<div style="page-break-after: always; break-after: page;"></div>
+
 ## 4. DAG 간의 종속성 예시
 
 1. 이미 작성된 DAG들 간의 종속성
@@ -304,7 +306,7 @@ Sensor의 작동방식 mode는 2가지가 있습니다.
 
 [Second_Dag](codes/sample_second_dag.py)
 
----
+<div style="page-break-after: always; break-after: page;"></div>
 
 ## 과제
 
