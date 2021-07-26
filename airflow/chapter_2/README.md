@@ -27,7 +27,7 @@ DAG를 선언한다는 것은 해당 DAG 내의 구성된 Task들의 작동 방�
 
 DAG Example
 
-```
+```python
 default_args = {
     'owner': 'Jungmin',
     'depends_on_past': False,
@@ -57,7 +57,7 @@ DAG를 선언하는 방법에는 세 가지가 있습니다.
 1. Context Manager
    Context Manager `with`를 사용하여 DAG 내부에 암시적으로 DAG 리소스를 할당하고 제공합니다.
 
-   ```
+   ```python
    with DAG("my_dag_name") as dag:
        op = DummyOperator(task_id="task")
    ```
@@ -69,7 +69,7 @@ DAG를 선언하는 방법에는 세 가지가 있습니다.
 2. Constructor
    표준 생성자를 생성하여 선언 후 각각의 Task에 할당할 수 있습니다.
 
-   ```
+   ```python
    my_dag = DAG("my_dag_name")
    op = DummyOperator(task_id="task", dag=my_dag)
    ```
@@ -81,7 +81,7 @@ DAG를 선언하는 방법에는 세 가지가 있습니다.
 3. `@dag` Decorator
    지난번에 나온 TaskFlow와 같이 Decorator를 할당하여 DAG를 선언합니다.
 
-   ```
+   ```python
    @dag(start_date=days_ago(2))
    def generate_dag():
        op = DummyOperator(task_id="task")
@@ -104,7 +104,7 @@ Control Flow를 Design 두 가지 주요 방법이 있고 세부적으로는 여
 
 - `>>`및`<<`연산자를 사용
 
-  ```
+  ```python
   # [상위 task] >> [하위 task]
   # or
   # [하위 task] >> [상위 task]
@@ -116,7 +116,7 @@ Control Flow를 Design 두 가지 주요 방법이 있고 세부적으로는 여
 
   > 하나의 노드에서 다수의 노드로 종속되는 형태는 List 형태로 표현할 수 있습니다.
 
-  ```
+  ```python
   first_task >> [second_task, third_task]
   third_task << fourth_task
   ```
@@ -126,7 +126,7 @@ Control Flow를 Design 두 가지 주요 방법이 있고 세부적으로는 여
 
 - `set_upstream`및 `set_downstream` 사용
 
-  ```
+  ```python
   # [상위 task].set_downstream([하위 task])
   # or
   # [하위 task].set_upstream([상위 task])
@@ -137,7 +137,7 @@ Control Flow를 Design 두 가지 주요 방법이 있고 세부적으로는 여
 
 - `cross_downstream` 사용
 
-  ```
+  ```python
   from airflow.models.baseoperator import cross_downstream
   
   cross_downstream([op1, op2], [op3, op4])
@@ -157,7 +157,7 @@ Control Flow를 Design 두 가지 주요 방법이 있고 세부적으로는 여
   >
   > <img src="images/cross_downstream.png" alt="cross_downstream" style="zoom:22%;" />
 
-  ```
+  ```python
   from airflow.models.baseoperator import cross_downstream
   
   cross_downstream(from_tasks=[t1, t2, t3], to_tasks=[t4, t5, t6])
@@ -167,7 +167,7 @@ Control Flow를 Design 두 가지 주요 방법이 있고 세부적으로는 여
 
 - `chain` 사용
 
-  ```
+  ```python
   from airflow.models.baseoperator import chain
   
   # task들을 순서에 따라 입력
@@ -179,7 +179,7 @@ Control Flow를 Design 두 가지 주요 방법이 있고 세부적으로는 여
 
   > chain을 사용하게 되면 Control Flow를 짧고 단순하게 표현 가능합니다.
 
-  ```
+  ```python
   from airflow.models.baseoperator import chain
   
   # 동적 표현
@@ -194,7 +194,7 @@ Control Flow를 Design 두 가지 주요 방법이 있고 세부적으로는 여
   > ※  Airflow는 DAG로 등록하기 전에 python code를 사전 수행 합니다. 
   > 따라서 상단의 예시에서는 chain 안의 list에 6개의 task가 생길 것 이라는 것을 예상할 수 있습니다.
 
-  ```
+  ```python
   from airflow.models.baseoperator import chain
   
   chain(op1, [op2, op3], [op4, op5], op6)
@@ -243,7 +243,9 @@ Airflow는 지난 일자에 대한 Backfill(과거 데이터를 채워넣는 액
 - `latest_only` 하위의 [`task1`, `task3`, `task4`] 최신 일자외의 과거에 대한 수행은 skip 합니다.
 - `task2`는 `latest_only`와 독립적이며 하위 task들도 영향 받지 않습니다.
 
-![latest_only_with_trigger](C:\Users\jungmin.choi\Desktop\champion\chapter_2\images\latest_only_with_trigger.png)(Image_URL : https://airflow.apache.org/docs/apache-airflow/stable/_images/latest_only_with_trigger.png)
+![latest_only_with_trigger](C:\Users\jungmin.choi\Desktop\champion\chapter_2\images\latest_only_with_trigger.png)
+
+(Image_URL : https://airflow.apache.org/docs/apache-airflow/stable/_images/latest_only_with_trigger.png)
 
 예시 Code)
 
@@ -297,7 +299,7 @@ DAG를 실행하는 방법에는 두 가지가 있습니다.
 
   - 예약어
 
-    ```
+    ```python
     dag = DAG(
         dag_id='sample_trigger_rule',
         default_args=args,
@@ -308,7 +310,7 @@ DAG를 실행하는 방법에는 두 가지가 있습니다.
 
   - cron expression
 
-    ```
+    ```python
     dag = DAG(
         dag_id='sample_trigger_rule',
         default_args=args,
@@ -323,7 +325,7 @@ DAG를 실행하는 방법에는 두 가지가 있습니다.
 
 DAG를 선언할 때 다양한 옵션들이 존재합니다. 일반적으로 `default_args` 라는 인수 집합에 기본 옵션들을 정의하고 DAG와 함께 선언합니다. 선언된 인수들은 모든 task에 자동 적용됩니다.
 
-```
+```python
 default_args = {
     'start_date': datetime(2016, 1, 1),
     'owner': 'airflow'
@@ -396,15 +398,15 @@ Task끼리의 종속성을 나타내는 Arrow에 Label을 지정하여 어떤 �
 
 `>>`및 `<<`연산자 사용
 
-```
+```python
 from airflow.utils.edgemodifier import Label
-
+p
 task_start >> Label("Add Succes Case") >> task_list >> Label("Case By Trigger") >> case_group >> Label("End Task") >> task_all_done
 ```
 
 `set_upstream`, `set_downstream` 사용
 
-```
+```python
 from airflow.utils.edgemodifier import Label
 
 task_start.set_downstream(task_list, Label("Add Succes Case"))
@@ -467,3 +469,14 @@ DAG의 Task 간의 종속성은 Control Flow를 통해 명시적으로 정의됩
 
 [TriggerDagRunOperator](codes/sample_external_trigger.py)
 [ExternalTaskSensor](codes/sample_external_trigger.py)
+
+<div style="page-break-after: always; break-after: page;"></div>
+
+## 과제
+
+제시된 DAG에 하단 이미지와 같이 Control flow Design 및 Code 제출
+
+[DAG Code](codes/assignment.py)
+
+<img src="images/assignment.png" alt="assignment" style="zoom:22%;" />
+

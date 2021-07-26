@@ -98,14 +98,14 @@ Control Flow는 각각의 Task들에 대한 종속성 및 순서를 Design하여
 
 - `>>`및`<<`연산자를 사용
 
-  ```
+  ```python
   first_task >> [second_task, third_task]
   third_task << fourth_task
   ```
 
 - `set_upstream`및 `set_downstream`메서드를 사용
 
-  ```
+  ```python
   first_task.set_downstream([second_task, third_task])
   third_task.set_upstream(fourth_task)
   ```
@@ -438,5 +438,21 @@ airflow db init
 airflow users create -r {Role-Name}  -u {User-Name}  -p {Password} -e {Email} -f {First-Name} -l {Last-Name}
 # dag 목록 조회
 airflow list_dags
+# dag error check
+python3 -c "from airflow.models import DagBag; import os;d = DagBag(os.path.expanduser('~/airflow/dags'));"
+# '~/airflow/dags' : 확인할 Dag들이 있는 directory
 ```
 
+<div style="page-break-after: always; break-after: page;"></div>
+
+## 과제
+
+1. 개인 Single Node Airflow 구성( AWS EC2 ) 및 문서 작성
+
+2. Champion 확인용 계정 생성
+
+   ```sh
+   airflow users create -r Admin  -u jungmin  -p Bespin12! -e candy7manner@gmail.com -f jungmin -l choi
+   ```
+
+   

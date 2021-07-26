@@ -157,7 +157,7 @@ AWS 기준으로 하단과 같습니다.
 - [S3 To Redshift Transfer Operator](https://airflow.apache.org/docs/apache-airflow-providers-amazon/stable/operators/s3_to_redshift.html)
 - [Amazon Transfer Operators](https://airflow.apache.org/docs/apache-airflow-providers-amazon/stable/operators/transfer/index.html)
 
-사용하는 AWS 각 Service에 따라 사용되는 Operator 들이며 이러한 Operator들은 AWS의 Python SDK 인 boto3로 구성되었으므로 제공이 안된 Service들에 대해서 직접 boto3를 사용하여 Operator를 구성할 수 있습니다.
+사용하는 AWS 각 Service에 따라 사용되는 Operator 들이며 이러한 Operator들은 AWS의 Python API 인 boto3로 구성되었으므로 제공이 안된 Service들에 대해서 직접 boto3를 사용하여 Operator를 구성할 수 있습니다.
 
 예시 Code) 하단의 2개의 code는 EMR을 생성하는 code 입니다. Operator를 사용한 Code와 Boto3를 사용한 code를 비교하면 유사한 것을 확인할 수 있습니다.
 
