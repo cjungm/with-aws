@@ -349,10 +349,10 @@ Sensor의 작동방식 mode는 2가지가 있습니다.
 
 #### DAG_1
 
-2. Glue Crawler 생성 및 실행 (S3 Data File)
-3. DAG_2 호출 (External Trigger)
-4. DAG_2 완료 시까지 상태 체크 (External Sensor)
-5. DAG_2에서 생성한 CSV 파일 S3에 Upload (s3://cjm-oregon/champion/data/, `topic_2.csv` 라는 이름으로 수행)
+1. Glue Crawler 생성 및 실행 (S3 Data File)
+2. DAG_2 호출 (External Trigger)
+3. DAG_2 완료 시까지 상태 체크 (External Sensor)
+4. DAG_2에서 생성한 CSV 파일 S3에 Upload (s3://cjm-oregon/champion/data/, `topic_2.csv` 라는 이름으로 수행)
 
 #### DAG_2
 
