@@ -24,10 +24,10 @@ today = datetime.now().strftime("%Y-%m-%d")
 JOB_FLOW_OVERRIDES = {
     'Name': "cjm-emr-from-airflow",
     'LogUri': 's3://cjm-oregon/emr/',
-    'ReleaseLabel': 'emr-5.28.1',
+    'ReleaseLabel': 'emr-6.2.0',
     'Instances': {
         'Ec2KeyName': 'cjm-key',
-        'Ec2SubnetId': 'subnet-08f17a12a46396972',
+        'Ec2SubnetId': '{Public_Subnet}',
         'KeepJobFlowAliveWhenNoSteps': True,
         'TerminationProtected': False,
         'InstanceGroups': [
@@ -59,7 +59,10 @@ JOB_FLOW_OVERRIDES = {
         }
     ],
     'BootstrapActions': [
-
+        {
+            'Name': 'Essential Library Install',
+            'ScriptBootstrapAction': {'Path': '{Bootstrap_Script_Path}'}
+        }
     ],
     "VisibleToAllUsers": True
 }
@@ -74,15 +77,14 @@ task_create_emr = EmrCreateJobFlowOperator(
 
 task_trigger = TriggerDagRunOperator(
     task_id="task_trigger",
-    trigger_dag_id="sample_second_dag",
+    trigger_dag_id="assign_emr_2",
     execution_date="{{ execution_date }}",
     dag=dag
 )
 
 task_dag_sensor = ExternalTaskSensor(
     task_id='task_dag_sensor',
-    external_dag_id='sample_second_dag',
-    external_task_id='task_step_check_second_step',
+    external_dag_id='assign_emr_2',
     execution_date_fn=lambda dt: dt,
     timeout=3600,
     dag=dag

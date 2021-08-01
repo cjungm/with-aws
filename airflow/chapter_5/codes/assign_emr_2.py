@@ -4,6 +4,8 @@ from airflow import settings
 from airflow.hooks.base_hook import BaseHook
 from airflow.models import Connection
 from airflow.operators.python_operator import PythonOperator
+from airflow.models.baseoperator import chain
+from airflow.models.baseoperator import cross_downstream
 import datetime as dt
 from datetime import datetime, timedelta
 from airflow.providers.apache.hive.hooks.hive import HiveServer2Hook
@@ -47,12 +49,14 @@ def get_cluster_id(**kwargs):
     emr_status = client.describe_cluster(
         ClusterId=cluster_id
     )['Cluster']['Status']['State']
-
+    
+    print(emr_status)
     while emr_status != 'WAITING':
         time.sleep(10)
         emr_status = client.describe_cluster(
             ClusterId=cluster_id
         )['Cluster']['Status']['State']
+        print(emr_status)
 
     return cluster_id
 
@@ -137,6 +141,50 @@ TBLPROPERTIES (
     hm = HiveServer2Hook(hiveserver2_conn_id = 'hive_connect')
     hm.run(hql)
 
+DOWNLOAD_STEP = [
+    {
+        'Name': 'upload test file to s3',
+        'HadoopJarStep': {
+            'Jar': 'command-runner.jar',
+            'Args': [
+                'aws',
+                's3',
+                'cp',
+                's3://cjm-oregon/champion/emr/step_script/transform_python.py',
+                '/home/hadoop/transform_python.py'
+            ]
+        }
+    }
+]
+
+DATA_TRANSFORM_STEP = [
+    {
+        'Name': 'csv_to_parquet',
+        'HadoopJarStep': {
+            'Jar': 'command-runner.jar',
+            'Args': [
+                'python3',
+                '/home/hadoop/transform_python.py'
+            ]
+        }
+    }
+]
+
+FORMAT_TRANSFORM_STEP = [
+    {
+        'Name': 'csv_to_parquet',
+        'HadoopJarStep': {
+            'Jar': 'command-runner.jar',
+            'Args': [
+                'spark-submit',
+                '--deploy-mode', 'client',
+                '--master', 'yarn',
+                's3://cjm-oregon/champion/emr/step_script/transform_pyspark.py'
+            ]
+        }
+    }
+]
+
 task_cluster_id = PythonOperator(
     task_id='task_cluster_id',
     provide_context=True,
@@ -165,4 +213,57 @@ task_s3_to_hive = PythonOperator(
     dag=dag
 )
 
-task_cluster_id >> task_make_connection >> task_get_table_schema >> task_s3_to_hive
+task_download_step = EmrAddStepsOperator(
+    task_id='task_download_step',
+    job_flow_id="{{ task_instance.xcom_pull('task_cluster_id', key='return_value') }}",
+    aws_conn_id='aws_default',
+    steps=DOWNLOAD_STEP,
+    dag=dag
+)
+
+sensor_download_step = EmrStepSensor(
+    task_id='sensor_download_step',
+    job_flow_id="{{ task_instance.xcom_pull('task_cluster_id', key='return_value') }}",
+    step_id="{{ task_instance.xcom_pull('task_download_step', key='return_value')[0] }}",
+    aws_conn_id='aws_default',
+    dag=dag
+)
+
+task_data_transform = EmrAddStepsOperator(
+    task_id='task_data_transform',
+    job_flow_id="{{ task_instance.xcom_pull('task_cluster_id', key='return_value') }}",
+    aws_conn_id='aws_default',
+    steps=DATA_TRANSFORM_STEP,
+    dag=dag
+)
+
+sensor_data_transform = EmrStepSensor(
+    task_id='sensor_data_transform',
+    job_flow_id="{{ task_instance.xcom_pull('task_cluster_id', key='return_value') }}",
+    step_id="{{ task_instance.xcom_pull('task_data_transform', key='return_value')[0] }}",
+    aws_conn_id='aws_default',
+    dag=dag
+)
+
+task_format_transform = EmrAddStepsOperator(
+    task_id='task_format_transform',
+    job_flow_id="{{ task_instance.xcom_pull('task_cluster_id', key='return_value') }}",
+    aws_conn_id='aws_default',
+    steps=FORMAT_TRANSFORM_STEP,
+    dag=dag
+)
+
+sensor_format_transform = EmrStepSensor(
+    task_id='sensor_format_transform',
+    job_flow_id="{{ task_instance.xcom_pull('task_cluster_id', key='return_value') }}",
+    step_id="{{ task_instance.xcom_pull('task_format_transform', key='return_value')[0] }}",
+    aws_conn_id='aws_default',
+    dag=dag
+)
+
+#task_cluster_id >> task_make_connection >> task_get_table_schema >> \
+task_cluster_id >> task_make_connection >> task_get_table_schema
+task_get_table_schema >> task_s3_to_hive
+task_get_table_schema >> task_download_step >> sensor_download_step
+chain([task_s3_to_hive, sensor_download_step], task_data_transform, sensor_data_transform, task_format_transform, sensor_format_transform)
+    #[task_s3_to_hive, chain(task_download_step, sensor_download_step)] >> \
