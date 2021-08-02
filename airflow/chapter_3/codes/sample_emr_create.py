@@ -24,7 +24,7 @@ JOB_FLOW_OVERRIDES = {
     'ReleaseLabel': 'emr-5.28.1',
     'Instances': {
         'Ec2KeyName': 'cjm-key',
-        'Ec2SubnetId': 'subnet-08f17a12a46396972',
+        'Ec2SubnetId': '{Public_Subnet}',
         'KeepJobFlowAliveWhenNoSteps': True,
         'TerminationProtected': False,
         'InstanceGroups': [
