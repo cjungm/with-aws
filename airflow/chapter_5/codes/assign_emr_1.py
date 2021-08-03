@@ -1,11 +1,17 @@
 from airflow.models import DAG
 from airflow.operators.python_operator import PythonOperator
+from airflow.operators.python_operator import BranchPythonOperator
+from airflow.operators.dummy_operator import DummyOperator
 from datetime import datetime, timedelta
+from airflow.models import TaskInstance
 from airflow.providers.amazon.aws.operators.emr_create_job_flow import EmrCreateJobFlowOperator
 from airflow.providers.amazon.aws.operators.emr_terminate_job_flow import EmrTerminateJobFlowOperator
 from airflow.providers.amazon.aws.sensors.emr_job_flow import EmrJobFlowSensor
 from airflow.operators.trigger_dagrun import TriggerDagRunOperator
 from airflow.sensors.external_task_sensor import ExternalTaskSensor
+from airflow.models import Variable
+import boto3
+from pprint import pprint
 
 args = {
     'owner': 'Jungmin',
@@ -67,6 +73,32 @@ JOB_FLOW_OVERRIDES = {
     "VisibleToAllUsers": True
 }
 
+def check_task(**kwargs):
+    # Get execution_date
+    execution_date = kwargs['execution_date']
+    # Get Dag & Task Info
+    dag_instance = kwargs['dag']
+    operator_instance = dag_instance.get_task("task_sensor")
+    # Task Status
+    task_status = TaskInstance(operator_instance, execution_date).current_state()
+    if task_status == 'success':
+        return "end_task"
+    else:
+        return "email_task"
+
+def send_email(**kwargs):
+    sns = boto3.client('sns', region_name="us-west-2")
+    target_arn = Variable.get("SNS_ARN")
+    sub = "Airflow Workflow Failed"
+    message = "{} EMR WorkFlow Was Failed".format(dag.dag_id)
+    # SNS에 게시
+    response = sns.publish(
+        TargetArn=target_arn,
+        Message=message,
+        Subject=sub
+    )
+    pprint(response)
+
 task_create_emr = EmrCreateJobFlowOperator(
     task_id='task_create_emr',
     job_flow_overrides=JOB_FLOW_OVERRIDES,
@@ -104,4 +136,23 @@ task_sensor = EmrJobFlowSensor(
     dag=dag
 )
 
-task_create_emr >> task_trigger >> task_dag_sensor >> task_cluster_terminate >> task_sensor
+choice_task = BranchPythonOperator(
+    task_id='choice_task',
+    python_callable=check_task,
+    trigger_rule='one_failed',
+    dag=dag,
+)
+
+email_task = PythonOperator(
+    task_id='email_task',
+    provide_context=True,
+    python_callable=send_email,
+    dag=dag
+)
+
+end_task = DummyOperator(
+    task_id='end_task',
+    dag=dag,
+)
+
+task_create_emr >> task_trigger >> task_dag_sensor >> task_cluster_terminate >> task_sensor >> choice_task >> [email_task, end_task]
