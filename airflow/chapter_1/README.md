@@ -415,6 +415,7 @@ Setting이 완료되었습니다.
 이제 위에서 보았던 것처럼 Webserver에 접근 가능한지 확인합니다.
 
 ```sh
+# webserver 기동
 airflow webserver
 ```
 
@@ -434,13 +435,25 @@ Browser에 `{DNS}:8080`을 입력합니다. 아래와 같이 Sign In 화면이 �
 ```sh
 # db initialize
 airflow db init
+
 # user 생성
 airflow users create -r {Role-Name}  -u {User-Name}  -p {Password} -e {Email} -f {First-Name} -l {Last-Name}
+
 # dag 목록 조회
 airflow list_dags
+
 # dag error check
 python3 -c "from airflow.models import DagBag; import os;d = DagBag(os.path.expanduser('~/airflow/dags'));"
 # '~/airflow/dags' : 확인할 Dag들이 있는 directory
+
+# webserver 기동
+airflow webserver
+
+# scheduler 기동
+airflow scheduler
+
+# worker 기동
+airflow celery worker
 ```
 
 <div style="page-break-after: always; break-after: page;"></div>
