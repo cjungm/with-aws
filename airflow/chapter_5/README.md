@@ -592,6 +592,8 @@ Webserver에 대한 설정이 끝나면 해당 EC2에 대한 AMI를 등록 후 W
 
 #### DAG_2
 
-1. DAG_1에서 생성한 EMR HDFS로 S3의 Data 복사
+1. DAG_1에서 생성한 EMR에 S3의 Data 적재 (어떤 형태든 무관)
+   1. Hive Table 권장
 2. 복사한 Data를 `Spending Score (1-100)`을 오름차순으로 변경
 3. 변경한 Data를 S3에 Parquet로 저장
+   1. pyspark 이용할 것
