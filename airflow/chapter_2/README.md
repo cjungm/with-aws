@@ -243,7 +243,7 @@ Airflow는 지난 일자에 대한 Backfill(과거 데이터를 채워넣는 액
 - `latest_only` 하위의 [`task1`, `task3`, `task4`] 최신 일자외의 과거에 대한 수행은 skip 합니다.
 - `task2`는 `latest_only`와 독립적이며 하위 task들도 영향 받지 않습니다.
 
-![latest_only_with_trigger](C:\Users\jungmin.choi\Desktop\champion\chapter_2\images\latest_only_with_trigger.png)
+![latest_only_with_trigger](images/latest_only_with_trigger.png)
 
 (Image_URL : https://airflow.apache.org/docs/apache-airflow/stable/_images/latest_only_with_trigger.png)
 
