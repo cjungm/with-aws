@@ -1,11 +1,11 @@
 # Migration 방법론 - Elasticsearch
 
-1. [Migration Restriction(제약사항) 또는 차이점](compare-es/amazonelasticsearchrestriction.html)
+1. [Migration Restriction(제약사항) 또는 차이점](#compare-es/amazon_elasticsearch_restriction.html)
    
    - Self Hosted Service 와 Managed Service의 비교
    - Migration 시 고려사항
    
-2. [Self Hosted Service ( on ec2 )](installed-es/selfhostedes.html)
+2. [Self Hosted Service ( on ec2 )](#installed-es/selfhostedes.html)
    
    - Coordinate node 1, Master node 1, Data node 2 형태의 Cluster 구성
    - Metricbeat, Logstash, Elasticsearch, Kibana 의 Elastic Stack 구성
