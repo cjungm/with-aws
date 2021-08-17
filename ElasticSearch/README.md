@@ -1,6 +1,6 @@
 # Migration 방법론 - Elasticsearch
 
-1. [Migration Restriction(제약사항) 또는 차이점](#compare-es/amazon_elasticsearch_restriction.html)
+1. [Migration Restriction(제약사항) 또는 차이점](#compare-es)
    
    - Self Hosted Service 와 Managed Service의 비교
    - Migration 시 고려사항
