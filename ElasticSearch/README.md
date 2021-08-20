@@ -5,7 +5,7 @@
    - Self Hosted Service 와 Managed Service의 비교
    - Migration 시 고려사항
    
-2. [Self Hosted Service ( on ec2 )](#installed-es/selfhostedes.html)
+2. [Self Hosted Service ( on ec2 )](installed_ES)
    
    - Coordinate node 1, Master node 1, Data node 2 형태의 Cluster 구성
    - Metricbeat, Logstash, Elasticsearch, Kibana 의 Elastic Stack 구성
