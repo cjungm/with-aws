@@ -1,0 +1,113 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Parameters:
+  VpcCIDR:
+    Description: The IP range (CIDR notation) for this VPC
+    Type: String
+    Default: 10.0.0.0/16
+
+  PrivateSubnet1CIDR:
+    Description: The IP range (CIDR notation) for the private subnet in the first Availability Zone
+    Type: String
+    Default: 10.0.3.0/24
+
+  PrivateSubnet2CIDR:
+    Description: The IP range (CIDR notation) for the private subnet in the second Availability Zone
+    Type: String
+    Default: 10.0.4.0/24
+
+Description: Import Existing Resource For MWAA
+Resources:
+  #####################################################################################################################
+  # GET RESOURCES
+  #####################################################################################################################
+  ImportedVPC:
+    Type: AWS::EC2::VPC
+    DeletionPolicy: Retain
+    Properties:
+      CidrBlock: !Ref VpcCIDR
+
+  ImportedSubnet1:
+    Type: AWS::EC2::Subnet
+    DeletionPolicy: Retain
+    Properties:
+      VpcId: !Ref ImportedVPC
+      CidrBlock: !Ref PrivateSubnet1CIDR
+
+  ImportedSubnet2:
+    Type: AWS::EC2::Subnet
+    DeletionPolicy: Retain
+    Properties:
+      VpcId: !Ref ImportedVPC
+      CidrBlock: !Ref PrivateSubnet2CIDR
+
+  ImportedSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    DeletionPolicy: Retain
+    Properties:
+      VpcId: !Ref ImportedVPC
+      GroupDescription: !Sub "security_group for public"
+
+  ImportedBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+
+  ImportedRole:
+    Type: AWS::IAM::Role
+    DeletionPolicy: Retain
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - airflow-env.amazonaws.com
+                - airflow.amazonaws.com
+            Action:
+              - "sts:AssumeRole"
+      Path: "/service-role/"
+
+#####################################################################################################################
+# OUTPUT RESOURCE IFNO
+#####################################################################################################################
+Outputs:
+  ImportedVPC:
+    Description: A reference to the created VPC
+    Value: !Ref ImportedVPC
+    Export:
+      Name: !Join ["-", [!Ref "AWS::StackName", ImportedVPC]]
+
+  ImportedSubnets:
+    Description: A list of the private subnets
+    Value: !Join [",", [!Ref ImportedSubnet1, !Ref ImportedSubnet2]]
+
+  ImportedSubnet1:
+    Description: A reference to the private subnet in the 1st Availability Zone
+    Value: !Ref ImportedSubnet1
+    Export:
+      Name: !Join ["-", [!Ref "AWS::StackName", ImportedSubnet1]]
+
+  ImportedSubnet2:
+    Description: A reference to the private subnet in the 2nd Availability Zone
+    Value: !Ref ImportedSubnet2
+    Export:
+      Name: !Join ["-", [!Ref "AWS::StackName", ImportedSubnet2]]
+
+  ImportedSecurityGroup:
+    Description: Security group with Public Access
+    Value: !Ref ImportedSecurityGroup
+    Export:
+      Name: !Join ["-", [!Ref "AWS::StackName", ImportedSecurityGroup]]
+
+  ImportedBucket:
+    Description: A reference to the S3 bucket
+    Value: !GetAtt ImportedBucket.Arn
+    Export:
+      Name: !Join ["-", [!Ref "AWS::StackName", ImportedBucket]]
+
+  ImportedRole:
+    Description: A reference to the IAM Role
+    Value: !GetAtt ImportedRole.Arn
+    Export:
+      Name: !Join ["-", [!Ref "AWS::StackName", ImportedRole]]

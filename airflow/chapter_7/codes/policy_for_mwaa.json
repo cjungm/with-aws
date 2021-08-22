@@ -1,0 +1,114 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            // Airflow 관련 권한 부여
+            // FullAccess
+            "Effect": "Allow",
+            "Action": "airflow:*",
+            "Resource": "arn:aws:airflow:{Region_Name}:{Account_ID}:*"
+        },
+        {
+            // Airflow 관련 Service Role 권한 부여
+            "Effect": "Allow",
+            "Action": [
+                "iam:CreateServiceLinkedRole"
+            ],
+            "Resource": "arn:aws:iam::*:role/aws-service-role/airflow.amazonaws.com/*"
+        },
+        {
+            // 네트워크 및 EC2 관련 권한 부여
+            // 이 부분이 매우 중요!
+            // ENI 생성이나 Network 구성하는데 권한이 필요한데 우선은 FullAccess
+            "Effect": "Allow",
+            "Action": [
+                "ec2:*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Deny",
+            "Action": "s3:ListAllMyBuckets",
+            "Resource": [
+                "arn:aws:s3:::{Bucket_Name}",
+                "arn:aws:s3:::{Bucket_Name}/*"
+            ]
+        },
+        {
+            // Bucket 내 접근 권한 부여(DAG, requirements)
+            // 본인 Bucket을 설정해야합니다.
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*"
+            ],
+            "Resource": [
+                "arn:aws:s3:::{Bucket_Name}",
+                "arn:aws:s3:::{Bucket_Name}/*"
+            ]
+        },
+        {
+            // CloudWatch Log 생성 권한
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogStream",
+                "logs:CreateLogGroup",
+                "logs:PutLogEvents",
+                "logs:GetLogEvents",
+                "logs:GetLogRecord",
+                "logs:GetLogGroupFields",
+                "logs:GetQueryResults"
+            ],
+            "Resource": [
+                "arn:aws:logs:{Region_Name}:{Account_ID}:log-group:*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:DescribeLogGroups"
+            ],
+            "Resource": [
+                "*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": "cloudwatch:PutMetricData",
+            "Resource": "*"
+        },
+        {
+            // Broker Service 용 권한 부여
+            "Effect": "Allow",
+            "Action": [
+                "sqs:ChangeMessageVisibility",
+                "sqs:DeleteMessage",
+                "sqs:GetQueueAttributes",
+                "sqs:GetQueueUrl",
+                "sqs:ReceiveMessage",
+                "sqs:SendMessage"
+            ],
+            "Resource": "arn:aws:sqs:{Region_Name}:*:airflow-celery-*"
+        },
+        {
+            // KMS 권한 부여 
+            // 이 권한이 없으면 Task가 수행되지 않음
+            "Effect": "Allow",
+            "Action": [
+                "kms:Decrypt",
+                "kms:DescribeKey",
+                "kms:GenerateDataKey*",
+                "kms:Encrypt"
+            ],
+            "NotResource": "arn:aws:kms:*:{Account_ID}:key/*",
+            "Condition": {
+                "StringLike": {
+                    "kms:ViaService": [
+                        "sqs.{Region_Name}.amazonaws.com"
+                    ]
+                }
+            }
+        }
+    ]
+}

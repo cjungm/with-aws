@@ -1,0 +1,92 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Parameters:
+  StackParameter:
+    Description: Existing Resource Stack
+    Type: String
+    Default: Import-Exist-Resource
+
+  AirflowVersionName:
+    Description: The maximum number of workers that can run in the environment
+    Type: String
+    Default: 2.0.2
+
+  SchedulerNodes:
+    Description: The maximum number of workers that can run in the environment
+    Type: Number
+    Default: 2
+
+  MaxWorkerNodes:
+    Description: The maximum number of workers that can run in the environment
+    Type: Number
+    Default: 2
+
+  DagProcessingLogs:
+    Description: Log level for DagProcessing
+    Type: String
+    Default: INFO
+
+  SchedulerLogsLevel:
+    Description: Log level for SchedulerLogs
+    Type: String
+    Default: INFO
+
+  TaskLogsLevel:
+    Description: Log level for TaskLogs
+    Type: String
+    Default: INFO
+
+  WorkerLogsLevel:
+    Description: Log level for WorkerLogs
+    Type: String
+    Default: INFO
+
+  WebserverLogsLevel:
+    Description: Log level for WebserverLogs
+    Type: String
+    Default: INFO
+
+Description: Create MWAA
+Resources:
+  #####################################################################################################################
+  # CREATE MWAA
+  #####################################################################################################################
+  MwaaEnvironment:
+    Type: AWS::MWAA::Environment
+    Properties:
+      Name: !Sub "${AWS::StackName}-MwaaEnvironment"
+      SourceBucketArn: !ImportValue
+        "Fn::Sub": "${StackParameter}-ImportedBucket"
+      ExecutionRoleArn: !ImportValue
+        "Fn::Sub": "${StackParameter}-ImportedRole"
+      AirflowVersion: !Ref AirflowVersionName
+      NetworkConfiguration:
+        SecurityGroupIds:
+          - !ImportValue
+            "Fn::Sub": "${StackParameter}-ImportedSecurityGroup"
+        SubnetIds:
+          - !ImportValue
+            "Fn::Sub": "${StackParameter}-ImportedSubnet1"
+          - !ImportValue
+            "Fn::Sub": "${StackParameter}-ImportedSubnet2"
+      WebserverAccessMode: PUBLIC_ONLY
+      DagS3Path: champion/mwaa/dags
+      MaxWorkers: !Ref MaxWorkerNodes
+      Schedulers: !Ref SchedulerNodes
+      RequirementsS3Path: champion/mwaa/requirements/requirements.txt
+      LoggingConfiguration:
+        DagProcessingLogs:
+          LogLevel: !Ref DagProcessingLogs
+          Enabled: true
+        SchedulerLogs:
+          LogLevel: !Ref SchedulerLogsLevel
+          Enabled: true
+        TaskLogs:
+          LogLevel: !Ref TaskLogsLevel
+          Enabled: true
+        WorkerLogs:
+          LogLevel: !Ref WorkerLogsLevel
+          Enabled: true
+        WebserverLogs:
+          LogLevel: !Ref WebserverLogsLevel
+          Enabled: true

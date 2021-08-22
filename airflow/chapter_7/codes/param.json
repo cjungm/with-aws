@@ -1,0 +1,8 @@
+{
+    "VpcId":"vpc-02067642b982c2cf7",
+    "BucketName":"cjm-oregon",
+    "RoleName":"cjm-airflow-champ",
+    "GroupId":"sg-067daff5483975903",
+    "SubnetId1":"subnet-029a1cc60dce21c40",
+    "SubnetId2":"subnet-02a573e227ca7b436"
+}
