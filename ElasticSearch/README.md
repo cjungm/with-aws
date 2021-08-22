@@ -11,7 +11,7 @@
    - Metricbeat, Logstash, Elasticsearch, Kibana 의 Elastic Stack 구성
    - Free Trial 사용
    
-3. [Data 적재](data-input-es/dataInputes.html)
+3. [Data 적재](data_input_ES)
    
    - Kaggle Data 탐색
    - shell 및 python 활용 data 적재
