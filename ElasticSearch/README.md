@@ -16,7 +16,7 @@
    - Kaggle Data 탐색
    - shell 및 python 활용 data 적재
    
-4. [Managed Service](managed-es/managedes.html)
+4. [Managed Service](managed_ES)
    
    - Managed Elasticsearch 및 Kibana 구성 가이드
    
