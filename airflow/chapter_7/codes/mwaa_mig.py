@@ -9,6 +9,8 @@ import argparse
 import boto3
 import time
 import requests
+import base64
+import re
 
 args = {
     'owner': 'Jungmin',
@@ -210,7 +212,51 @@ def trigger_import_dag(**kwargs):
         'Content-Type': 'text/plain'
         }
     r = requests.post(url, data=body, headers=headers)
-    print(r.content)
+
+    mwaa_std_out_message = base64.b64decode(r.json()['stdout']).decode('utf8')
+    print(mwaa_std_out_message)
+    d = r'\d{4}-\d?\d-\d?\d (?:2[0-3]|[01]?[0-9]):[0-5]?[0-9]:[0-5]?[0-9]\+\d{2}:\d{2}'
+    execution_date=re.search(d, mwaa_std_out_message).group()
+    kwargs['task_instance'].xcom_push(key='execution_date', value=execution_date.replace(" ","T"))
+    return resource_id
+
+def trigger_mwaa_emr(**kwargs):
+    resource_id = kwargs['task_instance'].xcom_pull("task_trigger_import_dag", key='return_value')
+    print(resource_id)
+    execution_date = kwargs['task_instance'].xcom_pull("task_trigger_import_dag", key='execution_date')
+    print(execution_date)
+
+    client = boto3.client('mwaa', region_name='us-west-2')
+    token = client.create_cli_token(Name=resource_id)
+    url = "https://{0}/aws_mwaa/cli".format(token['WebServerHostname'])
+    body = 'dags state import_config {}'.format(execution_date)
+    headers = {
+        'Authorization' : 'Bearer '+token['CliToken'],
+        'Content-Type': 'text/plain'
+        }
+    r = requests.post(url, data=body, headers=headers)
+
+    mwaa_std_out_message = base64.b64decode(r.json()['stdout']).decode('utf8')
+    status = mwaa_std_out_message.split("\n")[-2]
+    print(status)
+
+    while status != "success":
+        time.sleep(5)
+        r = requests.post(url, data=body, headers=headers)
+        mwaa_std_out_message = base64.b64decode(r.json()['stdout']).decode('utf8')
+        status = mwaa_std_out_message.split("\n")[-2]
+        print(status)
+
+    body = 'dags trigger mwaa_emr_1'
+    headers = {
+        'Authorization' : 'Bearer '+token['CliToken'],
+        'Content-Type': 'text/plain'
+        }
+    r = requests.post(url, data=body, headers=headers)
+    mwaa_std_out_message = base64.b64decode(r.json()['stdout']).decode('utf8')
+    print(mwaa_std_out_message)        
+
+
 
 task_create_stack = PythonOperator(
     task_id='task_create_stack',
@@ -252,6 +298,13 @@ task_trigger_import_dag = PythonOperator(
     python_callable=trigger_import_dag,
     provide_context=True,
     dag=dag
-    )
+)
 
-task_create_stack >> task_launch_first_stack >> task_update_stack >> task_launch_second_stack >> task_create_mwaa >> task_trigger_import_dag
+task_trigger_mwaa_emr = PythonOperator(
+    task_id="task_trigger_mwaa_emr",
+    python_callable=trigger_mwaa_emr,
+    provide_context=True,
+    dag=dag
+)
+
+task_create_stack >> task_launch_first_stack >> task_update_stack >> task_launch_second_stack >> task_create_mwaa >> task_trigger_import_dag >> task_trigger_mwaa_emr

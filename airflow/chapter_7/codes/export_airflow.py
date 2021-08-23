@@ -1,5 +1,6 @@
 from airflow.models import DAG
 from airflow.operators.bash_operator import BashOperator
+from airflow.operators.trigger_dagrun import TriggerDagRunOperator
 from airflow.models import Variable
 from datetime import datetime, timedelta
 
@@ -46,4 +47,11 @@ task_requirements_copy = BashOperator(
     dag=dag
 )
 
-task_var_export >> task_conn_export >> task_requirements_export >> task_dag_copy >> task_requirements_copy
+task_trigger = TriggerDagRunOperator(
+    task_id="task_trigger",
+    trigger_dag_id="mwaa_mig",
+    execution_date="{{ execution_date }}",
+    dag=dag
+)
+
+task_var_export >> task_conn_export >> task_requirements_export >> task_dag_copy >> task_requirements_copy >> task_trigger

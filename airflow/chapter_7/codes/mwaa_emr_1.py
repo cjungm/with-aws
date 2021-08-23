@@ -92,7 +92,6 @@ def send_email(**kwargs):
     target_arn = Variable.get("SNS_ARN")
     sub = "Airflow Workflow Failed"
     message = "{} EMR WorkFlow Was Failed".format(dag.dag_id)
-    # SNS에 게시
     response = sns.publish(
         TargetArn=target_arn,
         Message=message,
@@ -110,14 +109,14 @@ task_create_emr = EmrCreateJobFlowOperator(
 
 task_trigger = TriggerDagRunOperator(
     task_id="task_trigger",
-    trigger_dag_id="assign_emr_2",
+    trigger_dag_id="mwaa_emr_2",
     execution_date="{{ execution_date }}",
     dag=dag
 )
 
 task_dag_sensor = ExternalTaskSensor(
     task_id='task_dag_sensor',
-    external_dag_id='assign_emr_2',
+    external_dag_id='mwaa_emr_2',
     execution_date_fn=lambda dt: dt,
     timeout=3600,
     dag=dag
