@@ -20,7 +20,7 @@
    
    - Managed Elasticsearch 및 Kibana 구성 가이드
    
-5. [Migration](migration-es/migrationes.html)
+5. [Migration](migration_ES)
    
    Migration 가이드 ( Backup & Restore )
    
@@ -29,7 +29,7 @@
      - S3
    - Elasitdump
    
-6. [Monitoring](monitoring-es/monitoringes.html)
+6. [Monitoring](monitoring_ES)
 
    - Self Hosted Service 와 Managed Service의 Monitoring Guide
    - X-pack
