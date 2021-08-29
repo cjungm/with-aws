@@ -175,5 +175,5 @@ URL은 Lambda Code 상에서 사용합니다.
 
 결과
 
-![jandi_connect_4](C:\Users\jungmin.choi\Desktop\주간보고\images\jandi_connect_4.png)
+![jandi_connect_4](images/jandi_connect_4.png)
 
