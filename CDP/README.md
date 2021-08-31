@@ -1,6 +1,6 @@
 # Migration 방법론 - EMR
 
-1. [Migration Restriction(제약사항) 또는 차이점](compare_cdp\compare_cdp.html)
+1. [Migration Restriction(제약사항) 또는 차이점](Installed_cdp)
    - Mig 전량
    - Clouder 와 EMR 비교
    - Billing
