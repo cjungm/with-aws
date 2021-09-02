@@ -35,7 +35,7 @@
    - X-pack
    - CDK
 
-7. [Q&A](additional-es\additional-es.html)
+7. [Q&A](additional_ES)
 
    - 역인덱스에 Document의 count 저장 여부
    - AWS ES는 Domain이 생성된 이후에 인스턴스 type이나 수의 자유성
