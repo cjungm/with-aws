@@ -11,9 +11,9 @@
 
  
 
-![os](images\os.png)
+![os](images/os.png)
 
- ![storage](images\storage.png)
+ ![storage](images/storage.png)
 
  
 
@@ -21,7 +21,7 @@
 
 1. yum install
 
-   ![yum_install](images\yum_install.png)
+   ![yum_install](images/yum_install.png)
 
    ```sh
    sudo yum update -y
@@ -32,7 +32,7 @@
 
 2. ntpd 활성화
 
-   ![activate_ntpd](images\activate_ntpd.png)
+   ![activate_ntpd](images/activate_ntpd.png)
 
    ```sh
    # ntpd 활성화 
@@ -50,7 +50,7 @@
 
 3. ntpd를 활용한 rpm download & install
 
-   ![download_rpm](images\download_rpm.png)
+   ![download_rpm](images/download_rpm.png)
 
    ```sh
    wget https://rpmfind.net/linux/centos/7.9.2009/os/x86_64/Packages/libtirpc-devel-0.2.4-0.16.el7.x86_64.rpm
@@ -61,7 +61,7 @@
 
 4. selinux disable
 
-   ![set_selinux](images\set_selinux.png)
+   ![set_selinux](images/set_selinux.png)
 
    ```sh
    # vi 수정을 통한 설정 변경  
@@ -80,7 +80,7 @@
 
 5. key-gen
 
-   ![ssh-keygen](images\ssh-keygen.png)
+   ![ssh-keygen](images/ssh-keygen.png)
 
    ```sh
    # 공개 키 생성
@@ -126,7 +126,7 @@
 
 6. vm.swappiness option  
 
-   ![swappiness1](images\swappiness1.png)
+   ![swappiness1](images/swappiness1.png)
 
    ```sh
    sysctl vm.swappiness
@@ -135,7 +135,7 @@
    ```
 
 
-   ![swappiness2](images\swappiness2.png)
+   ![swappiness2](images/swappiness2.png)
 
 
    ```sh
@@ -155,7 +155,7 @@
    >
    > **[THP(Transparent Huge Pages)](https://allthatlinux.com/dokuwiki/doku.php?id=thp_transparent_huge_pages_%EA%B8%B0%EB%8A%A5%EA%B3%BC_%EC%84%A4%EC%A0%95_%EB%B0%A9%EB%B2%95)**
 
-   ![rc_local](images\rc_local.png)
+   ![rc_local](images/rc_local.png)
 
    ```sh
    chmod +x /etc/rc.d/rc.local
@@ -181,7 +181,7 @@
 
 8. /etc/default/grub 수정
 
-   ![grub](images\grub.png)
+   ![grub](images/grub.png)
 
    ```sh
    cat /etc/default/grub
@@ -198,7 +198,6 @@
 
    
    
-
 9. cloudera-manager-install
 
    1. installer download
@@ -223,8 +222,8 @@
 
       | 설치 이미지                             |                                         |
       | --------------------------------------- | --------------------------------------- |
-      | 1![installer_1](images\installer_1.png) | 2![installer_2](images\installer_2.png) |
-      | 3![installer_3](images\installer_3.png) | 4![installer_4](images\installer_4.png) |
+      | 1![installer_1](images/installer_1.png) | 2![installer_2](images/installer_2.png) |
+      | 3![installer_3](images/installer_3.png) | 4![installer_4](images/installer_4.png) |
 
       ```sh
       # 서버 부팅 시 자동실행 설정
@@ -241,13 +240,13 @@
 
    - Storage : `100`
 
-   - ![ami_register](images\ami_register.png)
+   - ![ami_register](images/ami_register.png)
 
      
 
 2. Data node 생성
    등록된 AMI로 3개의 Instance 생성
-   ![Data_nodes](images\Data_nodes.png)
+   ![Data_nodes](images/Data_nodes.png)
 
 3. Cluster Network 설정
 
@@ -271,12 +270,13 @@
 
 
      Cloudera 재시작
-
+    
      ```sh
      sudo service cloudera-scm-server restart
      ```
 
-     
+
+​     
 
 ## 4. cloudera.manger 설정
 
@@ -290,31 +290,31 @@
    >
    > PW : admin 
 
-   ![cloudera_login](images\cloudera_login.png)
+   ![cloudera_login](images/cloudera_login.png)
 
    > 무료 라이센스 사용 60일
 
-   ![free_license](images\free_license.png)
+   ![free_license](images/free_license.png)
 
    7-8 번 설치는 Issue가 있을 경우 1개 node 씩 수행
 
    | 설치 이미지                                           |                                                       |
    | ----------------------------------------------------- | ----------------------------------------------------- |
-   | 1![cloudera_install_1](images\cloudera_install_1.png) | 2![cloudera_install_2](images\cloudera_install_2.png) |
-   | 3![cloudera_install_3](images\cloudera_install_3.png) | 4![cloudera_install_4](images\cloudera_install_4.png) |
-   | 5![cloudera_install_5](images\cloudera_install_5.png) | 6![cloudera_install_6](images\cloudera_install_6.png) |
-   | 7![cloudera_install_7](images\cloudera_install_7.png) | 8![cloudera_install_8](images\cloudera_install_8.png) |
-   | 9![cloudera_install_9](images\cloudera_install_9.png) |                                                       |
+   | 1![cloudera_install_1](images/cloudera_install_1.png) | 2![cloudera_install_2](images/cloudera_install_2.png) |
+   | 3![cloudera_install_3](images/cloudera_install_3.png) | 4![cloudera_install_4](images/cloudera_install_4.png) |
+   | 5![cloudera_install_5](images/cloudera_install_5.png) | 6![cloudera_install_6](images/cloudera_install_6.png) |
+   | 7![cloudera_install_7](images/cloudera_install_7.png) | 8![cloudera_install_8](images/cloudera_install_8.png) |
+   | 9![cloudera_install_9](images/cloudera_install_9.png) |                                                       |
 
 2. cloudera.manger web config
    6-7 번 설치는 Issue가 있을 경우 재수행
 
    | 설치 이미지                                                  |                                                     |
    | ------------------------------------------------------------ | --------------------------------------------------- |
-   | 1![cloudera_config_1](images\cloudera_config_1.png)          | 2![cloudera_config_2](images\cloudera_config_2.png) |
-   | 3![cloudera_config_3](images\cloudera_config_3.png)          | 4![cloudera_config_4](images\cloudera_config_4.png) |
-   | 5![cloudera_config_5](images\cloudera_config_5.png)          | 6![cloudera_config_6](images\cloudera_config_6.png) |
-   | 7![cloudera_config_6_success](images\cloudera_config_6_success.png) |                                                     |
+   | 1![cloudera_config_1](images/cloudera_config_1.png)          | 2![cloudera_config_2](images/cloudera_config_2.png) |
+   | 3![cloudera_config_3](images/cloudera_config_3.png)          | 4![cloudera_config_4](images/cloudera_config_4.png) |
+   | 5![cloudera_config_5](images/cloudera_config_5.png)          | 6![cloudera_config_6](images/cloudera_config_6.png) |
+   | 7![cloudera_config_6_success](images/cloudera_config_6_success.png) |                                                     |
 
 3. cloudera.manger web 설치 완료 
 
@@ -323,20 +323,20 @@
      DNS 상태 검사를 해제하면 해당 issue resolve 가능
 
      1. 상태 불량 host 접근
-        ![health_check_resolve_1](images\health_check_resolve_1.png)
+        ![health_check_resolve_1](images/health_check_resolve_1.png)
 
-        ![health_check_resolve_2](images\health_check_resolve_2.png)
+        ![health_check_resolve_2](images/health_check_resolve_2.png)
 
      2. DNS 상태 검사 해제
 
-        ![health_check_resolve_3](images\health_check_resolve_3.png)
+        ![health_check_resolve_3](images/health_check_resolve_3.png)
 
-        ![health_check_resolve_4](images\health_check_resolve_4.png)
+        ![health_check_resolve_4](images/health_check_resolve_4.png)
 
-        ![health_check_resolve_5](images\health_check_resolve_5.png)
+        ![health_check_resolve_5](images/health_check_resolve_5.png)
 
      
 
    - CDP-Cluster
-     ![cloudera_cdp_cluster](images\cloudera_cdp_cluster.png)
+     ![cloudera_cdp_cluster](images/cloudera_cdp_cluster.png)
 
