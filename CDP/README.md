@@ -10,7 +10,7 @@
    - Free Trial 사용
 3. [Managed Service](managed_emr)
    - EMR 구성 가이드
-4. [Migration](migration_cdp\migration_cdp.html)
+4. [Migration](Migration_cdp)
    - Data 적재
    - Migration 가이드 ( Distcp )
      - Cluster to Cluster
