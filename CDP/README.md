@@ -15,5 +15,5 @@
    - Migration 가이드 ( Distcp )
      - Cluster to Cluster
      - S3 to Cluster
-5. [Monitoring](monitoring_cdp\monitoring_cdp.html)
+5. [Monitoring](Monitoring_cdp)
    - Cloudera 와 EMR의 Monitoring Guide
