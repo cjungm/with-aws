@@ -1,0 +1,1399 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+
+<style type='text/css'>html {overflow-x: initial !important;}:root { --bg-color:#ffffff; --text-color:#333333; --select-text-bg-color:#B5D6FC; --select-text-font-color:auto; --monospace:"Lucida Console",Consolas,"Courier",monospace; --title-bar-height:20px; }
+.mac-os-11 { --title-bar-height:28px; }
+html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+body { margin: 0px; padding: 0px; height: auto; inset: 0px; font-size: 1rem; line-height: 1.42857; overflow-x: hidden; background: inherit; tab-size: 4; }
+iframe { margin: auto; }
+a.url { word-break: break-all; }
+a:active, a:hover { outline: 0px; }
+.in-text-selection, ::selection { text-shadow: none; background: var(--select-text-bg-color); color: var(--select-text-font-color); }
+#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; overflow-wrap: break-word; position: relative; white-space: normal; overflow-x: visible; padding-top: 36px; }
+#write.first-line-indent p { text-indent: 2em; }
+#write.first-line-indent li p, #write.first-line-indent p * { text-indent: 0px; }
+#write.first-line-indent li { margin-left: 2em; }
+.for-image #write { padding-left: 8px; padding-right: 8px; }
+body.typora-export { padding-left: 30px; padding-right: 30px; }
+.typora-export .footnote-line, .typora-export li, .typora-export p { white-space: pre-wrap; }
+.typora-export .task-list-item input { pointer-events: none; }
+@media screen and (max-width: 500px) {
+  body.typora-export { padding-left: 0px; padding-right: 0px; }
+  #write { padding-left: 20px; padding-right: 20px; }
+  .CodeMirror-sizer { margin-left: 0px !important; }
+  .CodeMirror-gutters { display: none !important; }
+}
+#write li > figure:last-child { margin-bottom: 0.5rem; }
+#write ol, #write ul { position: relative; }
+img { max-width: 100%; vertical-align: middle; image-orientation: from-image; }
+button, input, select, textarea { color: inherit; font: inherit; }
+input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
+*, ::after, ::before { box-sizing: border-box; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p { position: relative; }
+p { line-height: inherit; }
+h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 4; }
+p { orphans: 4; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.6rem; }
+h4 { font-size: 1.4rem; }
+h5 { font-size: 1.2rem; }
+h6 { font-size: 1rem; }
+.md-math-block, .md-rawblock, h1, h2, h3, h4, h5, h6, p { margin-top: 1rem; margin-bottom: 1rem; }
+.hidden { display: none; }
+.md-blockmeta { color: rgb(204, 204, 204); font-weight: 700; font-style: italic; }
+a { cursor: pointer; }
+sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.7); color: rgb(85, 85, 85); border-radius: 4px; cursor: pointer; }
+sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inherit; text-decoration: inherit; }
+#write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
+figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
+figure > table { margin: 0px; }
+tr { break-inside: avoid; break-after: auto; }
+thead { display: table-header-group; }
+table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
+table.md-table td { min-width: 32px; }
+.CodeMirror-gutters { border-right: 0px; background-color: inherit; }
+.CodeMirror-linenumber { user-select: none; }
+.CodeMirror { text-align: left; }
+.CodeMirror-placeholder { opacity: 0.3; }
+.CodeMirror pre { padding: 0px 4px; }
+.CodeMirror-lines { padding: 0px; }
+div.hr:focus { cursor: none; }
+#write pre { white-space: pre-wrap; }
+#write.fences-no-line-wrapping pre { white-space: pre; }
+#write pre.ty-contain-cm { white-space: normal; }
+.CodeMirror-gutters { margin-right: 4px; }
+.md-fences { font-size: 0.9rem; display: block; break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background: inherit; position: relative !important; }
+.md-fences-adv-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
+#write .md-fences.mock-cm { white-space: pre-wrap; }
+.md-fences.md-fences-with-lineno { padding-left: 0px; }
+#write.fences-no-line-wrapping .md-fences.mock-cm { white-space: pre; overflow-x: auto; }
+.md-fences.mock-cm.md-fences-with-lineno { padding-left: 8px; }
+.CodeMirror-line, twitterwidget { break-inside: avoid; }
+.footnotes { opacity: 0.8; font-size: 0.9rem; margin-top: 1em; margin-bottom: 1em; }
+.footnotes + .footnotes { margin-top: 0px; }
+.md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; background: 0px 0px; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; -webkit-tap-highlight-color: transparent; line-height: normal; font-weight: 400; text-align: left; box-sizing: content-box; direction: ltr; }
+li div { padding-top: 0px; }
+blockquote { margin: 1rem 0px; }
+li .mathjax-block, li p { margin: 0.5rem 0px; }
+li blockquote { margin: 1rem 0px; }
+li { margin: 0px; position: relative; }
+blockquote > :last-child { margin-bottom: 0px; }
+blockquote > :first-child, li > :first-child { margin-top: 0px; }
+.footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
+#write .footnote-line { white-space: pre-wrap; }
+@media print {
+  body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; font-variant-ligatures: no-common-ligatures; }
+  #write { margin-top: 0px; padding-top: 0px; border-color: transparent !important; }
+  .typora-export * { -webkit-print-color-adjust: exact; }
+  .typora-export #write { break-after: avoid; }
+  .typora-export #write::after { height: 0px; }
+  .is-mac table { break-inside: avoid; }
+  .typora-export-show-outline .typora-export-sidebar { display: none; }
+}
+.footnote-line { margin-top: 0.714em; font-size: 0.7em; }
+a img, img a { cursor: pointer; }
+pre.md-meta-block { font-size: 0.8rem; min-height: 0.8rem; white-space: pre-wrap; background: rgb(204, 204, 204); display: block; overflow-x: hidden; }
+p > .md-image:only-child:not(.md-img-error) img, p > img:only-child { display: block; margin: auto; }
+#write.first-line-indent p > .md-image:only-child:not(.md-img-error) img { left: -2em; position: relative; }
+p > .md-image:only-child { display: inline-block; width: 100%; }
+#write .MathJax_Display { margin: 0.8em 0px 0px; }
+.md-math-block { width: 100%; }
+.md-math-block:not(:empty)::after { display: none; }
+.MathJax_ref { fill: currentcolor; }
+[contenteditable="true"]:active, [contenteditable="true"]:focus, [contenteditable="false"]:active, [contenteditable="false"]:focus { outline: 0px; box-shadow: none; }
+.md-task-list-item { position: relative; list-style-type: none; }
+.task-list-item.md-task-list-item { padding-left: 0px; }
+.md-task-list-item > input { position: absolute; top: 0px; left: 0px; margin-left: -1.2em; margin-top: calc(1em - 10px); border: none; }
+.math { font-size: 1rem; }
+.md-toc { min-height: 3.58rem; position: relative; font-size: 0.9rem; border-radius: 10px; }
+.md-toc-content { position: relative; margin-left: 0px; }
+.md-toc-content::after, .md-toc::after { display: none; }
+.md-toc-item { display: block; color: rgb(65, 131, 196); }
+.md-toc-item a { text-decoration: none; }
+.md-toc-inner:hover { text-decoration: underline; }
+.md-toc-inner { display: inline-block; cursor: pointer; }
+.md-toc-h1 .md-toc-inner { margin-left: 0px; font-weight: 700; }
+.md-toc-h2 .md-toc-inner { margin-left: 2em; }
+.md-toc-h3 .md-toc-inner { margin-left: 4em; }
+.md-toc-h4 .md-toc-inner { margin-left: 6em; }
+.md-toc-h5 .md-toc-inner { margin-left: 8em; }
+.md-toc-h6 .md-toc-inner { margin-left: 10em; }
+@media screen and (max-width: 48em) {
+  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
+  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
+  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
+  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
+}
+a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
+.footnote-line a:not(.reversefootnote) { color: inherit; }
+.md-attr { display: none; }
+.md-fn-count::after { content: "."; }
+code, pre, samp, tt { font-family: var(--monospace); }
+kbd { margin: 0px 0.1em; padding: 0.1em 0.6em; font-size: 0.8em; color: rgb(36, 39, 41); background: rgb(255, 255, 255); border: 1px solid rgb(173, 179, 185); border-radius: 3px; box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset; white-space: nowrap; vertical-align: middle; }
+.md-comment { color: rgb(162, 127, 3); opacity: 0.8; font-family: var(--monospace); }
+code { text-align: left; vertical-align: initial; }
+a.md-print-anchor { white-space: pre !important; border-width: initial !important; border-style: none !important; border-color: initial !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: 0px !important; background: 0px 0px !important; text-decoration: initial !important; text-shadow: initial !important; }
+.os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
+.md-diagram-panel > svg { max-width: 100%; }
+[lang="flow"] svg, [lang="mermaid"] svg { max-width: 100%; height: auto; }
+[lang="mermaid"] .node text { font-size: 1rem; }
+table tr th { border-bottom: 0px; }
+video { max-width: 100%; display: block; margin: 0px auto; }
+iframe { max-width: 100%; width: 100%; border: none; }
+.highlight td, .highlight tr { border: 0px; }
+mark { background: rgb(255, 255, 0); color: rgb(0, 0, 0); }
+.md-html-inline .md-plain, .md-html-inline strong, mark .md-inline-math, mark strong { color: inherit; }
+.md-expand mark .md-meta { opacity: 0.3 !important; }
+mark .md-meta { color: rgb(0, 0, 0); }
+@media print {
+  .typora-export h1, .typora-export h2, .typora-export h3, .typora-export h4, .typora-export h5, .typora-export h6 { break-inside: avoid; }
+}
+.md-diagram-panel .messageText { stroke: none !important; }
+.md-diagram-panel .start-state { fill: var(--node-fill); }
+.md-diagram-panel .edgeLabel rect { opacity: 1 !important; }
+.md-fences.md-fences-math { font-size: 1em; }
+.md-fences-advanced:not(.md-focus) { padding: 0px; white-space: nowrap; border: 0px; }
+.md-fences-advanced:not(.md-focus) { background: inherit; }
+.typora-export-show-outline .typora-export-content { max-width: 1440px; margin: auto; display: flex; flex-direction: row; }
+.typora-export-sidebar { width: 300px; font-size: 0.8rem; margin-top: 80px; margin-right: 18px; }
+.typora-export-show-outline #write { --webkit-flex:2; flex: 2 1 0%; }
+.typora-export-sidebar .outline-content { position: fixed; top: 0px; max-height: 100%; overflow: hidden auto; padding-bottom: 30px; padding-top: 60px; width: 300px; }
+@media screen and (max-width: 1024px) {
+  .typora-export-sidebar, .typora-export-sidebar .outline-content { width: 240px; }
+}
+@media screen and (max-width: 800px) {
+  .typora-export-sidebar { display: none; }
+}
+.outline-content li, .outline-content ul { margin-left: 0px; margin-right: 0px; padding-left: 0px; padding-right: 0px; list-style: none; }
+.outline-content ul { margin-top: 0px; margin-bottom: 0px; }
+.outline-content strong { font-weight: 400; }
+.outline-expander { width: 1rem; height: 1.42857rem; position: relative; display: table-cell; vertical-align: middle; cursor: pointer; padding-left: 4px; }
+.outline-expander::before { content: ""; position: relative; font-family: Ionicons; display: inline-block; font-size: 8px; vertical-align: middle; }
+.outline-item { padding-top: 3px; padding-bottom: 3px; cursor: pointer; }
+.outline-expander:hover::before { content: ""; }
+.outline-h1 > .outline-item { padding-left: 0px; }
+.outline-h2 > .outline-item { padding-left: 1em; }
+.outline-h3 > .outline-item { padding-left: 2em; }
+.outline-h4 > .outline-item { padding-left: 3em; }
+.outline-h5 > .outline-item { padding-left: 4em; }
+.outline-h6 > .outline-item { padding-left: 5em; }
+.outline-label { cursor: pointer; display: table-cell; vertical-align: middle; text-decoration: none; color: inherit; }
+.outline-label:hover { text-decoration: underline; }
+.outline-item:hover { border-color: rgb(245, 245, 245); background-color: var(--item-hover-bg-color); }
+.outline-item:hover { margin-left: -28px; margin-right: -28px; border-left: 28px solid transparent; border-right: 28px solid transparent; }
+.outline-item-single .outline-expander::before, .outline-item-single .outline-expander:hover::before { display: none; }
+.outline-item-open > .outline-item > .outline-expander::before { content: ""; }
+.outline-children { display: none; }
+.info-panel-tab-wrapper { display: none; }
+.outline-item-open > .outline-children { display: block; }
+.typora-export .outline-item { padding-top: 1px; padding-bottom: 1px; }
+.typora-export .outline-item:hover { margin-right: -8px; border-right: 8px solid transparent; }
+.typora-export .outline-expander::before { content: "+"; font-family: inherit; top: -1px; }
+.typora-export .outline-expander:hover::before, .typora-export .outline-item-open > .outline-item > .outline-expander::before { content: "−"; }
+.typora-export-collapse-outline .outline-children { display: none; }
+.typora-export-collapse-outline .outline-item-open > .outline-children, .typora-export-no-collapse-outline .outline-children { display: block; }
+.typora-export-no-collapse-outline .outline-expander::before { content: "" !important; }
+.typora-export-show-outline .outline-item-active > .outline-item .outline-label { font-weight: 700; }
+.md-inline-math-container mjx-container { zoom: 0.95; }
+
+
+:root {
+  --mermaid-theme: night;
+}
+
+[lang='mermaid'] .label {
+  color: #333;
+}
+
+/* CSS Document */
+
+/** code highlight */
+
+.cm-s-inner .cm-variable,
+.cm-s-inner .cm-operator,
+.cm-s-inner .cm-property {
+    color: #b8bfc6;
+}
+
+.cm-s-inner .cm-keyword {
+    color: #C88FD0;
+}
+
+.cm-s-inner .cm-tag {
+    color: #7DF46A;
+}
+
+.cm-s-inner .cm-attribute {
+    color: #7575E4;
+}
+
+.CodeMirror div.CodeMirror-cursor {
+    border-left: 1px solid #b8bfc6;
+    z-index: 3;
+}
+
+.cm-s-inner .cm-string {
+    color: #D26B6B;
+}
+
+.cm-s-inner .cm-comment,
+.cm-s-inner.cm-comment {
+    color: #DA924A;
+}
+
+.cm-s-inner .cm-header,
+.cm-s-inner .cm-def,
+.cm-s-inner.cm-header,
+.cm-s-inner.cm-def {
+    color: #8d8df0;
+}
+
+.cm-s-inner .cm-quote,
+.cm-s-inner.cm-quote {
+    color: #57ac57;
+}
+
+.cm-s-inner .cm-hr {
+    color: #d8d5d5;
+}
+
+.cm-s-inner .cm-link {
+    color: #d3d3ef;
+}
+
+.cm-s-inner .cm-negative {
+    color: #d95050;
+}
+
+.cm-s-inner .cm-positive {
+    color: #50e650;
+}
+
+.cm-s-inner .cm-string-2 {
+    color: #f50;
+}
+
+.cm-s-inner .cm-meta,
+.cm-s-inner .cm-qualifier {
+    color: #b7b3b3;
+}
+
+.cm-s-inner .cm-builtin {
+    color: #f3b3f8;
+}
+
+.cm-s-inner .cm-bracket {
+    color: #997;
+}
+
+.cm-s-inner .cm-atom,
+.cm-s-inner.cm-atom {
+    color: #84B6CB;
+}
+
+.cm-s-inner .cm-number {
+    color: #64AB8F;
+}
+
+.cm-s-inner .cm-variable {
+    color: #b8bfc6;
+}
+
+.cm-s-inner .cm-variable-2 {
+    color: #9FBAD5;
+}
+
+.cm-s-inner .cm-variable-3 {
+    color: #1cc685;
+}
+
+.CodeMirror-selectedtext,
+.CodeMirror-selected {
+    background: #4a89dc;
+    color: #fff !important;
+    text-shadow: none;
+}
+
+.CodeMirror-gutters {
+    border-right: none;
+}
+
+/* CSS Document */
+
+/** markdown source **/
+.cm-s-typora-default .cm-header, 
+.cm-s-typora-default .cm-property
+{
+    color: #cebcca;
+}
+
+.CodeMirror.cm-s-typora-default div.CodeMirror-cursor{
+    border-left: 3px solid #b8bfc6;
+}
+
+.cm-s-typora-default .cm-comment {
+    color: #9FB1FF;
+}
+
+.cm-s-typora-default .cm-string {
+    color: #A7A7D9
+}
+
+.cm-s-typora-default .cm-atom, .cm-s-typora-default .cm-number {
+    color: #848695;
+    font-style: italic;
+}
+
+.cm-s-typora-default .cm-link {
+    color: #95B94B;
+}
+
+.cm-s-typora-default .CodeMirror-activeline-background {
+    background: rgba(51, 51, 51, 0.72);
+}
+
+.cm-s-typora-default .cm-comment, .cm-s-typora-default .cm-code {
+	color: #8aa1e1;
+}@import "";
+@import "";
+@import "";
+
+:root {
+    --bg-color:  #363B40;
+    --side-bar-bg-color: #2E3033;
+    --text-color: #b8bfc6;
+
+    --select-text-bg-color:#4a89dc;
+
+    --item-hover-bg-color: #0a0d16;
+    --control-text-color: #b7b7b7;
+    --control-text-hover-color: #eee;
+    --window-border: 1px solid #555;
+
+    --active-file-bg-color: rgb(34, 34, 34);
+    --active-file-border-color: #8d8df0;
+
+    --primary-color: #a3d5fe;
+
+    --active-file-text-color: white;
+    --item-hover-bg-color: #70717d;
+    --item-hover-text-color: white;
+    --primary-color: #6dc1e7;
+
+    --rawblock-edit-panel-bd: #333;
+
+    --search-select-bg-color: #428bca;
+}
+
+html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+}
+
+html,
+body {
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    background: #363B40;
+    background: var(--bg-color);
+    fill: currentColor;
+    line-height: 1.625rem;
+}
+
+#write {
+    max-width: 914px;
+}
+
+
+@media only screen and (min-width: 1400px) {
+	#write {
+		max-width: 1024px;
+	}
+}
+
+@media only screen and (min-width: 1800px) {
+	#write {
+		max-width: 1200px;
+	}
+}
+
+html,
+body,
+button,
+input,
+select,
+textarea,
+div.code-tooltip-content {
+    color: #b8bfc6;
+    border-color: transparent;
+}
+
+div.code-tooltip,
+.md-hover-tip .md-arrow:after {
+    background: #333;
+}
+
+.native-window #md-notification {
+    border: 1px solid #70717d;
+}
+
+.popover.bottom > .arrow:after {
+    border-bottom-color: #333;
+}
+
+html,
+body,
+button,
+input,
+select,
+textarea {
+    font-family: "Helvetica Neue", Helvetica, Arial, 'Segoe UI Emoji', sans-serif;
+}
+
+hr {
+    height: 2px;
+    border: 0;
+    margin: 24px 0 !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Lucida Grande", "Corbel", sans-serif;
+    font-weight: normal;
+    clear: both;
+    -ms-word-wrap: break-word;
+    word-wrap: break-word;
+    margin: 0;
+    padding: 0;
+    color: #DEDEDE
+}
+
+h1 {
+    font-size: 2.5rem;
+    /* 36px */
+    line-height: 2.75rem;
+    /* 40px */
+    margin-bottom: 1.5rem;
+    /* 24px */
+    letter-spacing: -1.5px;
+}
+
+h2 {
+    font-size: 1.63rem;
+    /* 24px */
+    line-height: 1.875rem;
+    /* 30px */
+    margin-bottom: 1.5rem;
+    /* 24px */
+    letter-spacing: -1px;
+    font-weight: bold;
+}
+
+h3 {
+    font-size: 1.17rem;
+    /* 18px */
+    line-height: 1.5rem;
+    /* 24px */
+    margin-bottom: 1.5rem;
+    /* 24px */
+    letter-spacing: -1px;
+    font-weight: bold;
+}
+
+h4 {
+    font-size: 1.12rem;
+    /* 16px */
+    line-height: 1.375rem;
+    /* 22px */
+    margin-bottom: 1.5rem;
+    /* 24px */
+    color: white;
+}
+
+h5 {
+    font-size: 0.97rem;
+    /* 16px */
+    line-height: 1.25rem;
+    /* 22px */
+    margin-bottom: 1.5rem;
+    /* 24px */
+    font-weight: bold;
+}
+
+h6 {
+    font-size: 0.93rem;
+    /* 16px */
+    line-height: 1rem;
+    /* 16px */
+    margin-bottom: 0.75rem;
+    color: white;
+}
+
+@media (min-width: 980px) {
+    h3.md-focus:before,
+    h4.md-focus:before,
+    h5.md-focus:before,
+    h6.md-focus:before {
+        color: #ddd;
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        position: absolute;
+        left: -1.642857143rem;
+        top: .357142857rem;
+        float: left;
+        font-size: 9px;
+        padding-left: 2px;
+        padding-right: 2px;
+        vertical-align: bottom;
+        font-weight: normal;
+        line-height: normal;
+    }
+
+    h3.md-focus:before {
+        content: 'h3';
+    }
+
+    h4.md-focus:before {
+        content: 'h4';
+    }
+
+    h5.md-focus:before {
+        content: 'h5';
+        top: 0px;
+    }
+
+    h6.md-focus:before {
+        content: 'h6';
+        top: 0px;
+    }
+}
+
+a {
+    text-decoration: none;
+    outline: 0;
+}
+
+a:hover {
+    outline: 0;
+}
+
+a:focus {
+    outline: thin dotted;
+}
+
+sup.md-footnote {
+    background-color: #555;
+    color: #ddd;
+}
+
+p {
+    -ms-word-wrap: break-word;
+    word-wrap: break-word;
+}
+
+p,
+ul,
+dd,
+ol,
+hr,
+address,
+pre,
+table,
+iframe,
+.wp-caption,
+.wp-audio-shortcode,
+.wp-video-shortcode {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    /* 24px */
+}
+
+audio:not([controls]) {
+    display: none;
+}
+
+[hidden] {
+    display: none;
+}
+
+::-moz-selection {
+    background: #4a89dc;
+    color: #fff;
+    text-shadow: none;
+}
+
+*.in-text-selection,
+::selection {
+    background: #4a89dc;
+    color: #fff;
+    text-shadow: none;
+}
+
+ul,
+ol {
+    padding: 0 0 0 1.875rem;
+    /* 30px */
+}
+
+ul {
+    list-style: square;
+}
+
+ol {
+    list-style: decimal;
+}
+
+ul ul,
+ol ol,
+ul ol,
+ol ul {
+    margin: 0;
+}
+
+b,
+th,
+dt,
+strong {
+    font-weight: bold;
+}
+
+i,
+em,
+dfn,
+cite {
+    font-style: italic;
+}
+
+blockquote {
+    padding-left: 1.875rem;
+    margin: 0 0 1.875rem 1.875rem;
+    border-left: solid 2px #474d54;
+    padding-left: 30px;
+    margin-top: 35px;
+}
+
+pre,
+code,
+kbd,
+tt,
+var {
+    font-size: 0.875em;
+    font-family: Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace;
+}
+
+code,
+tt,
+var {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+kbd {
+    padding: 2px 4px;
+    font-size: 90%;
+    color: #fff;
+    background-color: #333;
+    border-radius: 3px;
+    box-shadow: inset 0 -1px 0 rgba(0,0,0,.25);
+}
+
+pre.md-fences {
+    padding: 10px 10px 10px 30px;
+    margin-bottom: 20px;
+    background: #333;
+}
+
+.CodeMirror-gutters {
+    background: #333;
+    border-right: 1px solid transparent;
+}
+
+.enable-diagrams pre.md-fences[lang="sequence"] .code-tooltip,
+.enable-diagrams pre.md-fences[lang="flow"] .code-tooltip,
+.enable-diagrams pre.md-fences[lang="mermaid"] .code-tooltip {
+    bottom: -2.2em;
+    right: 4px;
+}
+
+code,
+kbd,
+tt,
+var {
+    padding: 2px 5px;
+}
+
+table {
+    max-width: 100%;
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+th,
+td {
+    padding: 5px 10px;
+    vertical-align: top;
+}
+
+a {
+    -webkit-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+}
+
+hr {
+    background: #474d54;
+    /* variable */
+}
+
+h1 {
+    margin-top: 2em;
+}
+
+a {
+    color: #e0e0e0;
+    text-decoration: underline;
+}
+
+a:hover {
+    color: #fff;
+}
+
+.md-inline-math script {
+    color: #81b1db;
+}
+
+b,
+th,
+dt,
+strong {
+    color: #DEDEDE;
+    /* variable */
+}
+
+mark {
+    background: #D3D40E;
+}
+
+blockquote {
+    color: #9DA2A6;
+}
+
+table a {
+    color: #DEDEDE;
+    /* variable */
+}
+
+th,
+td {
+    border: solid 1px #474d54;
+    /* variable */
+}
+
+.task-list {
+    padding-left: 0;
+}
+
+.md-task-list-item {
+    padding-left: 1.25rem;
+}
+
+.md-task-list-item > input {
+    top: auto;
+}
+
+.md-task-list-item > input:before {
+    content: "";
+    display: inline-block;
+    width: 0.875rem;
+    height: 0.875rem;
+    vertical-align: middle;
+    text-align: center;
+    border: 1px solid #b8bfc6;
+    background-color: #363B40;
+    margin-top: -0.4rem;
+}
+
+.md-task-list-item > input:checked:before,
+.md-task-list-item > input[checked]:before {
+    content: '\221A';
+    /*◘*/
+    font-size: 0.625rem;
+    line-height: 0.625rem;
+    color: #DEDEDE;
+}
+
+/** quick open **/
+.auto-suggest-container {
+    border: 0px;
+    background-color: #525C65;
+}
+
+#typora-quick-open {
+    background-color: #525C65;
+}
+
+#typora-quick-open input{
+    background-color: #525C65;
+    border: 0;
+    border-bottom: 1px solid grey;
+}
+
+.typora-quick-open-item {
+    background-color: inherit;
+    color: inherit;
+}
+
+.typora-quick-open-item.active,
+.typora-quick-open-item:hover {
+    background-color: #4D8BDB;
+    color: white;
+}
+
+.typora-quick-open-item:hover {
+    background-color: rgba(77, 139, 219, 0.8);
+}
+
+.typora-search-spinner > div {
+  background-color: #fff;
+}
+
+#write pre.md-meta-block {
+    border-bottom: 1px dashed #ccc;
+    background: transparent;
+    padding-bottom: 0.6em;
+    line-height: 1.6em;
+}
+
+.btn,
+.btn .btn-default {
+    background: transparent;
+    color: #b8bfc6;
+}
+
+.ty-table-edit {
+    border-top: 1px solid gray;
+    background-color: #363B40;
+}
+
+.popover-title {
+    background: transparent;
+}
+
+.md-image>.md-meta {
+    color: #BBBBBB;
+    background: transparent;
+}
+
+.md-expand.md-image>.md-meta {
+    color: #DDD;
+}
+
+#write>h3:before,
+#write>h4:before,
+#write>h5:before,
+#write>h6:before {
+    border: none;
+    border-radius: 0px;
+    color: #888;
+    text-decoration: underline;
+    left: -1.4rem;
+    top: 0.2rem;
+}
+
+#write>h3.md-focus:before {
+    top: 2px;
+}
+
+#write>h4.md-focus:before {
+    top: 2px;
+}
+
+.md-toc-item {
+    color: #A8C2DC;
+}
+
+#write div.md-toc-tooltip {
+    background-color: #363B40;
+}
+
+.dropdown-menu .btn:hover,
+.dropdown-menu .btn:focus,
+.md-toc .btn:hover,
+.md-toc .btn:focus {
+    color: white;
+    background: black;
+}
+
+#toc-dropmenu {
+    background: rgba(50, 54, 59, 0.93);
+    border: 1px solid rgba(253, 253, 253, 0.15);
+}
+
+#toc-dropmenu .divider {
+    background-color: #9b9b9b;
+}
+
+.outline-expander:before {
+    top: 2px;
+}
+
+#typora-sidebar {
+    box-shadow: none;
+    border-right: 1px dashed;
+    border-right: none;
+}
+
+.sidebar-tabs {
+    border-bottom:0;
+}
+
+#typora-sidebar:hover .outline-title-wrapper {
+    border-left: 1px dashed;
+}
+
+.outline-title-wrapper .btn {
+    color: inherit;
+}
+
+.outline-item:hover {
+    border-color: #363B40;
+    background-color: #363B40;
+    color: white;
+}
+
+h1.md-focus .md-attr,
+h2.md-focus .md-attr,
+h3.md-focus .md-attr,
+h4.md-focus .md-attr,
+h5.md-focus .md-attr,
+h6.md-focus .md-attr,
+.md-header-span .md-attr {
+    color: #8C8E92;
+    display: inline;
+}
+
+.md-comment {
+    color: #5a95e3;
+    opacity: 1;
+}
+
+.md-inline-math svg {
+    color: #b8bfc6;
+}
+
+#math-inline-preview .md-arrow:after {
+    background: black;
+}
+
+.modal-content {
+    background: var(--bg-color);
+    border: 0;
+}
+
+.modal-title {
+    font-size: 1.5em;
+}
+
+.modal-content input {
+    background-color: rgba(26, 21, 21, 0.51);
+    color: white;
+}
+
+.modal-content .input-group-addon {
+    color: white;
+}
+
+.modal-backdrop {
+    background-color: rgba(174, 174, 174, 0.7);
+}
+
+.modal-content .btn-primary {
+    border-color: var(--primary-color);
+}
+
+.md-table-resize-popover {
+    background-color: #333;
+}
+
+.form-inline .input-group .input-group-addon {
+    color: white;
+}
+
+#md-searchpanel {
+    border-bottom: 1px dashed grey;
+}
+
+/** UI for electron */
+
+.context-menu,
+#spell-check-panel,
+#footer-word-count-info {
+    background-color: #42464A;
+}
+
+.context-menu.dropdown-menu .divider,
+.dropdown-menu .divider {
+    background-color: #777777;
+    opacity: 1;
+}
+
+footer {
+    color: inherit;
+}
+
+@media (max-width: 1000px) {
+    footer {
+        border-top: none;
+    }
+    footer:hover {
+        color: inherit;
+    }
+}
+
+#file-info-file-path .file-info-field-value:hover {
+    background-color: #555;
+    color: #dedede;
+}
+
+.megamenu-content,
+.megamenu-opened header {
+    background: var(--bg-color);
+}
+
+.megamenu-menu-panel h2,
+.megamenu-menu-panel h1,
+.long-btn {
+    color: inherit;
+}
+
+.megamenu-menu-panel input[type='text'] {
+    background: inherit;
+    border: 0;
+    border-bottom: 1px solid;
+}
+
+#recent-file-panel-action-btn {
+    background: inherit;
+    border: 1px grey solid;
+}
+
+.megamenu-menu-panel .dropdown-menu > li > a {
+    color: inherit;
+    background-color: #2F353A;
+    text-decoration: none;
+}
+
+.megamenu-menu-panel table td:nth-child(1) {
+    color: inherit;
+    font-weight: bold;
+}
+
+.megamenu-menu-panel tbody tr:hover td:nth-child(1) {
+    color: white;
+}
+
+.modal-footer .btn-default, 
+.modal-footer .btn-primary,
+.modal-footer .btn-default:not(:hover) {
+    border: 1px solid;
+    border-color: transparent;
+}
+
+.btn-primary {
+    color: white;
+}
+
+.btn-default:hover, .btn-default:focus, .btn-default.focus, .btn-default:active, .btn-default.active, .open > .dropdown-toggle.btn-default {
+    color: white;
+    border: 1px solid #ddd;
+    background-color: inherit;
+}
+
+.modal-header {
+    border-bottom: 0;
+}
+
+.modal-footer {
+    border-top: 0;
+}
+
+#recent-file-panel tbody tr:nth-child(2n-1) {
+    background-color: transparent !important;
+}
+
+.megamenu-menu-panel tbody tr:hover td:nth-child(2) {
+    color: inherit;
+}
+
+.megamenu-menu-panel .btn {
+    border: 1px solid #eee;
+    background: transparent;
+}
+
+.mouse-hover .toolbar-icon.btn:hover,
+#w-full.mouse-hover,
+#w-pin.mouse-hover {
+    background-color: inherit;
+}
+
+.typora-node::-webkit-scrollbar {
+    width: 5px;
+}
+
+.typora-node::-webkit-scrollbar-thumb:vertical {
+    background: rgba(250, 250, 250, 0.3);
+}
+
+.typora-node::-webkit-scrollbar-thumb:vertical:active {
+    background: rgba(250, 250, 250, 0.5);
+}
+
+#w-unpin {
+    background-color: #4182c4;
+}
+
+#top-titlebar, #top-titlebar * {
+    color: var(--item-hover-text-color);
+}
+
+.typora-sourceview-on #toggle-sourceview-btn,
+#footer-word-count:hover,
+.ty-show-word-count #footer-word-count {
+    background: #333333;
+}
+
+#toggle-sourceview-btn:hover {
+    color: #eee;
+    background: #333333;
+}
+
+/** focus mode */
+.on-focus-mode .md-end-block:not(.md-focus):not(.md-focus-container) * {
+    color: #686868 !important;
+}
+
+.on-focus-mode .md-end-block:not(.md-focus) img,
+.on-focus-mode .md-task-list-item:not(.md-focus-container)>input {
+    opacity: #686868 !important;
+}
+
+.on-focus-mode li[cid]:not(.md-focus-container){
+    color: #686868;
+}
+
+.on-focus-mode .md-fences.md-focus .CodeMirror-code>*:not(.CodeMirror-activeline) *,
+.on-focus-mode .CodeMirror.cm-s-inner:not(.CodeMirror-focused) * {
+    color: #686868 !important;
+}
+
+.on-focus-mode .md-focus,
+.on-focus-mode .md-focus-container {
+    color: #fff;
+}
+
+.on-focus-mode #typora-source .CodeMirror-code>*:not(.CodeMirror-activeline) * {
+    color: #686868 !important;
+}
+
+
+/*diagrams*/
+#write .md-focus .md-diagram-panel {
+    border: 1px solid #ddd;
+    margin-left: -1px;
+    width: calc(100% + 2px);
+}
+
+/*diagrams*/
+#write .md-focus.md-fences-with-lineno .md-diagram-panel {
+    margin-left: auto;
+}
+
+.md-diagram-panel-error {
+    color: #f1908e;
+}
+
+.active-tab-files #info-panel-tab-file,
+.active-tab-files #info-panel-tab-file:hover,
+.active-tab-outline #info-panel-tab-outline,
+.active-tab-outline #info-panel-tab-outline:hover {
+    color: #eee;
+}
+
+.sidebar-footer-item:hover,
+.footer-item:hover {
+    background: inherit;
+    color: white;
+}
+
+.ty-side-sort-btn.active,
+.ty-side-sort-btn:hover,
+.selected-folder-menu-item a:after {
+    color: white;
+}
+
+#sidebar-files-menu {
+    border:solid 1px;
+    box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.79);
+    background-color: var(--bg-color);
+}
+
+.file-list-item {
+    border-bottom:none;
+}
+
+.file-list-item-summary {
+    opacity: 1;
+}
+
+.file-list-item.active:first-child {
+    border-top: none;
+}
+
+.file-node-background {
+    height: 32px;
+}
+
+.file-library-node.active>.file-node-content,
+.file-list-item.active {
+    color: white;
+    color: var(--active-file-text-color);
+}
+
+.file-library-node.active>.file-node-background{
+    background-color: rgb(34, 34, 34);
+    background-color: var(--active-file-bg-color);
+}
+.file-list-item.active {
+    background-color: rgb(34, 34, 34);
+    background-color: var(--active-file-bg-color);
+}
+
+#ty-tooltip {
+    background-color: black;
+    color: #eee;
+}
+
+.md-task-list-item>input {
+    margin-left: -1.3em;
+    margin-top: 0.3rem;
+    -webkit-appearance: none;
+}
+
+.md-mathjax-midline {
+    background-color: #57616b;
+    border-bottom: none;
+}
+
+footer.ty-footer {
+    border-color: #656565;
+}
+
+.ty-preferences .btn-default {
+    background: transparent;
+}
+.ty-preferences .btn-default:hover {
+    background: #57616b;
+}
+
+.ty-preferences select {
+    border: 1px solid #989698;
+    height: 21px;
+}
+
+.ty-preferences .nav-group-item.active,
+.export-item.active,
+.export-items-list-control,
+.export-detail {
+    background: var(--item-hover-bg-color);
+}
+
+.ty-preferences input[type="search"] {
+    border-color: #333;
+    background: #333;
+    line-height: 22px;
+    border-radius: 6px;
+    color: white;
+}
+
+.ty-preferences input[type="search"]:focus {
+    box-shadow: none;
+}
+
+[data-is-directory="true"] .file-node-content {
+    margin-bottom: 0;
+}
+
+.file-node-title {
+    line-height: 22px;
+}
+
+.html-for-mac .file-node-open-state, .html-for-mac .file-node-icon {
+    line-height: 26px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(230, 230, 230, 0.30);
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: rgba(230, 230, 230, 0.50);
+}
+
+#typora-sidebar:hover div.sidebar-content-content::-webkit-scrollbar-thumb:horizontal {
+    background: rgba(230, 230, 230, 0.30);
+}
+
+.nav-group-item:active {
+    background-color: #474d54 !important;
+}
+
+.md-search-hit {
+    background: rgba(199, 140, 60, 0.81);
+    color: #eee;
+}
+
+.md-search-hit * {
+    color: #eee;
+}
+
+#md-searchpanel input {
+    color: white;
+}
+
+.modal-backdrop.in {
+    opacity: 1;
+    backdrop-filter: blur(1px);
+}
+
+.clear-btn-icon {
+    top: 8px;
+}
+
+
+</style><title>README</title>
+</head>
+<body class='typora-export os-windows'><div class='typora-export-content'>
+<div id='write'  class=''><h1 id='mwaa-란'><span>MWAA 란</span></h1><p><span>MWAA(Amazon Managed Workflows for Apache Airflow)는 AWS에서 제공하는 </span><a href='https://airflow.apache.org/'><span>Apache Airflow</span></a><span> 용 관리형 오케스트레이션 서비스입니다. 따라서 확장성, 가용성 및 보안을 위해 기본 인프라를 관리할 필요 없이 Airflow 및 Python을 사용하여 워크플로를 생성할 수 있습니다. </span></p><p>&nbsp;</p><h2 id='1-특징'><span>1. 특징</span></h2><ul><li><p><span>자동 Airflow 설정</span></p><blockquote><p><span>Amazon MWAA 환경을 생성할 때 Apache Airflow 버전 및 일부 설정값을 선택하여 Apache Airflow를 빠르게 설정 합니다. </span></p></blockquote><p><span>: 기존 Airflow 환경 구성 시 Airflow 설치를 위한 종속 라이브러리라 Plugin 설치 그 외의 Meta DB나 Broker들에 대한 추가 작업이 필요하였으나 Managed Service에서는 필요한 version 및 일부 설정값 선택으로 해당 작업들이 자동으로 진행됩니다.</span></p></li><li><p><span>자동 크기 조절</span></p><blockquote><p><span>Managed Airflow는 Scale in-out이 자동으로 진행되어 worker의 최소 및 최대 수를 설정하여 Worker환경에서 실행됩니다. </span></p></blockquote><p><span>: Auto Scaling 기능을 제공하므로 탄력적인 사용이 가능합니다.</span></p></li><li><p><span>기본 인증</span></p><blockquote><p><span>AWS Identity and Access Management(IAM)에서 액세스 제어 정책을 정의 하여 Apache Airflow webserver에 대한 역할 기반 인증 및 권한 부여를 활성화 합니다. </span></p></blockquote><p><span>: 기존 Airflow 환경에서는 Airflow에 대해 Role을 통한 계정 생성으로 접근이 가능하였으나 Managed에서는 Iam을 통해 권한이 있는 User들만 접근할 수 있도록 기본적인 인증 절차를 제공합니다.</span></p></li><li><p><span>기본 보안</span></p><blockquote><p><span>Apache Airflow worker 및 scheduler는 Amazon MWAA의 Amazon VPC에서 실행됩니다 . 또한 데이터는 KMS(AWS Key Management Service)를 사용하여 자동으로 암호화됩니다.</span></p></blockquote><p><span>: 기본적으로 Scheduler와 Worker는 Managed Service에서 제공하는 VPC에 구성되고 데이터 암호화도 AWS KMS를 통해 수행할 수 있습니다.</span></p></li><li><p><span>Public 또는 Private Access Mode</span></p><blockquote><p><span>Public 또는 Private Access Mode를 사용하여 Apache Airflow webserver에 액세스합니다 . </span>
+<span>Public 또는 Private 네트워크 여부에 따라 인터넷 또는 VPC 내부에서 접근 가능합니다.</span></p></blockquote><p><span>: 기존 Airflow 환경도 최초 구성 시 어디에 Webserver를 구성하냐에 따라 똑같은 기능을 제공할 수 있지만 Container 형태의 Webserver를 제공하므로 보다 빠르고 쉽게 구성할 수 있습니다.</span></p></li><li><p><span>간소화된 업그레이드 및 패치</span></p><blockquote><p><span>Amazon MWAA는 새로운 버전의 Apache Airflow를 주기적으로 제공합니다. </span></p></blockquote><p><span>: 관리자가 지속적인 업그레이드 작업을 진행할 필요가 없습니다.</span></p></li><li><p><span>워크플로 모니터링</span></p><blockquote><p><span>Amazon CloudWatch에서 Apache Airflow 로그 및 Apache Airflow 지표를 확인하여 Apache Airflow 작업 지연 또는 워크플로 오류를 식별합니다. </span></p></blockquote><p><span>:  Service에 대한 모든 Log는 CloudWatch Log group에서 관리 및 확인할 수 있고 지표를 통해 확인 가능합니다.</span></p></li><li><p><span>AWS 통합</span></p><blockquote><p><span>Amazon MWAA는 Amazon Athena, AWS Batch, Amazon CloudWatch, Amazon DynamoDB, AWS DataSync, Amazon EMR, AWS Fargate, Amazon EKS, Amazon Kinesis Data Firehose, AWS Glue, AWS Lambda, Amazon Redshift, Amazon과의 오픈 소스 통합을 지원합니다. </span></p></blockquote></li><li><p><span>작업자 플릿</span></p><blockquote><p><span>Amazon MWAA는 AWS Fargate의 Amazon ECS를 사용하여 요청 시 Fleet을 확장하고 스케줄러 중단을 줄이기 위해 컨테이너를 사용할 수 있는 지원을 제공합니다. </span></p></blockquote><p><img src="images\Fleet_example.png" alt="Fleet_example" style="zoom:60%;" />
+</p><p><span>Fleet 이란 기본적으로 Instance를 Group 형태로 지원하는 것인데 단일 유형이 아닌 복수의 유형을 지원하는 것 [예) EMR Instance Fleet] </span></p><p><span>따라서 상단의 사양을 충족하는 Type이면 여러 유형에 거쳐서 사용이 가능하기 때문에 Resource에 대한 제한이 적어져 Scale out 시 중단 시간에 대한 제한 사항이 적어집니다. </span>
+<span>(예를 들어 EC2를 t3.small type으로 10개를 증가 시킬 때 해당 리전에 Resource가 없으면 같은 사양의 다른 type으로 생성)</span></p></li></ul><div style="page-break-after: always; break-after: page;"></div><h2 id='2-architecture'><span>2. Architecture</span></h2><p><img src="images\mwaa_architecture.png" alt="mwaa_architecture" style="zoom:60%;" /></p><p><span>(Image_URL : </span><a href='https://docs.aws.amazon.com/mwaa/latest/userguide/images/mwaa-architecture.png' target='_blank' class='url'>https://docs.aws.amazon.com/mwaa/latest/userguide/images/mwaa-architecture.png</a><span>)</span></p><p><span>상단의 이미지는 Amazon에서 제공하는  MWAA Architecture입니다.</span></p><ul><li><span>Apache Airflow 스케줄러 및 작업자는 환경에 대한 Amazon VPC의 프라이빗 서브넷에 연결하는 AWS Fargate(Fargate) 컨테이너입니다. </span></li><li><span>각 환경에는 비공개로 보호되는 VPC 엔드포인트를 통해 스케줄러 및 작업자 Fargate 컨테이너에 액세스할 수 있는 AWS에서 관리하는 자체 메타 데이터베이스를 Aurora로 구성합니다.</span></li><li><span>Amazon CloudWatch, Amazon S3, Amazon SQS, Amazon ECR 및 AWS KMS는 Amazon MWAA와 별개 이며 Fargate 컨테이너 의 Apache Airflow 스케줄러 및 작업자에서 액세스할 수 있어야 합니다.</span></li><li><span>Apache Airflow </span><em><span>웹 서버</span></em><span> 는 공용 네트워크 Apache Airflow 액세스 모드 를 선택 </span><em><span>하여 인터넷</span></em><span> 을 통해 액세스하거나 사설 네트워크 Apache Airflow 액세스 모드 를 선택하여 VPC 내에서 액세스할 수 있습니다. </span></li><li><span>두 경우 모두 Apache Airflow 사용자에 대한 액세스는 AWS Identity and Access Management(IAM)에서 정의한 액세스 제어 정책에 의해 제어됩니다.</span></li></ul><p><span>(자료 출처 : </span><a href='https://docs.aws.amazon.com/mwaa/latest/userguide/what-is-mwaa.html#architecture-mwaa' target='_blank' class='url'>https://docs.aws.amazon.com/mwaa/latest/userguide/what-is-mwaa.html#architecture-mwaa</a><span>)</span></p><p><img src="images\new_architecture.png" alt="new_architecture" style="zoom:22%;" /></p><p><span>상단의 아키텍쳐는 MWAA가 제공해주는 Resource와 사용자가 구성해야하는 Resource로 분류하여 다시 만들어진 것입니다.</span></p><p><span>공통적으로 MWAA에서 자체적으로 만들어진 Resource에 대해서는 관리자나 사용자 모두 접근하거나 변경할 수 없습니다.</span></p><p><span>사용자 구성 (파란색 박스)</span></p><ul><li><p><span>Airflow Webserver 및 MetaData Database가 위치해야할 네트워크를 선택합니다</span></p><p><span>해당 VPC 액세스 모든에 따라 public 또는 private 서브넷이 구성되며 해당 서브넷 안에 AWS Fargate를 사용한 Webserver와 Aurora를 사용한 Meta DB가 생성됩니다.</span></p><p><span>해당 Webserver는 MWAA에서 생성한 Load Balancer를 통해 접근됩니다.</span></p></li><li><p><span>MWAA의 Dags, Plugins, 또는 추가 Pyhon library에 대해 정의한 requirements.txt를 정의한 File들을 저장할 수 있는 S3 Bucket 및 Folder를 선택합니다.</span></p><ul><li><span>해당 Bucket 및 폴더에서 DAG나 Plugin, Library 정보를 가지고 MWAA 구성합니다</span></li></ul></li></ul><p><span>MWAA로 자동 구성 (빨간색 박스)</span></p><ul><li><span>Worker 및 Scheduler 역할을 할 노드들을 AWS Fargate로 구성되며 해당 노드들은 MWAA가 구성한 Private한 네트워크에서 구성됩니다.</span></li><li><span>Broker 역할을 할 SQS나 Conatiner 이미지를 제공할 ECR도 구성됩니다.</span></li></ul><div style="page-break-after: always; break-after: page;"></div><h2 id='3-mwaa-환경-구성'><span>3. MWAA 환경 구성</span></h2><ol start='' ><li><p><span>관련 서비스</span></p><p><span>Amazon MWAA는 Amazon MWAA가 프로비저닝 중에 환경에서 사용하는 다른 AWS 서비스를 사용할 수 있도록 계정에 서비스 연결 역할을 생성합니다. </span></p><ul><li><p><span>Amazon ECR : Apache Airflow 용 이미지가 호스팅됩니다.</span></p></li><li><p><span>CloudWatch Logs : Apache Airflow 로그를 저장합니다.</span></p></li><li><p><span>Amazon EC2 : 하단의 Resource 들이 생성됩니다.</span></p><ul><li><span>Webserver, Scheduler, Worker 용 AWS Fargate</span></li><li><span>AWS Fargate 및 AWS 관리형 Amazon Aurora PostgreSQL 데이터베이스 클러스터용 Amazon VPC 엔드포인트 .</span></li><li><span>Apache Airflow 웹 서버에 대해 프라이빗 네트워크 옵션을 선택한 경우 웹 서버에 대한 네트워크 액세스를 활성화하는 추가 Amazon VPC 엔드포인트 .</span></li><li><span>Amazon VPC에서 호스팅되는 AWS 리소스에 대한 네트워크 액세스를 활성화하기 위한 Amazon VPC의 ENI.</span></li></ul></li></ul></li><li><p><span>구성 권한</span></p><p><span>Amazon MWAA가 사용자 환경에서 사용하는 다른 AWS 서비스를 사용할 수 있는 권한들이 필요합니다.</span></p><p><span>하단의 권한들은 해당 서비스들을 이용할 시에 IAM Role에 추가 되어야 합니다.</span></p><ul><li><span>CloudWatch – Apache Airflow 지표 및 로그를 전송</span></li><li><span>Amazon S3 – 환경의 DAG 코드 및 지원 파일(예: a </span><code>requirements.txt</code><span>) 을 구문 분석</span></li><li><span>Amazon SQS – 환경의 Apache Airflow 작업을 대기열에 넣습니다.</span></li><li><span>AWS KMS – 환경의 데이터 암호화용.</span></li></ul></li></ol><div style="page-break-after: always; break-after: page;"></div><h2 id='4--mwaa-환경-생성'><span>4.  MWAA 환경 생성</span></h2><ol start='' ><li><p><span>IAM 구성</span></p><p><span>기존에 EC2에 구성하던 IAM Role 권한과 신뢰관계를 추가함으로써 사용가능합니다.</span></p><p><img src="images\iam_mwaa_trust.png" alt="iam_mwaa_trust" style="zoom:60%;" /></p><p><span>상단 예시 이미지와 같이 </span><code>airflow</code><span>, </span><code>airflow-env</code><span>에 대한 신뢰 관계가 추가 되어야 합니다.</span></p><p><span>신뢰 관계는 신뢰 관계 편집에서 Json으로 수정 가능합니다.</span></p><p><img src="images\iam_mwaa_trust_json.png" alt="iam_mwaa_trust_json" style="zoom:60%;" /></p><p><span>추가적으로 다른 서비스들에 대한 추가 권한을 부여합니다.</span></p><p><img src="images\iam_mwaa_role.png" alt="iam_mwaa_role" style="zoom:60%;" /></p></li><li><p><span>S3 구성</span></p><p><span>MWAA에서 사용할 Bucket과 Dag를 저장할 Folder를 구성합니다.</span></p><p><img src="images\mwaa_s3_bucket.png" alt="mwaa_s3_bucket" style="zoom:60%;" /></p><p><img src="images\mwaa_s3_dag_folder.png" alt="mwaa_s3_dag_folder" style="zoom:60%;" /></p><p><span>오른쪽 상단의 </span><code>S3 URI 복사</code><span>를 통해 S3 URI를 쉽게 복사할 수 있습니다.</span></p><p><span>상단의 두 이미지 외에도 Plugin이나 requirements.txt에 대한 Foler도 구성하면 사용 가능합니다.</span></p></li><li><p><span>VPC 및 SG</span></p><p><span>개인용 VPC를 하나 생성합니다.</span></p><p><span>SG는 하단과 같이 구성합니다.</span></p><ol start='' ><li><p><span>MWAA에 모든 접근이 가능한 SG 생성</span></p><figure><table><thead><tr><th style='text-align:left;' ><span>유형</span></th><th style='text-align:left;' ><span>규약</span></th><th style='text-align:left;' ><span>소스 유형</span></th><th style='text-align:left;' ><span>원천</span></th></tr></thead><tbody><tr><td style='text-align:left;' ><span>모든 트래픽</span></td><td style='text-align:left;' ><span>모두</span></td><td style='text-align:left;' ><span>모두</span></td><td style='text-align:left;' ><span>0.0.0.0/0</span></td></tr></tbody></table></figure></li><li><p><span>상단의 SG를 참조하는 SG가 필요합니다.</span>
+<span>상단의 SG는 MWAA와 외부 서비스들 간의 SG이기 때문에 내부 Resource들에 대한 설정은 상단에 생성한 SG들을 참조하는 SG를 생성하고 부착해줌으로써 설정 가능합니다.</span></p><figure><table><thead><tr><th style='text-align:left;' ><span>유형</span></th><th style='text-align:left;' ><span>규약</span></th><th style='text-align:left;' ><span>소스 유형</span></th><th style='text-align:left;' ><span>원천</span></th></tr></thead><tbody><tr><td style='text-align:left;' ><span>모든 트래픽</span></td><td style='text-align:left;' ><span>모두</span></td><td style='text-align:left;' ><span>모두</span></td><td style='text-align:left;' ><span>sg-0909e8e81919 / my-mwaa-vpc-security-group</span></td></tr></tbody></table></figure></li><li><p><span>Meta DB용 SG</span></p><p><span>Aurora PG이므로 5432 포트에 대한 허용이 되는 SG를 생성합니다.</span>
+<span>2번과 같은 이유로 1번에서 생성한 SG를 참조합니다.</span></p><figure><table><thead><tr><th style='text-align:left;' ><span>유형</span></th><th style='text-align:left;' ><span>규약</span></th><th style='text-align:left;' ><span>포트 범위</span></th><th style='text-align:left;' ><span>소스 유형</span></th><th style='text-align:left;' ><span>원천</span></th></tr></thead><tbody><tr><td style='text-align:left;' ><span>HTTPS</span></td><td style='text-align:left;' ><span>TCP</span></td><td style='text-align:left;' ><span>5432</span></td><td style='text-align:left;' ><span>Custom</span></td><td style='text-align:left;' ><span>sg-0909e8e81919 / my-mwaa-vpc-security-group</span></td></tr></tbody></table></figure></li></ol><p><span>위의 3개의 SG를 1개로 구성할 수 있습니다</span></p><p><span>자기참조 SG를 생성하므로써 1개의 SG에 구성가능합니다.</span></p><figure><table><thead><tr><th style='text-align:left;' ><span>유형</span></th><th style='text-align:left;' ><span>규약</span></th><th style='text-align:left;' ><span>포트 범위</span></th><th style='text-align:left;' ><span>원천</span></th></tr></thead><tbody><tr><td style='text-align:left;' ><span>모든 트래픽</span></td><td style='text-align:left;' ><span>모두</span></td><td style='text-align:left;' ><span>모두</span></td><td style='text-align:left;' ><span>sg-0909e8e81919 / my-mwaa-vpc-security-group</span></td></tr><tr><td style='text-align:left;' ><span>모든 트래픽</span></td><td style='text-align:left;' ><span>모두</span></td><td style='text-align:left;' ><span>모두</span></td><td style='text-align:left;' ><span>0.0.0.0/0</span></td></tr></tbody></table></figure></li><li><p><span>mwaa env 생성</span></p><ol start='' ><li><p><span>환경 세부 정보</span>
+<span>이름 : </span><code>cjm-airflow-env</code>
+<span>Airflow 버전 : </span><code>2.0.2</code></p></li><li><p><span>Amazon S3의 DAG 코드</span>
+<span>마지막 </span><code>/</code><span>는 포함되지 않습니다.</span></p><p><span>S3 버킷 : </span><code>s3://cjm-oregon</code>
+<span>DAG 폴더 : </span><code>s3://cjm-oregon/champion/mwaa/dags</code>
+<span>플러그인 파일, 요구 사항 파일 은 선택사항 입니다.</span></p><p><img src="images\mwaa_create.png" alt="mwaa_create" style="zoom:60%;" /></p></li><li><p><span>네트워킹</span></p><ol><li><span>VPC : </span><code>개인 VPC</code></li><li><span>Subnet 1 : </span><code>VPC 내부 Private Subnet - c</code></li><li><span>Subnet 2 : </span><code>VPC 내부 Private Subnet - a</code></li><li><span>웹 서버 엑세스 : </span><code>Webserver 접근 방식을 설정</code></li><li><span>보안 그룹 : </span><code>위에서 생성한 SG</code></li></ol></li><li><p><span>환경 클래스</span></p><ol><li><span>Type 설정 : </span><code>mw1.small</code><span>, </span><code>mw1.medium</code><span>, </span><code>mw1.large</code><span> 중 선택</span></li><li><span>최대 작업자 수 : </span><code>1 ~ 25</code></li><li><span>최소 작업자 수 : </span><code>1 ~ 최대 작업자 수</code></li><li><span>스케줄러 수 : </span><code>2 ~ 5</code>
+</li></ol><p><img src="images\mwaa_create_2.png" alt="mwaa_create_2" style="zoom:60%;" /></p></li><li><p><span>로그 설정</span>
+<span>CloudWatch Log Groups에 적재할 Log들을 설정합니다.</span></p><p><img src="images\mwaa_create_3.png" alt="mwaa_create_3" style="zoom:60%;" /></p></li><li><p><span>Airflow 구성 옵션</span>
+<span>MWAA에서 제공하는 Option에 한해서 변경 가능합니다.</span></p><p><img src="images\mwaa_create_4.png" alt="mwaa_create_4" style="zoom:60%;" /></p></li><li><p><span>권한 및 태그</span>
+<span>위에서 생성한 권한을 부여합니다.</span></p><p><img src="images\mwaa_create_5.png" alt="mwaa_create_5" style="zoom:60%;" /></p></li></ol></li></ol><p><span>상단의 일련의 과정 후 생성하면 생성까지 2 ~ 30분의 생성 시간 소요 후 생성됩니다.</span></p><div style="page-break-after: always; break-after: page;"></div><h2 id='과제'><span>과제</span></h2><p><span>개인 Airflow 구성( AWS MWAA ) 및 문서 작성</span></p></div></div>
+</body>
+</html>

@@ -59,6 +59,7 @@ MWAA(Amazon Managed Workflows for Apache Airflow)는 AWS에서 제공하는 [Apa
   
   <img src="images\Fleet_example.png" alt="Fleet_example" style="zoom:60%;" />
   
+  
   Fleet 이란 기본적으로 Instance를 Group 형태로 지원하는 것인데 단일 유형이 아닌 복수의 유형을 지원하는 것 [예) EMR Instance Fleet] 
   
   따라서 상단의 사양을 충족하는 Type이면 여러 유형에 거쳐서 사용이 가능하기 때문에 Resource에 대한 제한이 적어져 Scale out 시 중단 시간에 대한 제한 사항이 적어집니다. 
@@ -218,33 +219,35 @@ MWAA로 자동 구성 (빨간색 박스)
 
    3. 네트워킹
 
-      VPC : `개인 VPC`
-      Subnet 1 : `VPC 내부 Private Subnet - c`
-      Subnet 2 : `VPC 내부 Private Subnet - a`
-      웹 서버 엑세스 : `Webserver 접근 방식을 설정`
-      보안 그룹 : `위에서 생성한 SG`
+      1. VPC : `개인 VPC`
+      2. Subnet 1 : `VPC 내부 Private Subnet - c`
+      3. Subnet 2 : `VPC 내부 Private Subnet - a`
+      4. 웹 서버 엑세스 : `Webserver 접근 방식을 설정`
+      5. 보안 그룹 : `위에서 생성한 SG`
 
    4. 환경 클래스
-      Type 설정 : `mw1.small`, `mw1.medium`, `mw1.large` 중 선택
-      최대 작업자 수 : `1 ~ 25`
-      최소 작업자 수 : `1 ~ 최대 작업자 수`
-      스케줄러 수 : `2 ~ 5`
+      
+      1. Type 설정 : `mw1.small`, `mw1.medium`, `mw1.large` 중 선택
+      2. 최대 작업자 수 : `1 ~ 25`
+      3. 최소 작업자 수 : `1 ~ 최대 작업자 수`
+      4. 스케줄러 수 : `2 ~ 5`
+         
 
       <img src="images\mwaa_create_2.png" alt="mwaa_create_2" style="zoom:60%;" />
-
+      
    5. 로그 설정
       CloudWatch Log Groups에 적재할 Log들을 설정합니다.
 
       <img src="images\mwaa_create_3.png" alt="mwaa_create_3" style="zoom:60%;" />
-
+   
    6. Airflow 구성 옵션
       MWAA에서 제공하는 Option에 한해서 변경 가능합니다.
 
       <img src="images\mwaa_create_4.png" alt="mwaa_create_4" style="zoom:60%;" />
-
+   
    7. 권한 및 태그
       위에서 생성한 권한을 부여합니다.
-
+   
       <img src="images\mwaa_create_5.png" alt="mwaa_create_5" style="zoom:60%;" />
 
 상단의 일련의 과정 후 생성하면 생성까지 2 ~ 30분의 생성 시간 소요 후 생성됩니다.
