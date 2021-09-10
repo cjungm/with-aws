@@ -1,0 +1,21 @@
+{
+    "name": "debezium",
+    "config": {
+        "connector.class": "io.debezium.connector.mysql.MySqlConnector",
+        "tasks.max": "1",
+        "database.hostname": "{RDS URL}",
+        "database.port": "3306",
+        "database.user": "{RDS User}",
+        "database.password": "{RDS PW}",
+        "database.server.id": "1509343511",
+        "database.server.name": "mytest",
+        "database.whitelist": "test",
+        "database.history.kafka.topic": "dbhistory.test",
+        "database.history.kafka.bootstrap.servers": "{MSK broker IP}",
+        "snapshot.mode": "schema_only_recovery",
+        "transforms": "route",
+        "transforms.route.type": "org.apache.kafka.connect.transforms.RegexRouter",
+        "transforms.route.regex": "([^.]+)\\.([^.]+)\\.([^.]+)",
+        "transforms.route.replacement": "$3"
+    }
+}
