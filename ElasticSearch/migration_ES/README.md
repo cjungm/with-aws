@@ -464,9 +464,9 @@
    nohup /home/ec2-user/json_export.sh > dump_json.log &
    ```
 
-   ![elasticdump](images\elasticdump.png)
+   ![elasticdump](images/elasticdump.png)
 
-   ![elasticdump_result](images\elasticdump_result.png)
+   ![elasticdump_result](images/elasticdump_result.png)
 
    
 
@@ -495,16 +495,16 @@
 
    1. Self Hosted Elasticsearch 건수
 
-      ![installed_ES_index_count](images\installed_ES_index_count.png)
+      ![installed_ES_index_count](images/installed_ES_index_count.png)
 
    2. Self Hosted Elasticsearch 시간
-      ![installed_ES_time](images\installed_ES_time.png)
+      ![installed_ES_time](images/installed_ES_time.png)
 
    3. Managed Elasticsearch 건수
-      ![manged_ES_index_count](images\manged_ES_index_count.png)
+      ![manged_ES_index_count](images/manged_ES_index_count.png)
 
    4. Managed Elasticsearch 시간
-      ![managed_ES_time](images\managed_ES_time.png)
+      ![managed_ES_time](images/managed_ES_time.png)
 
 4. 결과
    상단에 제공된 내용대로 cpu는 동일하게 memory는 2배 정도 높게 설정했을 때, 약 6천만 건의 Data에서 3천만 건의 Data를 조회하는 데 약 3초로 비슷한 시간이 소요.
