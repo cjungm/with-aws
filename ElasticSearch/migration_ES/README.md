@@ -286,7 +286,7 @@
     2. 기본 메뉴에서 **Security**의 **Roles** 선택.
        ![security_roles](images/security_roles.png)
     3. `manage_snapshots`역할을 검색 및 선택합니다.
-       ![manage_snapshots](images\manage_snapshots.png)
+       ![manage_snapshots](images/manage_snapshots.png)
     4. **Mapped users** 탭의 **Manage mapping** 선택.
     5. **Backend_role**에 전달할 권한이 있는 역할의 도메인 ARN 추가합니다.`TheSnapshotRole`. 이 ARN 의 형식은 다음과 같습니다.
        ![mapped_backend_user](images/mapped_backend_user.png)
