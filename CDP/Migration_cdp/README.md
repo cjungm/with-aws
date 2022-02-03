@@ -19,9 +19,9 @@
    [참고 자료](https://github.com/mullue/amazon-sagemaker-architecting-for-ml/blob/master/Starter-Code-kr/How_to_downlaod_kaggle_data/0.download_kaggle_dataset.ipynb)
 
    1. kaggle api key 생성
-      ![kaggle_account](images\kaggle_account.png)
+      ![kaggle_account](images/kaggle_account.png)
 
-      ![kaggle_api_key](images\kaggle_api_key.png)
+      ![kaggle_api_key](images/kaggle_api_key.png)
 
       `kaggle.json` 파일이 로컬에 download 됩니다.
 
@@ -49,7 +49,7 @@
       ```
 
       {KAGGLE API COMMAND} : 
-      ![kaggle_api_command](images\kaggle_api_command.png)
+      ![kaggle_api_command](images/kaggle_api_command.png)
 
       
 
@@ -100,16 +100,16 @@ sudo -u hdfs hadoop distcp -Dfs.s3a.access.key={ACCESS_KEY} -Dfs.s3a.secret.key=
 ```
 
 
-![s3_distcp_input_result](images\s3_distcp_input_result.png)
+![s3_distcp_input_result](images/s3_distcp_input_result.png)
 
-![s3_distcp_input_result_2](images\s3_distcp_input_result_2.png)
+![s3_distcp_input_result_2](images/s3_distcp_input_result_2.png)
 
 ```sh
 # S3 to EMR 이관
 s3-dist-cp --src=s3a://{S3_Bucket}/{path} --dest=hdfs://{target_dir}
 ```
 
-![s3_distcp_output_result](images\s3_distcp_output_result.png)
+![s3_distcp_output_result](images/s3_distcp_output_result.png)
 
 ## 4. 비교
 
