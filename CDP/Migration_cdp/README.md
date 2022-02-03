@@ -1,7 +1,7 @@
 # Cloudera Migration
 
-1. [데이터 적재](#1.-데이터-적재)
-2. [Cluster to Cluster 데이터 이관](#2. Cluster to Cluster 데이터 이관)
+1. [데이터 적재](#1--데이터-적재)
+2. [Cluster to Cluster 데이터 이관](#2-Cluster-to-Cluster-데이터-이관)
 3. [Cluster to S3 데이터 이관](#3. Cluster to S3 데이터 이관)
 4. [비교](#4. 비교)
 
