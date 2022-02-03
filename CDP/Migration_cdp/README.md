@@ -2,8 +2,8 @@
 
 1. [데이터 적재](#1--데이터-적재)
 2. [Cluster to Cluster 데이터 이관](#2-Cluster-to-Cluster-데이터-이관)
-3. [Cluster to S3 데이터 이관](#3. Cluster to S3 데이터 이관)
-4. [비교](#4. 비교)
+3. [Cluster to S3 데이터 이관](#3--Cluster-to-S3-데이터-이관)
+4. [비교](#4--비교)
 
 
 
@@ -86,7 +86,7 @@ sudo -u hdfs hadoop dfsadmin -report
 sudo -u hdfs hadoop distcp -skipcrccheck -update {source_dir} hdfs://{EMR_Master_Private_Ip}:8020{target_dir}
 ```
 
-![distcp_result](images\distcp_result.png)
+![distcp_result](images/distcp_result.png)
 
 
 
@@ -131,4 +131,4 @@ s3-dist-cp --src=s3a://{S3_Bucket}/{path} --dest=hdfs://{target_dir}
 2. 결과 
    약 15분 정도로 비슷한 결과값 도출
 
-   ![time_spent](images\time_spent.png)
+   ![time_spent](images/time_spent.png)
