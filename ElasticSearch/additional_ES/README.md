@@ -1,10 +1,10 @@
 # 질의 사항
 
 1. [역인덱스에 Document의 count 저장 여부](#1-역인덱스에-document의-count-저장-여부)
-2. [AWS ES는 Domain이 생성된 이후에 인스턴스 type이나 수의 자유성](#2. AWS ES는 Domain이 생성된 이후에 인스턴스 type이나 수의 자유성)
-3. [Data를 분할하여 Migration 가능 여부](#3. Data를 분할하여 Migration 가능 여부)
-4. [다른 Version의 ES 끼리 Data Migration 방법](#4. 다른 Version의 ES 끼리 Data Migration 방법)
-5. [ES의 Data를 csv 혹은 Json으로 Export하는 방법](#5. ES의 Data를 csv 혹은 Json으로 Export하는 방법)
+2. [AWS ES는 Domain이 생성된 이후에 인스턴스 type이나 수의 자유성](#2-aws-es는-domain이-생성된-이후에-인스턴스-type이나-수의-자유성)
+3. [Data를 분할하여 Migration 가능 여부](#3-data를-분할하여-migration-가능-여부)
+4. [다른 Version의 ES 끼리 Data Migration 방법](#4-다른-version의-es-끼리-data-migration-방법)
+5. [ES의 Data를 csv 혹은 Json으로 Export하는 방법](#5-es의-data를-csv-혹은-json으로-export하는-방법)
 
 
 
@@ -24,21 +24,21 @@ https://stackoverflow.com/questions/44590350/finding-the-number-of-documents-tha
    - 인스턴스 유형(데이터) : `r6.large.elasticsearch`
    - 노드 수 : `1`
 
-   ![managed_1](images\managed_1.png)
+   ![managed_1](images/managed_1.png)
 
 2. 노드 수 변경 : 
 
    - 인스턴스 유형(데이터) : `r6.large.elasticsearch`
    - 노드 수 : `2`
 
-   ![managed_2](images\managed_2.png)
+   ![managed_2](images/managed_2.png)
 
 3. 인스턴스 유형 변경 : 
 
    - 인스턴스 유형(데이터) : `r5.large.elasticsearch`
    - 노드 수 : `1`
 
-   ![managed_3](images\managed_3.png)
+   ![managed_3](images/managed_3.png)
 
 참고 URL : 
 https://aws.amazon.com/ko/premiumsupport/knowledge-center/elasticsearch-scale-up/
@@ -62,7 +62,7 @@ https://aws.amazon.com/ko/premiumsupport/knowledge-center/elasticsearch-scale-up
    ```
 
    결과
-   ![elasticdump_split](images\elasticdump_split.png)
+   ![elasticdump_split](images/elasticdump_split.png)
 
 ## 4. 다른 Version의 ES 끼리 Data Migration 방법
 
@@ -115,17 +115,17 @@ password={password}
 
 | 유형    | Source                                                       | Target                                                       |
 | ------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| Content | ![elasticdump_source_content](images\elasticdump_source_content.png) | ![elasticdump_target_content](images\elasticdump_target_content.png) |
-| Count   | ![elasticdump_source_conut](images\elasticdump_source_conut.png) | ![elasticdump_target_content](images\elasticdump_target_content.png) |
+| Content | ![elasticdump_source_content](images/elasticdump_source_content.png) | ![elasticdump_target_content](images/elasticdump_target_content.png) |
+| Count   | ![elasticdump_source_conut](images/elasticdump_source_conut.png) | ![elasticdump_target_content](images/elasticdump_target_content.png) |
 
 
 
 ## 5. ES의 Data를 csv 혹은 Json으로 Export하는 방법
 
-1. [Kibana reporting 기능](#1. Kibana reporting 기능)
-2. [Kibana DataTable](#2. Kibana DataTable)
-3. [Elasticdump](#3. Elasticdump)
-4. [Python client](#4. Python client)
+1. [Kibana reporting 기능](#1-kibana-reporting-기능)
+2. [Kibana DataTable](#2-kibana-datatable)
+3. [Elasticdump](#3-elasticdump)
+4. [Python client](#4-python-client)
 
 ### 1. Kibana reporting 기능
 
@@ -150,25 +150,25 @@ password={password}
    xpack.reporting.csv.maxSizeBytes : 100857600 
    ```
 
-   ![export_data_1](images\export_data_1.png)
+   ![export_data_1](images/export_data_1.png)
 
 2. Kibana Discover에서 해당 Index 전체 조회
 
 3. Share > CSV Reports
-   ![export_data_3](images\export_data_3.png)
+   ![export_data_3](images/export_data_3.png)
 
-   ![export_data_4](images\export_data_4.png)
+   ![export_data_4](images/export_data_4.png)
 
 4. Stack Management > Alerts and Insights > Reporting
    해당 내용은 Export가 실패합니다.
    전체 Data 용량이 약 11GB 인데 수용 최대 용량이 100MB 이기 때문입니다. 
 
-   ![export_data_6](images\export_data_6.png)
+   ![export_data_6](images/export_data_6.png)
 
    해당 방법을 이용하기 위해서는 100MB 정도의 Data만 Export 해야합니다
    불필요 Column이 포함 됩니다.
 
-   ![export_data_7](images\export_data_7.png)
+   ![export_data_7](images/export_data_7.png)
 
 ### 2. Kibana DataTable
 
@@ -181,7 +181,7 @@ password={password}
 해당 내용도 수용 용량 초과로 실패합니다.
 
 해당 방법을 이용하기 위해서는 최대 용량을 맞춰서 Export 해야 합니다.
-![export_data_5](images\export_data_5.png)
+![export_data_5](images/export_data_5.png)
 
 ### 3. Elasticdump
 
@@ -251,9 +251,9 @@ password={password}
    nohup /home/ec2-user/json_export.sh > dump_json.log &
    ```
 
-   ![elasticdump](images\elasticdump.png)
+   ![elasticdump](images/elasticdump.png)
 
-   ![elasticdump_result](images\elasticdump_result.png)
+   ![elasticdump_result](images/elasticdump_result.png)
 
    
 
@@ -333,9 +333,9 @@ password={password}
    nohup python3 -u data_export.py > export.log &
    ```
 
-   ![python_export](images\python_export.png)
+   ![python_export](images/python_export.png)
 
-   ![python_result](images\python_result.png)
+   ![python_result](images/python_result.png)
 
 참고 URL : 
 https://hevodata.com/learn/elasticsearch-export/#b2
