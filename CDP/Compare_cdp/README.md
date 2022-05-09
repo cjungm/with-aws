@@ -1,8 +1,8 @@
 # Cloudera와 EMR 비교
 
-1. [AWS Migration Strategies](#1. AWS Migration Strategies)
-2. [cloudera vs aws emr 차이점](#2. cloudera vs aws emr 차이점)
-3. [Billing](#3. Billing)
+1. [AWS Migration Strategies](#1-aws-migration-strategies)
+2. [cloudera vs aws emr 차이점](#2-cloudera-vs-aws-emr-차이점)
+3. [Billing](#3-billing)
 
 ## 1. AWS Migration Strategies
 
