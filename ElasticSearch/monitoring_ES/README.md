@@ -1,12 +1,12 @@
 # 모니터링 방안
 
-1. [Self hosted ES](#1.  Self hosted ES)
-   1. [ELK Stack Monitoring](#1. ELK Stack Monitoring)
-   2. [Elasticsearch Monitoring](#2. Elasticsearch Monitoring)
-2. [Managed ES](#2. Managed ES)
-   1. [Managed ES Graph](#1. Managed ES Graph)
-   2. [Graph 들로 CloudWatch DashBoard 구성](#2. Graph 들로 CloudWatch DashBoard 구성)
-   3. [Alert  구성](#3. Alert  구성)
+1. [Self hosted ES](#1-self-hosted-es)
+   1. [ELK Stack Monitoring](#1-elk-stack-monitoring)
+   2. [Elasticsearch Monitoring](#2-elasticsearch-monitoring)
+2. [Managed ES](#2-managed-es)
+   1. [Managed ES Graph](#1-managed-es-graph)
+   2. [Graph 들로 CloudWatch DashBoard 구성](#2-graph-들로-cloudWatch-dashboard-구성)
+   3. [Alert  구성](#3-alert-구성)
 
 ## 1.  Self hosted ES
 
