@@ -1,0 +1,37 @@
+[
+    {
+        "ResourceType": "AWS::EC2::VPC",
+        "LogicalResourceId": "ImportedVPC",
+        "ResourceIdentifier": {
+            "VpcId": "{YOUR_VPC_ID}"
+        }
+    },
+    {
+        "ResourceType": "AWS::EC2::Subnet",
+        "LogicalResourceId": "ImportedPublicSubnet",
+        "ResourceIdentifier": {
+            "SubnetId": "{YOUR_PUBLIC_SUBNET_ID}"
+        }
+    },
+    {
+        "ResourceType": "AWS::EC2::Subnet",
+        "LogicalResourceId": "ImportedPrivateSubnet1",
+        "ResourceIdentifier": {
+            "SubnetId": "{YOUR_PRIVATE_SUBNET_ID_1}"
+        }
+    },
+    {
+        "ResourceType": "AWS::EC2::Subnet",
+        "LogicalResourceId": "ImportedPrivateSubnet2",
+        "ResourceIdentifier": {
+            "SubnetId": "{YOUR_PRIVATE_SUBNET_ID_2}"
+        }
+    },
+    {
+        "ResourceType": "AWS::S3::Bucket",
+        "LogicalResourceId": "AppBucket",
+        "ResourceIdentifier": {
+            "BucketName": "{YOUR_S3_BUCKET_NAME}"
+        }
+    }
+]

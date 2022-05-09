@@ -1,0 +1,176 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description:  'AWS CloudFormation Template: 
+   **WARNING** You will be billed for the AWS resources used if you create a stack
+  from this template.'
+
+#    MIT No Attribution
+# Copyright 2020 Amazon Web Services (AWS)
+# Permission is hereby granted, free of charge, to any person obtaining a copy of this
+# software and associated documentation files (the "Software"), to deal in the Software
+# without restriction, including without limitation the rights to use, copy, modify,
+# merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+# permit persons to whom the Software is furnished to do so.
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+# INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+# PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+# HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+# OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+# SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+Parameters:
+  VpcCIDR:
+    Description: The IP range (CIDR notation) for this VPC
+    Type: String
+    Default: 10.0.0.0/16
+
+  PublicSubnet1CIDR:
+    Description: The IP range (CIDR notation) for the private subnet in the first Availability Zone
+    Type: String
+    Default: 10.0.1.0/24
+
+  PrivateSubnet1CIDR:
+    Description: The IP range (CIDR notation) for the private subnet in the first Availability Zone
+    Type: String
+    Default: 10.0.3.0/24
+
+  PrivateSubnet2CIDR:
+    Description: The IP range (CIDR notation) for the private subnet in the second Availability Zone
+    Type: String
+    Default: 10.0.4.0/24
+
+  BucketName:
+    Description: S3 Bucket Name
+    Type: String
+    Default: {YOUR_S3_BUCKET_NAME}
+
+  KeyName:
+    Description: Name of an existing EC2 KeyPair to enable SSH to the instances
+    Type: AWS::EC2::KeyPair::KeyName
+  ExpiryDate:
+    Description: Tag Exipry date
+    Type: String
+  MyIp:
+    Description: Current My Ip
+    Type: String
+
+Resources:
+# EC2가 생성될 네트워크 정보
+  ImportedVPC:
+    Type: AWS::EC2::VPC
+    DeletionPolicy: Retain
+    Properties:
+      CidrBlock: !Ref VpcCIDR
+  
+  ImportedPublicSubnet:
+    Type: AWS::EC2::Subnet
+    DeletionPolicy: Retain
+    Properties:
+      VpcId: !Ref ImportedVPC
+      CidrBlock: !Ref PublicSubnet1CIDR
+
+  ImportedPrivateSubnet1:
+    Type: AWS::EC2::Subnet
+    DeletionPolicy: Retain
+    Properties:
+      VpcId: !Ref ImportedVPC
+      CidrBlock: !Ref PrivateSubnet1CIDR
+
+  ImportedPrivateSubnet2:
+    Type: AWS::EC2::Subnet
+    DeletionPolicy: Retain
+    Properties:
+      VpcId: !Ref ImportedVPC
+      CidrBlock: !Ref PrivateSubnet2CIDR
+  
+  AppBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    Properties:
+      BucketName: !Ref BucketName
+
+  #####################################################################################################################
+  # Create Stack
+  #####################################################################################################################
+
+# EC2 Instance - OpenSearch에 Data 적재 및 Webserver 제공
+  InstanceToES: 
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub {instance_to_es.yaml의 HTTP URL}
+      TimeoutInMinutes: '60'
+      Parameters:
+        EnvironmentName: es-search-app-vpc
+        InstanceType: t3.small
+        LatestAmiId: '/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2'
+        VPC1CIDR: !Ref VpcCIDR
+        SubnetId: !Ref ImportedPublicSubnet
+        VPCID: !Ref ImportedVPC
+        KeyName: !Ref 'KeyName'
+        ExpiryDate: !Ref 'ExpiryDate'
+        MyIp: !Ref 'MyIp'
+      Tags: 
+        - Key: Name
+          Value: 'InstanceToES'
+        - Key: owner
+          Value: 'cjm' 
+        - Key: description
+          Value: 'Stack amazon-opensearch-movies-app' 
+
+# ES Domain
+  ES:
+    Type: AWS::CloudFormation::Stack
+    DependsOn: 
+    - InstanceToES
+    Properties:
+      TemplateURL: !Sub {es_cluster.yaml의 HTTP URL}
+      TimeoutInMinutes: '60' 
+      Parameters:
+        PublicIP: !GetAtt InstanceToES.Outputs.PublicIP
+      Tags: 
+        - Key: Name
+          Value: 'ES-Domain'
+        - Key: owner
+          Value: 'cjm' 
+        - Key: description
+          Value: 'Stack amazon-opensearch-movies-app' 
+
+# 위의 2개의 Stack에서 생성한 EC2와 OpenSearch 활용 
+# EC2 에서 OpenSearch에 Data 적재 명령 수행
+  IngestToES: 
+    Type: AWS::CloudFormation::Stack
+    DependsOn: 
+    - ES
+    Properties:
+      TemplateURL: !Sub {ingest_to_es.yaml의 HTTP URL}
+      TimeoutInMinutes: '60'
+      Parameters:
+        InstanceId: !GetAtt InstanceToES.Outputs.InstanceId
+      Tags: 
+        - Key: Name
+          Value: 'API GW'
+        - Key: owner
+          Value: 'cjm' 
+        - Key: description
+          Value: 'Stack amazon-opensearch-movies-app' 
+
+# Lambda function 생성 및
+  LambdaAndAPI: 
+    Type: AWS::CloudFormation::Stack
+    DependsOn:
+    - IngestToES
+    Properties:
+      TemplateURL: !Sub {lambda-api-cf_diy.yaml의 HTTP URL}
+      TimeoutInMinutes: '60'
+      Parameters: 
+        ESHost: !Join ['',['https://',!GetAtt ES.Outputs.DomainEndpoint]]
+        LambdaRole: !GetAtt ES.Outputs.LambdaRole
+        ESInstanceID: !GetAtt InstanceToES.Outputs.InstanceId
+        AppBucket: !Ref AppBucket
+      Tags: 
+        - Key: Name
+          Value: 'LambdaToES'
+        - Key: owner
+          Value: 'cjm' 
+        - Key: description
+          Value: 'Stack amazon-opensearch-movies-app' 
+          
