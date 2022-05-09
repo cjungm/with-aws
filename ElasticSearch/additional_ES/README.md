@@ -1,6 +1,6 @@
 # 질의 사항
 
-1. [역인덱스에 Document의 count 저장 여부](#역인덱스에-document의-count-저장-여부)
+1. [역인덱스에 Document의 count 저장 여부](#1-역인덱스에-document의-count-저장-여부)
 2. [AWS ES는 Domain이 생성된 이후에 인스턴스 type이나 수의 자유성](#2. AWS ES는 Domain이 생성된 이후에 인스턴스 type이나 수의 자유성)
 3. [Data를 분할하여 Migration 가능 여부](#3. Data를 분할하여 Migration 가능 여부)
 4. [다른 Version의 ES 끼리 Data Migration 방법](#4. 다른 Version의 ES 끼리 Data Migration 방법)
