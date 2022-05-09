@@ -6,7 +6,7 @@
 2. [Managed ES](#2-managed-es)
    1. [Managed ES Graph](#1-managed-es-graph)
    2. [Graph 들로 CloudWatch DashBoard 구성](#2-graph-들로-cloudWatch-dashboard-구성)
-   3. [Alert  구성](#3-alert-구성)
+   3. [Alert 구성](#3-alert-구성)
 
 ## 1.  Self hosted ES
 
@@ -159,7 +159,7 @@ aws_sdk로 구성
 
    
 
-### 3. Alert  구성
+### 3. Alert 구성
 
 1. Target이 될 SNS 생성
    ![managed_sns](images/managed_sns.png)
