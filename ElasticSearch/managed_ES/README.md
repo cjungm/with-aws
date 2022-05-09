@@ -44,7 +44,7 @@
       ![security_config](images/security_config1.png)
       
       
-      ![access_config2](images\access_config2.png)
+      ![access_config2](images/access_config2.png)
 
 4. **Data nodes(데이터 노드)**에서 `c5.large.elasticsearch` 인스턴스 유형을 선택합니다. 기본값인 인스턴스 1개를 사용합니다.
 
