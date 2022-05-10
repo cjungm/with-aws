@@ -4,11 +4,13 @@ import os
 import requests
 from requests_aws4auth import AWS4Auth
 
+# 아래 환경 변수는 예약어 이므로 Lambda 환경 변수에서 찾을 수 없음
 region = os.environ['AWS_REGION']
 service = 'es'
 credentials = boto3.Session().get_credentials()
 awsauth = AWS4Auth(credentials.access_key, credentials.secret_key, region, service, session_token=credentials.token)
 
+# 아래 환경 변수는 Cloudformation을 통해 Lambda 생성 시 자동으로 생성됨
 host = os.environ['HOST']
 index = 'movies'
 url = host + '/' + index + '/_search'
