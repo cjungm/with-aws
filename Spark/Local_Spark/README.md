@@ -339,3 +339,14 @@ expr("(((someCol + 5) * 200) - 6) < otherCol")
 ```
 
 <img src="Images/sample_result_2.png" alt="sample_result_2" style="zoom:50%;" />
+
+---
+
+---
+
+참조 링크
+
+- [Spark 환경 설정 with Anaconda(Jupyter Notebook)](https://spidyweb.tistory.com/199)
+- [Spark에 WinUtils가 필요한 이유는 무엇입니까?](https://pivotalbi.com/build-your-own-winutils-for-spark/)
+- [Spark 소개 3부: Jupyter 노트북 커널 설치](https://adatis.co.uk/introduction-to-spark-part-3installing-jupyter-notebook-kernels/)
+
