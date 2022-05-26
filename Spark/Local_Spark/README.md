@@ -174,6 +174,8 @@ hadoop-3.0.0 > bin > winutils.exe 파일을 `C:\spark-3.2.1-bin-hadoop3.2\bin\` 
 
 ## 4. Jupyter Notebook(lab)설치
 
+혹시 Jupyter Notebook 및 Lab 설정을 이미 했다면 [Spark 확인](#5-spark-확인)로 넘어가시면 됩니다.
+
 1. ### anaconda 다운로드
 
    https://repo.anaconda.com/archive/ 해당 URL에서 [Anaconda3-5.2.0-Windows-x86_64.exe](https://repo.anaconda.com/archive/Anaconda3-5.2.0-Windows-x86_64.exe) 다운로드
