@@ -342,8 +342,6 @@ expr("(((someCol + 5) * 200) - 6) < otherCol")
 
 ---
 
----
-
 참조 링크
 
 - [Spark 환경 설정 with Anaconda(Jupyter Notebook)](https://spidyweb.tistory.com/199)
