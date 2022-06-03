@@ -303,7 +303,7 @@ Jupyter kernelspec list
     ],
     "env": {
         "SPARK_HOME": "C:\\spark-3.2.1-bin-hadoop3.2",
-        "PYTHONPATH": "C:\\spark-3.2.1-bin-hadoop3.2\\python\\;C:\\spark-3.2.1-bin-hadoop3.2\\python\\pyspark\\;C:\\spark-3.2.1-bin-hadoop3.2\\python\\lib\\py4j-0.10.9.3-src.zip;C:\\spark-3.2.1-bin-hadoop3.2\\python\\lib\\pyspark.zip",
+        "PYTHONPATH": "C:\\Python310\\;C:\\spark-3.2.1-bin-hadoop3.2\\python\\lib\\py4j-0.10.9.3-src.zip;C:\\spark-3.2.1-bin-hadoop3.2\\python\\lib\\pyspark.zip",
         "PYTHONSTARTUP": "C:\\spark-3.2.1-bin-hadoop3.2\\python\\pyspark\\shell.py",
         "PYSPARK_SUBMIT_ARGS": "--master local[*] pyspark-shell",
         "PYSPARK_DRIVER_PYTHON": "ipython"
