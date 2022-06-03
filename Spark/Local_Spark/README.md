@@ -287,7 +287,7 @@ Jupyter kernelspec list
 Jupyter kernelspec list
 ```
 
-<img src="C:\Users\JungminChoi\Desktop\cjm\Local_Spark\Images\kernel_list_2.png" alt="kernel_list_2" style="zoom:70%;" />
+<img src="Images/kernel_list_2.png" alt="kernel_list_2" style="zoom:70%;" />
 
 이제 Kernel 선택 시 PySpark이 작동하도록 `kernel.json`을 변경합니다.
 `kernel.json`은 해당 폴더 내에 존재합니다.
