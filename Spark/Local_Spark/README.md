@@ -151,7 +151,7 @@ Spark 3.2.1 version 기준으로 python 3.6+이어야 합니다. (단, [Spark Do
 
 이에 대한 해결 방안으로 [winutils.exe를 설치해야 하는 것](https://cwiki.apache.org/confluence/display/HADOOP2/WindowsProblems)을 확인할 수 있습니다.
 
-[winutils Git](https://github.com/steveloughran/winutils) 에서 zip 형태로 다운받습니다.
+[winutils Git]([https://github.com/steveloughran/winutils](https://github.com/cdarlint/winutils)) 에서 zip 형태로 다운받습니다.
 
 <img src="Images/winutils_download.png" alt="winutils_download" style="zoom:50%;" />
 
@@ -163,8 +163,8 @@ Spark 3.2.1 version 기준으로 python 3.6+이어야 합니다. (단, [Spark Do
 
 ![winutils_folder](Images/winutils_folder.png)
 
-현재 설치된 Spark의 Hadoop 버전이 3.2 이므로 가장 최신 버전인 Hadoop-3.0.0을 사용합니다.
-hadoop-3.0.0 > bin > winutils.exe 파일을 `C:\spark-3.2.1-bin-hadoop3.2\bin\` 로 복사합니다.
+현재 설치된 Spark의 Hadoop 버전이 3.2 이므로 hadoop-3.2.1을 사용합니다.
+hadoop-3.2.1 > bin > winutils.exe, hadoop.dll 파일을 `C:\spark-3.2.1-bin-hadoop3.2\bin\` 로 복사합니다.
 
 <img src="Images/winutils_file_copy.png" alt="winutils_file_copy" style="zoom:50%;" />
 
