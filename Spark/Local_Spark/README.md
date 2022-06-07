@@ -12,7 +12,9 @@
 ## 1. Java 설치 (확인)
 
 Spark는 scala로 구현되어 jvm 기반으로 동작하기 때문에 java가 설치되어 있어야 합니다.
+
 [Spark Docs](https://spark.apache.org/docs/latest/#downloading) 를 확인해보면 Spark 3.2.1 version 기준으로 지원하는 JDK는 8 / 11 입니다.
+
 따라서 **JDK는 8 / 11이 설치되어야하며** 17 / 18은 지원하지 않습니다.
 
 1. ### Java 확인
@@ -35,13 +37,17 @@ Spark는 scala로 구현되어 jvm 기반으로 동작하기 때문에 java가 �
    ![java_install](Images/java_install.png)
 
    원하는 Java Version이 맞는지 본인 OS가 맞는지 확인 후 Download 진행하면 됩니다.
+   
    Download 과정에서 **Oracle 통합 계정이** 없다면 회원가입도 진행해주셔야 합니다.
 
    ![java_download](Images/java_download.png)
 
    상단과 같이 Download가 완료되면 설치 진행하시면 됩니다.
+   
    설치는 권장 사항(Recommend)로 진행하시면 됩니다.
+   
    설치가 완료되었다면 대부분 이 경로에 (C:\Program Files\Java\) 설치가 됩니다.
+   
    ![java_installed](Images/java_installed.png)
 
    설치가 완료되었다면 해당 경로에 대해 환경변수 설정을 진행합니다.
@@ -66,6 +72,7 @@ Spark는 scala로 구현되어 jvm 기반으로 동작하기 때문에 java가 �
    ![java_home](Images/java_home.png)
 
    추가로 `Path`도 설정합니다. `Path` 변수를 찾아 `편집` 을 선택합니다.
+   
    환경 변수 편집 창이 뜨면 `새로 만들기`를 선택하여 경로를 추가합니다.
 
    - 변수 값 : `%JAVA_HOME%\bin`
@@ -79,6 +86,7 @@ Spark는 scala로 구현되어 jvm 기반으로 동작하기 때문에 java가 �
 ## 2. Spark 설치
 
 Spark Version에 따라 호환되는 프로그래밍 언어의 Version이 있습니다.
+
 Spark 3.2.1 version 기준으로 python 3.6+이어야 합니다. (단, [Spark Docs](https://spark.apache.org/docs/latest/#downloading) 를 확인해보면 3.9는 UDF에 대한 제약이 있다고 하니 제외하시는 편이 좋습니다.)
 
 1. ### Spark 다운로드
@@ -113,7 +121,9 @@ Spark 3.2.1 version 기준으로 python 3.6+이어야 합니다. (단, [Spark Do
 3. ### Spark 환경변수 설정
 
    환경변수 설정 창 이동 내용과 동일하게 `시스템 변수`에서 변수를 추가합니다.
+   
    해당 내용이 기억이 안난다면 [환경변수 설정](#환경변수-설정)으로 이동하여 확인하고 돌아옵니다.
+   
    2개의 환경 변수를 추가합니다. **SPARK_HOME** , **HADOOP_HOME** 
 
    1. SPARK_HOME
@@ -133,6 +143,7 @@ Spark 3.2.1 version 기준으로 python 3.6+이어야 합니다. (단, [Spark Do
    3. Path
 
       추가로 `Path`도 설정합니다. `Path` 변수를 찾아 `편집` 을 선택합니다.
+      
       환경 변수 편집 창이 뜨면 `새로 만들기`를 선택하여 경로를 추가합니다.
 
       - 변수 값 : `%SPARK_HOME%\bin`
@@ -164,6 +175,7 @@ Spark 3.2.1 version 기준으로 python 3.6+이어야 합니다. (단, [Spark Do
 ![winutils_folder](Images/winutils_folder.png)
 
 현재 설치된 Spark의 Hadoop 버전이 3.2 이므로 hadoop-3.2.1을 사용합니다.
+
 hadoop-3.2.1 > bin > winutils.exe, hadoop.dll 파일을 `C:\spark-3.2.1-bin-hadoop3.2\bin\` 로 복사합니다.
 
 <img src="Images/winutils_file_copy.png" alt="winutils_file_copy" style="zoom:50%;" />
@@ -242,6 +254,7 @@ hadoop-3.2.1 > bin > winutils.exe, hadoop.dll 파일을 `C:\spark-3.2.1-bin-hado
       <img src="Images/jupyterlab_shorcut.png" alt="jupyterlab_shorcut" style="zoom:50%;" />
 
       변경 후 확인해보면 시작 위치도 변경되었음을 확인할 수 있습니다.
+      
       해당 파일을 작업 표시줄에 고정시키면 보다 편리하게 사용할 수 있습니다.
 
 <div style="page-break-after: always; break-after: page;"></div>
@@ -322,6 +335,7 @@ Jupyter kernelspec list
 <img src="Images/pyspark_kernel.png" alt="pyspark_kernel" style="zoom:50%;" />
 
 이제 실제로 잘 작동하는지 확인합니다.
+
 Sample Code를 수행해봅니다.
 
 ```python
