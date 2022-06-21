@@ -1,0 +1,119 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description:  'AWS CloudFormation Template: 
+   **WARNING** You will be billed for the AWS resources used if you create a stack
+  from this template.'
+
+#    MIT No Attribution
+# Copyright 2020 Amazon Web Services (AWS)
+# Permission is hereby granted, free of charge, to any person obtaining a copy of this
+# software and associated documentation files (the "Software"), to deal in the Software
+# without restriction, including without limitation the rights to use, copy, modify,
+# merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+# permit persons to whom the Software is furnished to do so.
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+# INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+# PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+# HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+# OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+# SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+Parameters:
+  VpcCIDR:
+    Description: The IP range (CIDR notation) for this VPC
+    Type: String
+    Default: {YOUR_VPC_CIDR}
+
+  PublicSubnet1CIDR:
+    Description: The IP range (CIDR notation) for the private subnet in the first Availability Zone
+    Type: String
+    Default: {YOUR_PUBLIC_SUBNET_CIDR_1}
+
+  PublicSubnet2CIDR:
+    Description: The IP range (CIDR notation) for the private subnet in the first Availability Zone
+    Type: String
+    Default: {YOUR_PUBLIC_SUBNET_CIDR_2}
+
+  PrivateSubnet1CIDR:
+    Description: The IP range (CIDR notation) for the private subnet in the first Availability Zone
+    Type: String
+    Default: {YOUR_PRIVATE_SUBNET_CIDR_1}
+
+  PrivateSubnet2CIDR:
+    Description: The IP range (CIDR notation) for the private subnet in the second Availability Zone
+    Type: String
+    Default: {YOUR_PRIVATE_SUBNET_CIDR_2}
+
+  BucketName:
+    Description: S3 Bucket Name
+    Type: String
+    Default: {YOUR_S3_BUCKET_NAME}
+
+Resources:
+  #####################################################################################################################
+  # IMPORT RESOURCES
+  #####################################################################################################################
+  ImportedVPC:
+    Type: AWS::EC2::VPC
+    DeletionPolicy: Retain
+    Properties:
+      CidrBlock: !Ref VpcCIDR
+  
+  ImportedPublicSubnet1:
+    Type: AWS::EC2::Subnet
+    DeletionPolicy: Retain
+    Properties:
+      VpcId: !Ref ImportedVPC
+      CidrBlock: !Ref PublicSubnet1CIDR
+
+  ImportedPublicSubnet2:
+    Type: AWS::EC2::Subnet
+    DeletionPolicy: Retain
+    Properties:
+      VpcId: !Ref ImportedVPC
+      CidrBlock: !Ref PublicSubnet2CIDR
+
+  ImportedPrivateSubnet1:
+    Type: AWS::EC2::Subnet
+    DeletionPolicy: Retain
+    Properties:
+      VpcId: !Ref ImportedVPC
+      CidrBlock: !Ref PrivateSubnet1CIDR
+
+  ImportedPrivateSubnet2:
+    Type: AWS::EC2::Subnet
+    DeletionPolicy: Retain
+    Properties:
+      VpcId: !Ref ImportedVPC
+      CidrBlock: !Ref PrivateSubnet2CIDR
+
+  AppBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    Properties:
+      BucketName: !Ref BucketName
+
+  ImportedPublicSG:
+    Type: AWS::EC2::SecurityGroup
+    DeletionPolicy: Retain
+    Properties:
+      VpcId: !Ref ImportedVPC
+      GroupDescription: "security_group for public"
+
+  SSMEndpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Properties: 
+      PolicyDocument: 
+        Statement:
+          - Action: '*'
+            Effect: Allow
+            Principal: '*'
+            Resource: '*'
+      PrivateDnsEnabled: true
+      SecurityGroupIds: 
+        - !Ref ImportedPublicSG
+      ServiceName: !Sub 'com.amazonaws.${AWS::Region}.ssm'
+      SubnetIds: 
+        - !Ref ImportedPublicSubnet1
+        - !Ref ImportedPublicSubnet2
+      VpcEndpointType: "Interface"
+      VpcId: !Ref ImportedVPC

@@ -1,0 +1,54 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description:  'AWS CloudFormation Template: 
+   **WARNING** You will be billed for the AWS resources used if you create a stack
+  from this template.'
+
+#    MIT No Attribution
+# Copyright 2020 Amazon Web Services (AWS)
+# Permission is hereby granted, free of charge, to any person obtaining a copy of this
+# software and associated documentation files (the "Software"), to deal in the Software
+# without restriction, including without limitation the rights to use, copy, modify,
+# merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+# permit persons to whom the Software is furnished to do so.
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+# INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+# PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+# HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+# OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+# SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+Parameters:
+  InstanceId:
+    Description: InstanceId
+    Type: String
+
+Resources:
+#Run Command to ingest data into ES from the EC2 instance
+  SpecificInstanceIdAssociation:
+    Type: AWS::SSM::Association
+    Properties:     
+      Name: AWS-RunShellScript
+      Targets:
+      - Key: InstanceIds
+        Values:
+        - !Ref InstanceId
+      Parameters:
+        commands: 
+        - "sudo pip3 install boto3 requests requests_aws4auth"
+        - "python3 es-lambda/attach_package.py {YOUR_OPENSEARCH_PACKAGE} {{ssm:ESDomainName}}"
+        - 'curl -XPUT -u "{{ssm:ESMasterUser}}:{{ssm:ESMasterPW}}" {{ssm:DomainEndpoint}}/rank_list-"$(date  +%Y-%m-%d)"?pretty=true -d @/tmp/es-index/rank-list.json -H "Content-Type:application/json"'
+        - 'sudo yum install jq -y'
+        - 'sudo chmod -R 757 /tmp/es-index/'
+        - 'mv /tmp/es-index/aliases.json /tmp/es-index/temp.json'
+        - jq --arg v1 "rank_list-$(date  +%Y-%m-%d)" '.actions[0].add.index += $v1' /tmp/es-index/temp.json > /tmp/es-index/aliases.json
+        - 'sudo rm /tmp/es-index/temp.json'
+        - 'curl -XPOST -u "{{ssm:ESMasterUser}}:{{ssm:ESMasterPW}}" {{ssm:DomainEndpoint}}/_aliases?pretty=true -d @/tmp/es-index/aliases.json -H "Content-Type:application/json"'
+        - curl -XPUT -u "{{ssm:ESMasterUser}}:{{ssm:ESMasterPW}}" {{ssm:DomainEndpoint}}/_plugins/_security/api/rolesmapping/manage_snapshots -d '{"backend_roles":["{{ssm:EC2RoleARN}}"],"users":["master"]}' -H "Content-Type:application/json"
+        - 'python3 /tmp/es-index/rank_list_repo.py {{ssm:DomainEndpoint}} {{ssm:EC2RoleARN}}'
+        - 'curl -XPUT -u "{{ssm:ESMasterUser}}:{{ssm:ESMasterPW}}" {{ssm:DomainEndpoint}}/user_account?pretty=true -d @/tmp/es-index/user-account -H "Content-Type:application/json"'
+        - 'curl -XPOST -u "{{ssm:ESMasterUser}}:{{ssm:ESMasterPW}}" {{ssm:DomainEndpoint}}/_bulk --data-binary @/tmp/es-data/sample-account.bulk -H "Content-Type:application/json"'
+        - 'curl -XPUT -u "{{ssm:ESMasterUser}}:{{ssm:ESMasterPW}}" {{ssm:DomainEndpoint}}/master_product?pretty=true -d @/tmp/es-index/master_product.json -H "Content-Type:application/json"'
+        - 'curl -XPOST -u "{{ssm:ESMasterUser}}:{{ssm:ESMasterPW}}" {{ssm:DomainEndpoint}}/_bulk --data-binary @/tmp/es-data/sample-master.bulk -H "Content-Type:application/json"'
+        - 'curl -XPUT -u "{{ssm:ESMasterUser}}:{{ssm:ESMasterPW}}" {{ssm:DomainEndpoint}}/_plugins/_ism/policies/auto-snapshot-policy?pretty=true -d @/tmp/es-index/auto-snapshot-policy.json -H "Content-Type:application/json"'
+        workingDirectory:
+        - "/tmp"  

@@ -1,0 +1,11 @@
+Premium,premium,PREMIUM=>프리미엄
+Vita,vita,VITA=>비타
+로얄,Royal,royal,ROYAL=>로열
+풀리스,Polis,polis,POLIS=>폴리스
+패트,페트,팻트,PET,pet,Pet=>펫트
+밀리리터,미리리터,ML,Ml=>ml
+kd,kwangdong,kwang dong=>광동
+GOLD,Gold,gold=>골드
+TAURINE,Taurine,taurine=>타우린
+리터,l=>L
+진홍삼,홍삼,인삼
