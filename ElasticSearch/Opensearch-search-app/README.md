@@ -3,7 +3,7 @@
 1. [Architecture](#architecture)
 2. [Data](#data)
 3. [Cloudformation Template](#cloudformation-template)
-4. [Lambda Script](#lambdascript)
+4. [Python Script](#python-script)
 5. [Opensearch Index](#opensearch-index)
 6. [수행 방법](#수행-방법)
 
