@@ -1,0 +1,208 @@
+#noresults, #loading {
+  display: none;
+}
+
+#results {
+  width: 75%;
+  float: left;
+}
+
+body {
+  margin: 2rem;
+}
+
+h1 {
+  margin: 0 auto;
+  font-weight: 400;
+  font-family: sans-serif;
+}
+
+h3, p {
+  font-weight: 400;
+  font-family: sans-serif;
+  margin: 1rem 0;
+}
+
+h3 {
+  margin-top: 0;
+}
+
+input, p, button {
+  font-size: 1rem;
+}
+
+input {
+  padding: .5rem;
+  width: 400px;
+  font-weight: 400;
+  font-family: sans-serif;
+  border: solid
+}
+
+button {
+  height: auto;
+  padding: .5rem;
+}
+
+a {
+  color: SteelBlue;
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+img {
+  max-width: 7.5rem;
+  vertical-align: top;
+  margin: 0 2rem 2rem 0;
+}
+
+.result {
+  display: flex;
+  float:left;
+  width: 50%;
+}
+
+.xans-layout-logotop {
+  text-align: center;
+  color: black;
+  text-decoration-line: none;
+}
+
+.logo {
+  vertical-align: middle;
+  margin: 0;
+}
+
+.hide {
+  display: none !important;	/* 사용자가 아무것도 입력하지 않았을 때 검색창을 숨기는 용도*/
+}
+
+.rel_search {
+  display:flex;
+  flex-direction:column;
+  justify-content : space-around;
+  border: solid white;
+  width: 400px;
+  margin-left: 8px;
+}
+
+.pop_rel_keywords {
+  list-style: none;
+  padding: .5rem;
+  font-size: .7rem;
+}
+
+.pop_rel_keywords > li {	/* JS에서 동적으로 li를 생성할 때 적용될 스타일*/
+  line-height : 150%;
+  background-color: lightgray;
+  margin-bottom: 1px;
+}
+
+li:hover {
+  background-color: lightblue;
+  text-decoration: underline;
+  color: SteelBlue;
+  cursor: pointer;
+}
+
+
+/* 실시간 검색 */
+#rank-list a {
+  color: #FFF;
+  text-decoration: none;
+  width: 20%;
+  float: right;
+}
+
+#rank-list a:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+#rank-list {
+  width: 20%;
+  height: 20px;
+  margin: 0;
+  float: right;
+  position: fixed;
+  right: 5%;
+}
+
+#rank-list dt {
+  position: static;
+  top: 30;
+  right: 20;
+}
+
+.profile {
+  float: right;
+  border-radius: 30px;
+  width: 5%;
+  background-color: rgb(210, 192, 160);
+  margin-right: 10%;
+  border: solid;
+}
+
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 5%;
+  box-shadow: 0px 8px 8px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  margin-top: 2px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropdown-content {
+  color: black;
+  padding: 12px 12px;
+  text-decoration: none;
+  margin-top: 1px;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd; 
+  text-decoration: none !important;
+}
+
+.profile:hover .dropdown-content {display: block;}
+
+.profile:hover .dropbtn {background-color: lightslategray;}
+
+#username {
+  width: auto;
+  text-align: center;
+  font-size: x-large;
+  color: black;
+  font-style: fantasy;
+}
+
+#rank-list,dd {
+  position: right;
+  margin: 0;
+  border: solid;
+}
+
+#rank-list ol {
+  position: static;
+  right: 20;
+  margin: 0;
+  padding: 0;
+  list-style-position: inside;
+}
+
+#rank-list li {
+  height: auto;
+  line-height: 20px;
+  width: auto;
+  font-size:.5vw;
+  min-height: 20px;
+}

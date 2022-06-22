@@ -1,0 +1,54 @@
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.container {
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    vertical-align: middle;
+    padding: 3%;
+}
+
+.logo {
+    margin-top: 0px;
+    margin-bottom: 40px;
+}
+
+#login {
+    width: 100%;
+    background-color: skyblue;
+    border-color: transparent;
+    color: white;
+}
+
+.account {
+    display: block;
+    margin-bottom: 3px;
+    padding: 3px;
+    border: 1px solid lightgray;
+    border-radius: 3px;
+}
+
+.xans-layout-logotop {
+    text-align: center;
+    color: black;
+    margin-bottom: 5px;
+}
+
+a { text-decoration:none !important }
+
+.logo {
+    vertical-align: middle;
+    margin: 0;
+    max-width: 7.5rem;
+}
+
+#login:hover {
+    background-color: lightblue;
+    text-decoration: underline;
+    color: SteelBlue;
+    cursor: pointer;
+}

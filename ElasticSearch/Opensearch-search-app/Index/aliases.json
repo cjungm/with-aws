@@ -1,0 +1,10 @@
+{
+  "actions": [
+    {
+      "add": {
+        "index": "",
+        "alias": "rank_list"
+      }
+    }
+  ]
+}

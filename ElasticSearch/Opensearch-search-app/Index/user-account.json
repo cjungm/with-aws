@@ -1,0 +1,12 @@
+{
+    "mappings": {
+        "properties": {
+            "Name": {
+                "type": "keyword"
+            },
+            "Password": {
+                "type": "keyword"
+            }
+        }
+    }
+}

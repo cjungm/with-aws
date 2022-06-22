@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+  <title>KD Online Shop</title>
+</head>
+
+<body>
+  <h1>
+    <a href="/search.html">
+      <img src="img/logo.jpg" alt="광동제약몰" class="logo">
+    </a>
+  </h1>
+  <div class="profile">
+    <div id="username">
+      Username
+    </div>
+    <div class="dropdown-content">
+      <a href="/index.html">Logout</a>
+    </div>
+  </div>
+  <a href="/search.html">
+    <h1 class="xans-layout-logotop">광동제약 온라인몰</h1>
+  </a>
+  <hr>
+  <div>
+    <input id="search" autocomplete="off" placeholder="Search" class="search_input">
+    <button onclick="productlist()">검색</button>
+  </div>
+  <container class="rel_search">
+    <p id="noresults">No results. Try another search term.</p>
+    <p id="loading">Getting results...</p>
+    <ul class="pop_rel_keywords">
+    </ul>
+  </container>
+  <div>
+    <dl id="rank-list">
+      <dt>실시간 급상승 검색어</dt>
+      <dd>
+        <ol>
+          <li id="rank-list0"></li>
+          <li id="rank-list1"></li>
+          <li id="rank-list2"></li>
+          <li id="rank-list3"></li>
+          <li id="rank-list4"></li>
+          <li id="rank-list5"></li>
+          <li id="rank-list6"></li>
+          <li id="rank-list7"></li>
+          <li id="rank-list8"></li>
+          <li id="rank-list9"></li>
+        </ol>
+      </dd>
+    </dl>
+    <div id="results"></div>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="javascript/search.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,85 @@
+{
+    "settings": {
+        "index": {
+            "analysis": {
+                "analyzer": {
+                    "korean": {
+                        "type": "custom",
+                        "tokenizer": "seunjeon",
+                        "filter": [
+                            "synonym"
+                        ]
+                    }
+                },
+                "tokenizer": {
+                    "seunjeon": {
+                        "user_words": [
+                            "프리미엄",
+                            "비타",
+                            "로열",
+                            "폴리스",
+                            "펫트",
+                            "개입",
+                            "x",
+                            "ml",
+                            "힘찬하루",
+                            "광동",
+                            "탐라는",
+                            "헛개차",
+                            "골드",
+                            "타우린",
+                            "L",
+                            "옥수수"
+                        ],
+                        "index_poses": [
+                            "UNK",
+                            "EP",
+                            "I",
+                            "J",
+                            "M",
+                            "N",
+                            "SL",
+                            "SH",
+                            "SN",
+                            "VCP",
+                            "XP",
+                            "XS",
+                            "XR"
+                        ],
+                        "type": "seunjeon_tokenizer",
+                        "pos_tagging": false
+                    }
+                },
+                "filter": {
+                    "synonym": {
+                        "type": "synonym",
+                        "synonyms_path": "analyzers/F225610194",
+                        "updateable": false
+                    }
+                }
+            }
+        }
+    },
+    "mappings": {
+        "properties": {
+            "UserName": {
+                "type": "keyword"
+            },
+            "Name": {
+                "type": "keyword"
+            },
+            "Search_word": {
+                "type": "text",
+                "analyzer": "korean",
+                "search_analyzer": "korean"
+            },
+            "PrdNo": {
+                "type": "keyword"
+            },
+            "@timestamp": {
+                "type": "date",
+                "format": "yyyy-MM-dd HH:mm:ss"
+              }
+        }
+    }
+}

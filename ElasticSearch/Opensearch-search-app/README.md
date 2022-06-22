@@ -1,11 +1,14 @@
 # AWS Opensearch 기반의 검색엔진 구축
 
+### Code 기반의 구축 및 개발
+
 1. [Architecture](#architecture)
 2. [Data](#data)
 3. [Cloudformation Template](#cloudformation-template)
 4. [Python Script](#python-script)
 5. [Opensearch Index](#opensearch-index)
 6. [수행 방법](#수행-방법)
+7. [개선 사항](#개선-사항)
 
 <div style="page-break-after: always; break-after: page;"></div>
 
@@ -240,6 +243,17 @@ Email : 회원 Email
    >
    > [es_cluster.yaml](Templates/es_cluster.yaml)에서 생성한 Opensearch Domain에 기존에 생성한 Package를 부착합니다.
 
+2. [rank_list_repo.py](Python_Script/rank_list_repo.py)
+
+   > [ingest_to_es.yaml](Templates/ingest_to_es.yaml)에서 수행되는 Script 입니다.
+   >
+   > 실시간 검색 Data에 대한 Index들에 대해 Snapshot을 진행할 수 있는 S3 Repository를 구성합니다.
+   >
+   > Code 상의 변경해야할 변수들 :
+   >
+   > - {YOUR_S3_BUCKET_NAME}
+   > - {YOUR_S3_SNAPSHOT_PATH}
+
 2. [search-es-lambda.py](Python_Script/search-es-lambda.py)
 
    > [lambda-api-cf_diy.yaml](Templates/lambda-api-cf_diy.yaml)에서 Lambda Function에 부작하는 Script 입니다.
@@ -343,8 +357,143 @@ Email : 회원 Email
    >     }
    >     ```
    >
-   >     
 
 ## Opensearch Index
 
+1. [master_product.json](Index/master_product.json)
+
+   > Tokenizer : `seunjeon_tokenizer` (은전 한닢과 동일한 Tokenizer 이며 AWS에서는 한국어 분석기로 선전을 지원합니다.)
+   >
+   > Analyzer : `custom` (상단에 있는 선전 적용)
+   >
+   > Filter : `synonym` 
+   >
+   > mapping : **상품명**만 검색 시 사용되므로 Text 분석을 적용했습니다.
+   >
+   > ```json
+   > {
+   >     "properties": {
+   >         "Name": {
+   >             "type": "text",
+   >             "analyzer": "korean",
+   >             "search_analyzer": "korean"
+   >         },
+   >         "Price": {
+   >             "type": "integer"
+   >         },
+   >         "Img_url": {
+   >             "type": "text"
+   >         },
+   >         "PrdNo": {
+   >             "type": "text"
+   >         }
+   >     }
+   > }
+   > ```
+   >
+   > 
+
+2. [rank-list.json](Index/rank-list.json)
+
+   > Tokenizer : `seunjeon_tokenizer` (은전 한닢과 동일한 Tokenizer 이며 AWS에서는 한국어 분석기로 선전을 지원합니다.)
+   >
+   > Analyzer : `custom` (상단에 있는 선전 적용)
+   >
+   > Filter : `synonym` 
+   >
+   > mapping : 
+   >
+   > **검색어**만 검색 시 사용되므로 Text 분석을 적용했습니다.
+   >
+   > Timestamp는 Aggregation 시 시간 기반의 filter로 사용됩니다.
+   >
+   > ```json
+   > {
+   >     "properties": {
+   >         "UserName": {
+   >             "type": "keyword"
+   >         },
+   >         "Name": {
+   >             "type": "keyword"
+   >         },
+   >         "Search_word": {
+   >             "type": "text",
+   >             "analyzer": "korean",
+   >             "search_analyzer": "korean"
+   >         },
+   >         "PrdNo": {
+   >             "type": "keyword"
+   >         },
+   >         "@timestamp": {
+   >             "type": "date",
+   >             "format": "yyyy-MM-dd HH:mm:ss"
+   >         }
+   >     }
+   > }
+   > ```
+   >
+   > 
+
+3. [user-account.json](Index/user-account.json)
+
+   > Analyzer : `stanard`
+   >
+   > mapping : 
+   >
+   > ```json
+   > {
+   >     "properties": {
+   >         "Name": {
+   >             "type": "keyword"
+   >         },
+   >         "Password": {
+   >             "type": "keyword"
+   >         }
+   >     }
+   > }
+   > ```
+   >
+   > 
+
+4. [aliases.json](Index/aliases.json)
+
+   > Index 들에 Alias를 제공하는 Script 입니다.
+   >
+   > 공란으로 되어 있는 **index** Key의 Value 값으로 alias를 부착할 Index를 작성합니다.
+   >
+   > ex) `rank_list-2022-06-22`
+   >
+   > alias를 제공받은 Index들은 alias 기반의 Data Query(GET, POST, PUT, DELETE)가 가능합니다.
+   >
+   > ```json
+   > {
+   >   "actions": [
+   >     {
+   >       "add": {
+   >         "index": "",
+   >         "alias": "rank_list"
+   >       }
+   >     }
+   >   ]
+   > }
+   > ```
+   >
+   > 
+
+5. [auto-snapshot-policy.json](Index/auto-snapshot-policy.json)
+
+   > 조건에 따라 Data를 처리하는 Pileline을 나타냄 Template 입니다.
+   >
+   > 해당 Template은 Daily로 Index를 Repository에 Snapshot을 만드는 Template 입니다.
+   >
+   > 해당되는 Index Pattern은 `rank_list-*` 입니다
+
 ## 수행 방법
+
+## 개선 사항
+
+rank-list 인덱스 daily 생성 자동화
+
+secret manager 적용
+
+synonym dictionary update process

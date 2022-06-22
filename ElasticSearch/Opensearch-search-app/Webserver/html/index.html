@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <link rel="stylesheet" href="css/login.css">
+  <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+  <title>Login</title>
+</head>
+
+<body>
+    <h1>
+        <a href="/index.html">
+            <img src="img/logo.jpg" alt="광동제약몰" class="logo">
+        </a>
+    </h1>
+    <a href="/index.html">
+        <h1 class="xans-layout-logotop">광동제약 온라인몰</h1>
+    </a>
+    <hr>
+    <div class="main">
+        <div class="container">
+            <input type="text" placeholder="ID" id="id" class="account" onkeyup="enterkey()">
+            <input type="password" placeholder="Password" id="password" class="account" onkeyup="enterkey()">
+            <button id="login" class="account" onclick="login()">login</button>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+    <script src="javascript/login.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+{
+    "policy": {
+        "description": "Takes an index snapshot.",
+        "default_state": "empty",
+        "states": [
+            {
+                "name": "empty",
+                "actions": [],
+                "transitions": [
+                    {
+                        "state_name": "occupied",
+                        "conditions": {
+                            "min_index_age": "1d"
+                        }
+                    }
+                ]
+            },
+            {
+                "name": "occupied",
+                "actions": [
+                    {
+                        "snapshot": {
+                            "repository": "rank_list_repo",
+                            "snapshot": "rank_list_snapshot"
+                        }
+                    }
+                ],
+                "transitions": []
+            }
+        ],
+        "ism_template": {
+            "index_patterns": [
+                "rank_list-*"
+            ],
+            "priority": 100
+        }
+    }
+}
