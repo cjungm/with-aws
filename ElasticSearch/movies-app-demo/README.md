@@ -4,10 +4,13 @@
 
 ## 개요
 
-AWS 에서 제공하는 Sample-Movie 데이터를 사용하여 AWS OpenSearch에 적재
-적재된 Data를 Web Server에서 조회
-로컬 PC에서 AWS CLI를 통해 Cloudformation Stack 생성 및 실행
-Stack에서 필요한 Resource
+- AWS 에서 제공하는 Sample-Movie 데이터를 사용하여 AWS OpenSearch에 적재
+
+- 적재된 Data를 Web Server에서 조회
+
+- 로컬 PC에서 AWS CLI를 통해 Cloudformation Stack 생성 및 실행
+
+- Stack에서 필요한 Resource
 
 Data 크기 : 약 5,000 건
 
