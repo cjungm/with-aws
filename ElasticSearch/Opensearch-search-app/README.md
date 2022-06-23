@@ -603,7 +603,7 @@ Email : 회원 Email
    > aws cloudformation delete-stack --stack-name {STACK_NAME} --region {REGION_NAMWE}
    > ```
 
-<img src="Images/web_server.gif" alt="web_server" style="zoom: 150%;" />
+<img src="Images/web_server.gif" alt="web_server" style="zoom: 150%;" align="center" />
 
 <div style="page-break-after: always; break-after: page;"></div>
 
