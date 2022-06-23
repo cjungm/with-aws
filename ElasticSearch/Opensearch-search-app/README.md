@@ -490,10 +490,141 @@ Email : 회원 Email
 
 ## 수행 방법
 
+[aws-cli.sh](aws-cli.sh)에 작성된 내용대로 CLI로 수행을 했습니다.
+
+1. Resource Import를 위한 변경 세트 생성
+
+   > 웹 콘솔 작업과 다르게 API 기반의 작업을 할 때 (CLI, boto3 etc...)
+   >
+   > Cloudformation은 Resource Import 작업을 `create-stack`이 아닌 `create-chage-set`으로 수행합니다.
+   >
+   > 그리고 change-set-type을 **IMPORT**로 지정해주셔야 합니다.
+   >
+   > resources-to-import은 Import할 resource들에 대한 [ID(Identifier)가 작성된 파일](Templates/parameter.txt)이라고 생각하시면 됩니다.
+   >
+   > ```sh
+   > # Create Stack For Importing Your Resources
+   > # IDENTIFIER_FILE : Imported Resourses' Identifier
+   > aws cloudformation create-change-set\
+   >     --region {REGION_NAMWE} \
+   >     --stack-name {STACK_NAME} \
+   >     --change-set-name {CHANGE_SET_NAME} \
+   >     --change-set-type IMPORT \
+   >     --resources-to-import {IDENTIFIER_FILE_URL} \
+   >     --capabilities CAPABILITY_IAM CAPABILITY_AUTO_EXPAND\
+   >     --template-url {S3_HTTP_URL_STACK_TEMPLATE-network_resource.yaml}
+   > ```
+   >
+   > ![create_changeset_import](Images/create_changeset_import.png)
+   >
+   > 
+   >
+   > ![create_complete_changeset_import](Images/create_complete_changeset_import.png)
+
+2. Resource Import를 위한 변경 세트 적용
+
+   > 위에 보이는 이미지와 같이 `변경 세트`가 **생성만** 됩니다. 
+   >
+   > 따라서 별도의 수행 작업이 필요합니다.
+   >
+   > 적용하면 하단과 같이 **IMPORT_COMPLETE** 상태가 됩니다.
+   >
+   > ```sh
+   > # Execute Stack For Importing Your Resources
+   > # Acutual Action For Importing Your Resources
+   > # STACK_NAME, CHANGE_SET_NAME should be same with `create-change-set` Command
+   > aws cloudformation execute-change-set \
+   >     --region {REGION_NAMWE} \
+   >     --stack-name {STACK_NAME} \
+   >     --change-set-name {CHANGE_SET_NAME}
+   > ```
+   >
+   > 
+   >
+   > ![execute_changeset_import](Images/execute_changeset_import.png)
+
+3. Resource 생성을 위한 변경 세트 생성
+
+   > Import가 완료된 Resource위에 필요한 Service들에 생성하는 작업입니다.
+   >
+   > change-set-type을 **UPDATE**로 지정해주셔야 합니다.
+   >
+   > 또한 외부 파라미터를 지정해주셔야 합니다.
+   >
+   > ```sh
+   > # Create Stack For Updating Your Resources
+   > # Parameter Description
+   > # KeyName : Your Pem Key Name
+   > # ExpiryDate : Resource Expiry date (optional)
+   > # MyIp : Current Your IP
+   > # MasterUser : Opensearch Master User Name
+   > # MasterPW : Opensearch Master Password
+   > # OpenSearchDN : Opensearch Domain Name
+   > aws cloudformation create-change-set \
+   >     --region {REGION_NAMWE} \
+   >     --stack-name {STACK_NAME} \
+   >     --change-set-name {CHANGE_SET_NAME} \
+   >     --role-arn {CLOUDFORMATION_ROLE_ARN} \
+   >     --capabilities CAPABILITY_IAM CAPABILITY_AUTO_EXPAND \
+   >     --parameters ParameterKey=KeyName,ParameterValue={YOUR_PEM_KEY} \
+   >     ParameterKey=ExpiryDate,ParameterValue=$(date --date="2 days" +%Y-%m-%d) \
+   >     ParameterKey=MyIp,ParameterValue=$(curl ipinfo.io/ip)/32 \
+   >     ParameterKey=MasterUser,ParameterValue=master \
+   >     ParameterKey=MasterPW,ParameterValue='Bespin12!' \
+   >     ParameterKey=OpenSearchDN,ParameterValue=search-app \
+   >     --change-set-type UPDATE \
+   >     --template-url {S3_HTTP_URL_STACK_TEMPLATE-main_es_diy.yaml}
+   > ```
+   >
+   > ![execute_changeset_update](Images/create_changeset_update.png)
+
+4. Resource 생성을 위한 변경 세트 적용
+
+   > 적용하면 하단과 같이 **UPDATE_IN_PROGRESS** 상태가 됩니다.
+   >
+   > 리소스 생성 시간은 Opensearch 때문에 약 15~20분 소요됩니다.
+   >
+   > ![execute_changeset_update](Images/execute_changeset_update.png)
+   >
+   > ![execute_complete_changeset_update](Images/execute_complete_changeset_update.png)
+   >
+   > <video src="Images/screen-recording.webm"></video>
+
+5. Stack 삭제
+
+   > ```sh
+   > # Delete Stack
+   > aws cloudformation delete-stack --stack-name {STACK_NAME} --region {REGION_NAMWE}
+   > ```
+   >
+   > 
+
 ## 개선 사항
 
-rank-list 인덱스 daily 생성 자동화
+1. rank-list 인덱스 daily 생성 자동화
 
-secret manager 적용
+   현재 rank-list 인덱스를 `rank_list-YYYY-mm-dd` 패턴으로 만들어 alias를 적용 중입니다.
 
-synonym dictionary update process
+   따라서 Daily로 해당 날짜 인덱스를 만들고 alias를 적용하는 pipeline이 필요합니다.
+
+2. secret manager 적용
+
+   Opensearch의 Master Username, Password가 Parameter Store에 저장되어 있기 때문에
+
+   권한만 있으면 쉽게 접근할 수 있어 보안에 취약합니다.
+
+   따라서 해당 변수들은 Secret Manager로 변환 작업이 필요합니다.
+
+3. synonym dictionary update process
+
+   master_product index를 보면 동의어 사전에 대한 갱신이 자동화가 불가능합니다.
+
+   따라서 index 갱신에 대한 프로세스 정의가 필요합니다.
+
+---
+
+## 참고 자료
+
+**amazon-opensearch-movies-app** : https://github.com/aws-samples/amazon-opensearch-movies-app
+
+**광동제약온라인몰 - 인터파크** : https://store.interpark.com/3002890592-2/category/all
