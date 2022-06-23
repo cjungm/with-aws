@@ -588,7 +588,7 @@ Email : 회원 Email
    >
    > ![execute_complete_changeset_update](Images/execute_complete_changeset_update.png)
    >
-   > <video src="Images/screen-recording.webm"></video>
+   > <video src="Images/web_server.mov"></video>
 
 5. Stack 삭제
 
