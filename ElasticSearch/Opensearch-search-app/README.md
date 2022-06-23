@@ -103,7 +103,7 @@ Email : 회원 Email
 }
 ```
 
-
+<div style="page-break-after: always; break-after: page;"></div>
 
 ## Cloudformation Template
 
@@ -235,6 +235,8 @@ Email : 회원 Email
    >
    > - {YOUR_S3_PATH-search-es-lambda.py}
 
+<div style="page-break-after: always; break-after: page;"></div>
+
 ## Python Script
 
 1. [attach_package.py](Python_Script/attach_package.py)
@@ -357,6 +359,8 @@ Email : 회원 Email
    >     }
    >     ```
    >
+
+<div style="page-break-after: always; break-after: page;"></div>
 
 ## Opensearch Index
 
@@ -488,6 +492,8 @@ Email : 회원 Email
    >
    > 해당되는 Index Pattern은 `rank_list-*` 입니다
 
+<div style="page-break-after: always; break-after: page;"></div>
+
 ## 수행 방법
 
 [aws-cli.sh](aws-cli.sh)에 작성된 내용대로 CLI로 수행을 했습니다.
@@ -588,7 +594,9 @@ Email : 회원 Email
    >
    > ![execute_complete_changeset_update](Images/execute_complete_changeset_update.png)
    >
-   > <video src="Images/web_server.mov"></video>
+   > ![web_server](Images/web_server.gif)
+   >
+   > 
 
 5. Stack 삭제
 
@@ -598,6 +606,8 @@ Email : 회원 Email
    > ```
    >
    > 
+
+<div style="page-break-after: always; break-after: page;"></div>
 
 ## 개선 사항
 
