@@ -594,7 +594,7 @@ Email : 회원 Email
    >
    > ![execute_complete_changeset_update](Images/execute_complete_changeset_update.png)
    >
-   > ![web_server](Images/web_server.gif)
+   > <img src="Images/web_server.gif" alt="web_server" style="zoom: 150%;" />
    >
    > 
 
