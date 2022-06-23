@@ -594,8 +594,6 @@ Email : 회원 Email
    >
    > ![execute_complete_changeset_update](Images/execute_complete_changeset_update.png)
    >
-   > <img src="Images/web_server.gif" alt="web_server" style="zoom: 150%;" />
-   >
    > 
 
 5. Stack 삭제
@@ -604,8 +602,8 @@ Email : 회원 Email
    > # Delete Stack
    > aws cloudformation delete-stack --stack-name {STACK_NAME} --region {REGION_NAMWE}
    > ```
-   >
-   > 
+
+<img src="Images/web_server.gif" alt="web_server" style="zoom: 150%;" />
 
 <div style="page-break-after: always; break-after: page;"></div>
 
