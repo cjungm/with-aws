@@ -98,8 +98,8 @@ Email : 회원 Email
 */
 {
     "Name": "최정민",
-    "Password": "Bespin12!",
-    "Email": "jungmin.choi@bespinglobal.com"
+    "Password": "XXXXXXXX",
+    "Email": "jungmin.choi@xxxxxxxxxxx.com"
 }
 ```
 
